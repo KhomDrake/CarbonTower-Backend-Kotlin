@@ -1,0 +1,62 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.2.60'
+        detektVersion = '1.0.0.RC9'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url  "https://dl.bintray.com/kotlin/exposed"
+        }
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
+}
+
+apply plugin:'kotlin'
+
+group 'lista-de-favorecidos-using-commons'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url  "https://dl.bintray.com/kotlin/exposed"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile 'io.javalin:javalin:2.5.0'
+    compile "org.slf4j:slf4j-simple:1.7.25"
+    compile "org.jetbrains.exposed:exposed:0.11.2"
+    compile "com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre7"
+    compile "com.h2database:h2:1.4.197"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
+    testCompile 'org.assertj:assertj-core:3.11.0'
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.61'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}

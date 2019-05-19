@@ -17,10 +17,11 @@ buildscript {
 
 apply plugin:'kotlin'
 
-group 'lista-de-favorecidos-using-commons'
+group 'carbon-tower-backend'
 version '1.0-SNAPSHOT'
 
 repositories {
+    jcenter()
     mavenCentral()
     maven {
         url  "https://dl.bintray.com/kotlin/exposed"
@@ -36,6 +37,7 @@ dependencies {
     compile "com.h2database:h2:1.4.197"
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.6"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1"
+    implementation "org.koin:koin-core:1.0.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
     testCompile 'org.assertj:assertj-core:3.11.0'
     testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.61'

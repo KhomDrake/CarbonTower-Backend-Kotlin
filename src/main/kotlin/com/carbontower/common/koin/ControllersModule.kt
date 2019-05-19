@@ -5,9 +5,9 @@ import org.koin.dsl.module.module
 
 val controllerModule = module {
     single { ChampionshipController(get()) }
-    single { DataController(get()) }
+    single { DataController(get(), get()) }
     single { HomeController(get()) }
-    single { LoginController(get()) }
-    single { PlayerController(get()) }
-    single { SignupController(get()) }
+    single { LoginController(get(), get()) }
+    single { PlayerController(get(), get()) }
+    single { SignupController(get(), get()) }
 }

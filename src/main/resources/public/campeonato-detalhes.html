@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <style>
+      h1
+      {
+         text-align: center
+      }
+      img
+      {
+        width: 50%;
+        margin : 0 auto;
+      }
+    </style>
+</head>
+<body>
+    <h1>Nome Usuário: {{nmUser}}</h1>
+    <h1>Nome Campeonato: {{nmChampionship}}</h1>
+    <h1>Game: {{nmGame}}</h1>
+
+
+    <p style="display:none" id="idChamp" >{{idChampionship}}</p>
+
+    <div class="container">
+        <form class="form" method="POST" action="/campeonato/invite/{{idChampionship}}/create">
+            <h1> Convidar Usuário Para campeonato</h1>
+            <div class="form-group">
+                <label for="cpf"> CPF usuário </label>
+                <input type="text" class="form-control" id="cpf" name="cpf">
+            </div>
+            <button type="submit" class="btn btn-info">
+                Cadastrar
+            </button>
+        </form>
+        <br>
+    </div>
+
+    <div id="players">
+
+    </div>
+
+    <script src="/javascript/showPlayers.js"></script>
+</body>
+</html>

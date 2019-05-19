@@ -12,7 +12,7 @@ val serviceModule = module {
     single { ChampionshipService(get()) }
     single { DataService(get()) }
     single { HomeService(get()) }
-    single { LoginService(get()) }
+    single { LoginService(get(), get(), get()) }
     single { PlayerService(get()) }
-    single { SignupService(get()) }
+    single { SignupService(get(), get(), get()) }
 }

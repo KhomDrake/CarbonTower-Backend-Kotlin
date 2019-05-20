@@ -3,6 +3,7 @@ package com.carbontower.domain.services.championship
 import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
+import com.carbontower.domain.entities.response.GameData
 import com.carbontower.domain.entities.response.InviteCreateData
 import com.carbontower.domain.entities.response.PlayerChampionshipData
 import com.carbontower.resources.database.exception.InviteAlreadyExist
@@ -45,6 +46,10 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
         if(championshipRepository.alreadyExistInvite(idPlayer, idChampionship)) throw InviteAlreadyExist()
 
         championshipRepository.createInvite(idPlayer, idChampionship)
+    }
+
+    fun getGames(): List<GameData> {
+        return championshipRepository.getGames()
     }
 
 }

@@ -5,6 +5,7 @@ import com.carbontower.common.koin.auxiliaryModule
 import com.carbontower.common.koin.controllerModule
 import com.carbontower.common.koin.repositoryModule
 import com.carbontower.common.koin.serviceModule
+import com.carbontower.resources.Encrypt
 import com.carbontower.resources.database.Connection
 import io.javalin.ExceptionHandler
 import io.javalin.Handler
@@ -23,6 +24,7 @@ class CarbonTower : KoinComponent {
     private val loginController: LoginController by inject()
     private val playerController: PlayerController by inject()
     private val signupController: SignupController by inject()
+    private val machineController: MachineController by inject()
     private val connection: Connection by inject()
 
     fun startServer() {
@@ -44,6 +46,7 @@ class CarbonTower : KoinComponent {
                 loginController.routes()
                 playerController.routes()
                 signupController.routes()
+                machineController.routes()
             }
         }
 

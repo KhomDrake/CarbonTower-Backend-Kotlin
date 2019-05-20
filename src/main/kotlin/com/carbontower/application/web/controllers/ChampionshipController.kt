@@ -4,6 +4,7 @@ import com.carbontower.application.web.Cookie
 import com.carbontower.application.web.toJson
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
+import com.carbontower.domain.entities.response.GameData
 import com.carbontower.domain.entities.response.InviteCreateData
 import com.carbontower.domain.entities.response.PlayerChampionshipData
 import com.carbontower.domain.services.championship.ChampionshipService
@@ -20,7 +21,14 @@ class ChampionshipController(private val championshipService: ChampionshipServic
             get("detail/:id",  toJson { getChampionship(it) })
             get(":id/players",  toJson { playersChampionship(it) })
             post("invite/:id/create",  toJson { createInvite(it) })
+            get("games/", toJson { getGames(it) })
+            
         }
+    }
+
+    private fun getGames(ctx: Context) : List<GameData> {
+        val games = championshipService.getGames()
+        return games
     }
 
     private fun createInvite(ctx: Context) : Boolean {

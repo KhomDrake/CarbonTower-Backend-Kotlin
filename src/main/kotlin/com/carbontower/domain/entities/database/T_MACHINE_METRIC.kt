@@ -11,5 +11,7 @@ object T_MACHINE_METRIC : Table() {
     val rpmCooler = integer("rpmCooler")
     val tempCPU = decimal("tempCPU", precision = 2, scale = 6)
     val usbDevice = varchar("usbDevice", length = 45)
+    val metricDate = date("metricDate")
+    val metricTime = varchar("metricTime", length = 10)
     val idMachine_fk = integer("idMachine_fk") references T_MACHINE.idMachine
 }

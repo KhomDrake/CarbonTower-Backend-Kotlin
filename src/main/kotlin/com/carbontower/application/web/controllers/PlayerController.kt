@@ -15,7 +15,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
             get("/invites/:idchampionship/accept", ::acceptInvite)
             get("/invites/:idchampionship/refuse", ::refuseInvite)
             get("/invites/get", toJson { getInvites(it) })
-            get("/championship", toJson {  })
+            get("/championship", toJson { championshipsParticipate(it) })
         }
     }
 

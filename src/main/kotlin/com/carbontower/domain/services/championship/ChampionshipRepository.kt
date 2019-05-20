@@ -4,14 +4,27 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.database.*
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
+import com.carbontower.domain.entities.response.GameData
 import com.carbontower.domain.entities.response.PlayerChampionshipData
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 
 class ChampionshipRepository : IChampionshipRepository {
+    override fun getGames(): List<GameData> {
+        val games = mutableListOf<GameData>()
+
+        transaction {
+            val gamesDb = T_GAME.selectAll()
+            gamesDb.forEach { games.add(GameData(it[T_GAME.idGame], it[T_GAME.nmGame])) }
+        }
+
+        return games.toList()
+    }
+
     override fun alreadyExistInvite(idPlayer: Int, idChampionship: Int): Boolean {
         var exist = false
 
@@ -115,6 +128,19 @@ class ChampionshipRepository : IChampionshipRepository {
             }
         }
     }
+
+    /*
+        Dota 2
+        Fifa 19
+        Fortnite
+        Hearthstone
+        League of Legends
+        Overwatch
+        PUBG
+        Rainbow Six Siege
+        Street Fighter V
+        Startcraft 2
+     */
 
     override fun getIdUserRole(idUser: String, empresa: Role): Int {
         var idRole = 0

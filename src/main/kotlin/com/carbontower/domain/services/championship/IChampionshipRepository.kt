@@ -3,6 +3,7 @@ package com.carbontower.domain.services.championship
 import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
+import com.carbontower.domain.entities.response.GameData
 import com.carbontower.domain.entities.response.PlayerChampionshipData
 
 interface IChampionshipRepository {
@@ -13,4 +14,5 @@ interface IChampionshipRepository {
     fun getPlayersChampionship(idUserRole: Int, idChampionship: Int): List<PlayerChampionshipData>
     fun createInvite(idPlayer: Int, idChampionship: Int)
     fun alreadyExistInvite(idPlayer: Int, idChampionship: Int): Boolean
+    fun getGames(): List<GameData>
 }

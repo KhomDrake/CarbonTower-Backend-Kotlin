@@ -8,6 +8,8 @@ import com.carbontower.domain.services.home.HomeRepository
 import com.carbontower.domain.services.home.IHomeRepository
 import com.carbontower.domain.services.login.ILoginRepository
 import com.carbontower.domain.services.login.LoginRepository
+import com.carbontower.domain.services.machine.IMachineRepository
+import com.carbontower.domain.services.machine.MachineRepository
 import com.carbontower.domain.services.player.IPlayerRepository
 import com.carbontower.domain.services.player.PlayerRepository
 import com.carbontower.domain.services.signup.ISignupRepository
@@ -21,4 +23,5 @@ val repositoryModule = module {
     single { LoginRepository() as ILoginRepository }
     single { PlayerRepository() as IPlayerRepository }
     single { SignupRepository() as ISignupRepository }
+    single { MachineRepository() as IMachineRepository }
 }

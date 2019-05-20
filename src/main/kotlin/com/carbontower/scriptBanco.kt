@@ -60,7 +60,8 @@ create table T_ADMINISTRATOR_CHAMPIONSHIP(
 );
 
 create table T_TEAM(
-	idTeam int primary key identity(1,1)
+	idTeam int primary key identity(1,1),
+	nmTeam varchar(50)
 );
 
 create table T_PLAYER_IN_TEAM(
@@ -69,6 +70,14 @@ create table T_PLAYER_IN_TEAM(
 	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
 	foreign key(idTeam_fk) references T_TEAM(idTeam),
 	primary key(idPlayer_fk,idTeam_fk)
+);
+
+create table T_TEAM_IN_CHAMPIONSHIP(
+	idChampionship_fk int,
+	idTeam_fk int,
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idTeam_fk) references T_TEAM(idTeam),
+	primary key(idChampionship_fk,idTeam_fk)
 );
 
 create table T_MATCH(
@@ -266,6 +275,215 @@ insert into T_USER_ROLE values('93399758049', 3);
 insert into T_USER(idUser, nmUser, userPassword) values('83197619056', 'Yudi', 'BA3253876AED6BC22D4A6FF53D8406C6AD864195ED144AB5C87621B6C233B548BAEAE6956DF346EC8C17F5EA10F35EE3CBC514797ED7DDD3145464E2A0BAB413');
 insert into T_USER_ROLE values('83197619056', 3);
 
+/*
+
+95205316020
+89340690079
+61720259020
+56544241067
+80497240009
+28900538063
+56877016050
+62699451002
+32701435080
+02295176093
+41139537083
+43118661003
+03074124075
+70351432035
+81397436077
+93119210099
+34119781046
+28688544000
+80072634030
+36274562036
+28483462052
+42257562038
+29437263035
+00361586078
+69541472060
+93520221063
+17179110051
+96844051034
+46138128010
+49094850079
+08991049087
+04434724088
+60058171088
+02535254034
+30920373089
+14316994034
+02534269011
+62640042009
+06160316028
+06702720009
+58625972047
+26180113092
+44476102050
+99212869009
+21023987066
+66243561038
+84721118066
+13959948034
+24541336014
+07461117033
+92018673017
+35663248099
+25599749088
+56107196072
+82021776000
+72204753068
+96224651027
+94912690031
+73198650097
+88990640083
+73437070002
+10352445009
+52128331080
+25554285007
+67544625079
+92357946091
+76413700041
+85826131055
+23084635030
+43543039067
+29261527019
+36895258027
+05262348068
+56283984037
+64679646080
+83786943052
+37380339044
+64189729027
+23646376007
+14873072093
+69062437052
+89505491077
+37113920080
+68428423016
+37381406039
+26305758026
+72557073008
+42976516022
+56593370070
+01411419057
+85560863068
+26488545094
+91044422025
+84036822047
+14380661040
+26313059069
+42766325018
+31082949035
+92663568082
+67686737004
+12747031071
+76456708001
+65038342094
+75855154050
+59083912043
+75749235076
+09422583047
+47762064044
+87043499038
+71056039094
+07787015063
+89851813001
+07035195068
+18504177092
+40025780034
+59207851016
+26764041059
+20698814070
+55080828080
+43353877096
+98501390054
+52592666095
+80323693091
+05657567021
+55665722006
+28453067090
+85754008007
+88414248004
+11647234050
+08482224077
+78144495020
+78739005097
+48958410060
+59171612084
+10708070019
+43967005046
+59418451034
+10944459080
+93189291020
+92990778004
+69633148022
+31097284000
+52731931094
+84407350067
+09821332005
+11604219009
+34500380019
+94378106051
+01874473064
+43258551065
+75575217060
+41733237003
+68928950007
+14982396094
+94621370057
+95356454040
+62610443099
+30430222033
+01667955004
+30699941059
+47928315041
+39840963058
+86545208098
+38261982041
+45101311006
+53113778018
+10946893004
+66808382077
+50189299010
+59322699019
+48547625003
+59084002032
+57939319027
+95073538013
+30073604046
+34611553060
+32412989060
+63802724020
+13293460097
+81053644094
+73219211070
+23022484062
+96497694048
+54451809053
+20598109064
+27330651060
+87500520042
+52285604084
+49442808079
+43712061072
+62683331010
+66399184045
+76219203003
+60584789017
+77147898087
+81526713047
+08226409020
+03566474045
+80332175022
+84285793008
+32882400098
+
+
+ */
+
+
+
 /* Dota 2 */
 insert into T_CHAMPIONSHIP values (1, 10, 'Minor de Bucareste')
 insert into T_CHAMPIONSHIP values (1, 11, 'DreamLeague')
@@ -402,6 +620,375 @@ select * from T_MACHINE;
 
 select count(*) from T_MACHINE_METRIC;
 
+/* Times */
+/* 1 */
+insert into T_TEAM values('Febi');
+/* 2 */
+insert into T_TEAM values('Erwoe');
+/* 3 */
+insert into T_TEAM values('Powoebua');
+/* 4 */
+insert into T_TEAM values('Baholar');
+/* 5 */
+insert into T_TEAM values('Nuyviu');
+/* 6 */
+insert into T_TEAM values('Zuimo');
+/* 7 */
+insert into T_TEAM values('Woneki');
+/* 8 */
+insert into T_TEAM values('Betupo');
+/* 9 */
+insert into T_TEAM values('Sixas');
+/* 10 */
+insert into T_TEAM values('Brixu');
+/* 11 */
+insert into T_TEAM values('Rurao');
+/* 12 */
+insert into T_TEAM values('Meope');
+/* 13 */
+insert into T_TEAM values('Tuzya');
+/* 14 */
+insert into T_TEAM values('Roirn');
+/* 15 */
+insert into T_TEAM values('Wewae');
+/* 16 */
+insert into T_TEAM values('Buesua');
+/* 17 */
+insert into T_TEAM values('Kidau');
+/* 18 */
+insert into T_TEAM values('Xyufa');
+/* 19 */
+insert into T_TEAM values('Rofeu');
+/* 20 */
+insert into T_TEAM values('Roas');
+/* 21 */
+insert into T_TEAM values('Cofal');
+/* 22 */
+insert into T_TEAM values('Haefa');
+/* 23 */
+insert into T_TEAM values('Simas');
+/* 24 */
+insert into T_TEAM values('Haykoil');
+/* 25 */
+insert into T_TEAM values('Fuzon');
+/* 26 */
+insert into T_TEAM values('Irtir');
+/* 27 */
+insert into T_TEAM values('Xeotuman');
+/* 28 */
+insert into T_TEAM values('Xexera');
+/* 29 */
+insert into T_TEAM values('Asnoabu');
+/* 30 */
+insert into T_TEAM values('Geimo');
+/* 31 */
+insert into T_TEAM values('Issir');
+/* 32 */
+insert into T_TEAM values('Wuhua');
+
+/* Time In Championship */
+insert into T_TEAM_IN_CHAMPIONSHIP values (1,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (1,2);
+insert into T_TEAM_IN_CHAMPIONSHIP values (1,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (1,7);
+insert into T_TEAM_IN_CHAMPIONSHIP values (1,6);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (2,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (2,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (2,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (2,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (2,23);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (3,2);
+insert into T_TEAM_IN_CHAMPIONSHIP values (3,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (3,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (3,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (3,30);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (4,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (4,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (4,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (4,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (4,4);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (5,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (5,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (5,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (5,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (5,1);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (6,10);
+insert into T_TEAM_IN_CHAMPIONSHIP values (6,8);
+insert into T_TEAM_IN_CHAMPIONSHIP values (6,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (6,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (6,29);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (7,7);
+insert into T_TEAM_IN_CHAMPIONSHIP values (7,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (7,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (7,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (7,13);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (8,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (8,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (8,16);
+insert into T_TEAM_IN_CHAMPIONSHIP values (8,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (8,23);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (9,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (9,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (9,29);
+insert into T_TEAM_IN_CHAMPIONSHIP values (9,27);
+insert into T_TEAM_IN_CHAMPIONSHIP values (9,20);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (10,29);
+insert into T_TEAM_IN_CHAMPIONSHIP values (10,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (10,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (10,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (10,14);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (11,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (11,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (11,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (11,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (11,15);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (12,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (12,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (12,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (12,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (12,28);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (13,19);
+insert into T_TEAM_IN_CHAMPIONSHIP values (13,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (13,8);
+insert into T_TEAM_IN_CHAMPIONSHIP values (13,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (13,2);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (14,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (14,22);
+insert into T_TEAM_IN_CHAMPIONSHIP values (14,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (14,13);
+insert into T_TEAM_IN_CHAMPIONSHIP values (14,24);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (15,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (15,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (15,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (15,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (15,16);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (16,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (16,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (16,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (16,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (16,20);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (17,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (17,8);
+insert into T_TEAM_IN_CHAMPIONSHIP values (17,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (17,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (17,12);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (18,29);
+insert into T_TEAM_IN_CHAMPIONSHIP values (18,22);
+insert into T_TEAM_IN_CHAMPIONSHIP values (18,27);
+insert into T_TEAM_IN_CHAMPIONSHIP values (18,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (18,5);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (19,16);
+insert into T_TEAM_IN_CHAMPIONSHIP values (19,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (19,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (19,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (19,10);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (20,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (20,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (20,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (20,20);
+insert into T_TEAM_IN_CHAMPIONSHIP values (20,12);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (21,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (21,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (21,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (21,8);
+insert into T_TEAM_IN_CHAMPIONSHIP values (21,11);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (22,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (22,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (22,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (22,26);
+insert into T_TEAM_IN_CHAMPIONSHIP values (22,23);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (23,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (23,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (23,13);
+insert into T_TEAM_IN_CHAMPIONSHIP values (23,2);
+insert into T_TEAM_IN_CHAMPIONSHIP values (23,12);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (24,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (24,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (24,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (24,29);
+insert into T_TEAM_IN_CHAMPIONSHIP values (24,23);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (25,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (25,20);
+insert into T_TEAM_IN_CHAMPIONSHIP values (25,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (25,27);
+insert into T_TEAM_IN_CHAMPIONSHIP values (25,5);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (26,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (26,20);
+insert into T_TEAM_IN_CHAMPIONSHIP values (26,20);
+insert into T_TEAM_IN_CHAMPIONSHIP values (26,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (26,3);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (27,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (27,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (27,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (27,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (27,3);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (28,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (28,27);
+insert into T_TEAM_IN_CHAMPIONSHIP values (28,22);
+insert into T_TEAM_IN_CHAMPIONSHIP values (28,19);
+insert into T_TEAM_IN_CHAMPIONSHIP values (28,2);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (29,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (29,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (29,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (29,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (29,28);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (30,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (30,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (30,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (30,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (30,16);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (31,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (31,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (31,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (31,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (31,12);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (32,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (32,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (32,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (32,24);
+insert into T_TEAM_IN_CHAMPIONSHIP values (32,23);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (33,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (33,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (33,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (33,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (33,22);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (34,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (34,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (34,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (34,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (34,31);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (35,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (35,20);
+insert into T_TEAM_IN_CHAMPIONSHIP values (35,22);
+insert into T_TEAM_IN_CHAMPIONSHIP values (35,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (35,13);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (36,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (36,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (36,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (36,2);
+insert into T_TEAM_IN_CHAMPIONSHIP values (36,9);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,10);
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,35);
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,19);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (38,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (38,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (38,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (38,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (38,14);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (39,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (39,29);
+insert into T_TEAM_IN_CHAMPIONSHIP values (39,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (39,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (39,21);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (40,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (40,7);
+insert into T_TEAM_IN_CHAMPIONSHIP values (40,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (40,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (40,22);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (41,30);
+insert into T_TEAM_IN_CHAMPIONSHIP values (41,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (41,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (41,7);
+insert into T_TEAM_IN_CHAMPIONSHIP values (41,4);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,12);
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,6);
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,25);
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,7);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (43,22);
+insert into T_TEAM_IN_CHAMPIONSHIP values (43,5);
+insert into T_TEAM_IN_CHAMPIONSHIP values (43,26);
+insert into T_TEAM_IN_CHAMPIONSHIP values (43,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (43,10);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (44,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (44,31);
+insert into T_TEAM_IN_CHAMPIONSHIP values (44,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (44,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (44,28);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (45,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (45,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (45,4);
+insert into T_TEAM_IN_CHAMPIONSHIP values (45,10);
+insert into T_TEAM_IN_CHAMPIONSHIP values (45,11);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (46,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (46,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (46,2);
+insert into T_TEAM_IN_CHAMPIONSHIP values (46,18);
+insert into T_TEAM_IN_CHAMPIONSHIP values (46,25);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (47,10);
+insert into T_TEAM_IN_CHAMPIONSHIP values (47,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (47,23);
+insert into T_TEAM_IN_CHAMPIONSHIP values (47,17);
+insert into T_TEAM_IN_CHAMPIONSHIP values (47,14);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (48,16);
+insert into T_TEAM_IN_CHAMPIONSHIP values (48,9);
+insert into T_TEAM_IN_CHAMPIONSHIP values (48,21);
+insert into T_TEAM_IN_CHAMPIONSHIP values (48,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (48,10);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (49,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (49,14);
+insert into T_TEAM_IN_CHAMPIONSHIP values (49,3);
+insert into T_TEAM_IN_CHAMPIONSHIP values (49,26);
+insert into T_TEAM_IN_CHAMPIONSHIP values (49,9);
+
+insert into T_TEAM_IN_CHAMPIONSHIP values (50,1);
+insert into T_TEAM_IN_CHAMPIONSHIP values (50,28);
+insert into T_TEAM_IN_CHAMPIONSHIP values (50,11);
+insert into T_TEAM_IN_CHAMPIONSHIP values (50,15);
+insert into T_TEAM_IN_CHAMPIONSHIP values (50,21);
+
+
+/* Player In Team */
 
 
 /*
@@ -417,7 +1004,7 @@ select count(*) from T_MACHINE_METRIC;
 	getAdministradores
 */
 
-/* Comandos para dropar as tabelas
+/* Comandos para dropar as tabelas */
 drop table T_MACHINE_METRIC;
 drop table T_USER_MACHINE;
 drop table T_MACHINE;
@@ -436,6 +1023,5 @@ drop table T_USER_ROLE;
 drop table T_ROLE;
 drop table T_USER;
 */
- */
 package com.carbontower
 

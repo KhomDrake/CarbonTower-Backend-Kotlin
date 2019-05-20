@@ -2,9 +2,11 @@ package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.Cookie
 import com.carbontower.application.web.toJson
+import com.carbontower.domain.entities.http.DateMetricMachineData
 import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
 import com.carbontower.domain.entities.response.MachineData
+import com.carbontower.domain.entities.response.MachineMetricData
 import com.carbontower.domain.services.machine.MachineService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.path
@@ -19,8 +21,16 @@ class MachineController(private val machineService: MachineService,
             get("/", toJson { getMachines(it) })
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })
-            get("/all-metrics", toJson {  })
+            post("/metric/by-date", toJson { getMetricMachineByDate(it) })
         }
+    }
+
+    private fun getMetricMachineByDate(ctx: Context) : List<MachineMetricData> {
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val idMachine = ctx.pathParam("id").toInt()
+        val dateMetricMachineData = ctx.body<DateMetricMachineData>()
+        return machineService.getMachineMetricByDate(idMachine, dateMetricMachineData)
     }
 
     private fun insertMachineMetric(ctx: Context) : Boolean {

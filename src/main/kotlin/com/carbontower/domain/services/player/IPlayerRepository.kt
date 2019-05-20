@@ -10,4 +10,7 @@ interface IPlayerRepository {
     fun acceptInvite(idUserRole: Int, idChampionship: Int)
     fun refuseInvite(idUserRole: Int, idChampionship: Int)
     fun championshipsParticipate(idUserRole: Int): List<ChampionshipData>
+    fun administratorChampionship(idUserRole: Int): List<ChampionshipData>
+    fun administerThisChampionship(idUserRole: Int, idChampionship: Int): Boolean
+    fun existChampionship(idChampionship: Int): Boolean
 }

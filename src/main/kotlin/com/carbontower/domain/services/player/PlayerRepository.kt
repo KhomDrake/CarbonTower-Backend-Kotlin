@@ -11,6 +11,44 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 class PlayerRepository : IPlayerRepository {
+    override fun existChampionship(idChampionship: Int): Boolean {
+        var exist = false
+
+        transaction {
+            exist = T_CHAMPIONSHIP.select { T_CHAMPIONSHIP.idChampionship.eq(idChampionship) }.count() != 0
+        }
+
+        return exist
+    }
+
+    override fun administerThisChampionship(idUserRole: Int, idChampionship: Int): Boolean {
+        var administer = false
+
+        transaction {
+            administer = T_ADMINISTRATOR_CHAMPIONSHIP.select { T_ADMINISTRATOR_CHAMPIONSHIP.idChampionship_fk.eq(idChampionship)
+                .and(T_ADMINISTRATOR_CHAMPIONSHIP.idAdministrator_fk.eq(idUserRole))}.count() != 0
+        }
+
+        return administer
+    }
+
+    override fun administratorChampionship(idUserRole: Int): List<ChampionshipData> {
+        val championships = mutableListOf<ChampionshipData>()
+
+        transaction {
+            val championshipsDb = (T_ADMINISTRATOR_CHAMPIONSHIP innerJoin T_CHAMPIONSHIP)
+                .select { T_ADMINISTRATOR_CHAMPIONSHIP.idAdministrator_fk.eq(idUserRole)
+                    .and(T_ADMINISTRATOR_CHAMPIONSHIP.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship)) }
+
+            championshipsDb.forEach {
+                championships.add(ChampionshipData(it[T_CHAMPIONSHIP.nmChampionship],
+                    it[T_GAME.nmGame], "", it[T_CHAMPIONSHIP.idChampionship]))
+            }
+        }
+
+        return championships
+    }
+
     override fun championshipsParticipate(idUserRole: Int): List<ChampionshipData> {
         val listChampionships = mutableListOf<ChampionshipData>()
 

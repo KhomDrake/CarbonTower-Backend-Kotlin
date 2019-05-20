@@ -5,9 +5,11 @@ import com.carbontower.domain.entities.database.T_MACHINE
 import com.carbontower.domain.entities.database.T_MACHINE_METRIC
 import com.carbontower.domain.entities.database.T_USER_MACHINE
 import com.carbontower.domain.entities.database.T_USER_ROLE
+import com.carbontower.domain.entities.http.DateMetricMachineData
 import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
 import com.carbontower.domain.entities.response.MachineData
+import com.carbontower.domain.entities.response.MachineMetricData
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -15,6 +17,35 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MachineRepository: IMachineRepository {
+    override fun getMachineMetricByDate(
+        idMachine: Int,
+        dateMetricMachineData: DateMetricMachineData
+    ): List<MachineMetricData> {
+        val machineMetrics = mutableListOf<MachineMetricData>()
+
+        transaction {
+            val machineMetricDb = T_MACHINE_METRIC.select { T_MACHINE_METRIC.idMachine_fk.eq(idMachine)
+                .and(T_MACHINE_METRIC.metricDate.eq(dateMetricMachineData.date))}
+
+            machineMetricDb.forEach {
+                machineMetrics.add(MachineMetricData(it[T_MACHINE_METRIC.useRam],
+                    it[T_MACHINE_METRIC.tempGPU],
+                    it[T_MACHINE_METRIC.useGPU],
+                    it[T_MACHINE_METRIC.useCPU],
+                    it[T_MACHINE_METRIC.useDisc],
+                    it[T_MACHINE_METRIC.rpmCooler],
+                    it[T_MACHINE_METRIC.tempCPU],
+                    it[T_MACHINE_METRIC.usbDevice],
+                    it[T_MACHINE_METRIC.metricDate],
+                    it[T_MACHINE_METRIC.metricTime],
+                    it[T_MACHINE_METRIC.idMachineMetric],
+                    it[T_MACHINE_METRIC.idMachine_fk]))
+            }
+        }
+
+        return machineMetrics
+    }
+
     override fun machineExist(id: Int): Boolean {
         var exist = false
         transaction {
@@ -34,6 +65,7 @@ class MachineRepository: IMachineRepository {
                 it[T_MACHINE_METRIC.tempGPU] = insertMetricMachineData.tempGPU
                 it[T_MACHINE_METRIC.usbDevice] = insertMetricMachineData.usbDevice
                 it[T_MACHINE_METRIC.useDisc] = insertMetricMachineData.useDisc
+                it[T_MACHINE_METRIC.useCPU] = insertMetricMachineData.useCPU
                 it[T_MACHINE_METRIC.useGPU] = insertMetricMachineData.useGPU
                 it[T_MACHINE_METRIC.useRam] = insertMetricMachineData.useRam
             }
@@ -107,7 +139,7 @@ class MachineRepository: IMachineRepository {
         var idRole = 0
 
         transaction {
-            val results = com.carbontower.domain.entities.database.T_USER_ROLE.select { T_USER_ROLE.idUser_fk.eq(idUser).and(
+            val results = T_USER_ROLE.select { T_USER_ROLE.idUser_fk.eq(idUser).and(
                 T_USER_ROLE.idRole_fk.eq(empresa.ordinal)) }
             results.forEach {
                 idRole = it[T_USER_ROLE.idUserRole]

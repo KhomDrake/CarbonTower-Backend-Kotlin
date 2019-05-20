@@ -1,5 +1,3 @@
-package com.carbontower
-
 /*
 
 create table T_USER(
@@ -122,11 +120,12 @@ create table T_MACHINE_METRIC(
 	tempGPU decimal(6,2),
 	useGPU decimal(6,2),
 	useDisc decimal(6,2),
+	useCPU decimal(6,2),
 	rpmCooler int,
 	tempCPU decimal(6,2),
 	usbDevice varchar(45),
 	idMachine_fk int,
-	metricDate date,
+	metricDate varchar(12),
 	metricTime varchar(10),
 	foreign key(idMachine_fk) references T_MACHINE(idMachine)
 );
@@ -438,3 +437,5 @@ drop table T_ROLE;
 drop table T_USER;
 */
  */
+package com.carbontower
+

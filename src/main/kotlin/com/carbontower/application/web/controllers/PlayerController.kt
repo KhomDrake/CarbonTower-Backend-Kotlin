@@ -16,7 +16,22 @@ class PlayerController(private val playerService: PlayerService, private val coo
             get("/invites/:idchampionship/refuse", ::refuseInvite)
             get("/invites/get", toJson { getInvites(it) })
             get("/championship", toJson { championshipsParticipate(it) })
+            get("/championship/administrator", toJson { getAdministratorChampionship(it) })
+            get("/championship/administrator/:idchampionship", toJson { administerThisChampionship(it) })
         }
+    }
+
+    private fun administerThisChampionship(ctx: Context) : Boolean {
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val idChampionship  = ctx.pathParam("idchampionship").toInt()
+        return playerService.administerThisChampionship(idUser, idChampionship)
+    }
+
+    private fun getAdministratorChampionship(ctx: Context) : List<ChampionshipData> {
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        return playerService.administratorChampionship(idUser)
     }
 
     private fun championshipsParticipate(ctx: Context) : List<ChampionshipData> {

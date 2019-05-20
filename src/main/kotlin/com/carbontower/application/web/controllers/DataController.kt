@@ -12,8 +12,6 @@ import io.javalin.apibuilder.ApiBuilder.path
 class DataController(private val dataService: DataService, private val cookie: Cookie) {
     fun routes() {
         path("/data") {
-            get("machine/:iduserrole/graphics/:idchampionship/latest", toJson {  })
-            get("machine/:iduserrole/graphics/:idchampionship/last", toJson {  })
             get("validate", toJson { validate(it) })
             get("role", toJson { getRole(it) })
             get("idrole-empresa", toJson { getIdRole(it, Role.Empresa) })

@@ -5,6 +5,7 @@ import java.math.BigDecimal
 data class MachineMetricData(val useRam: BigDecimal,
                              val tempGPU: BigDecimal,
                              val useGPU: BigDecimal,
+                             val useCPU: BigDecimal,
                              val useDisc: BigDecimal,
                              val rpmCooler: Int,
                              val tempCPU: BigDecimal,

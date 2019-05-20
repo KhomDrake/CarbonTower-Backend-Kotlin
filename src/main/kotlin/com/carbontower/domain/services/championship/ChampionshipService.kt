@@ -4,7 +4,7 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.GameData
-import com.carbontower.domain.entities.response.InviteCreateData
+import com.carbontower.domain.entities.http.InviteCreateData
 import com.carbontower.domain.entities.response.PlayerChampionshipData
 import com.carbontower.resources.database.exception.InviteAlreadyExist
 import com.carbontower.resources.database.exception.NotACompany

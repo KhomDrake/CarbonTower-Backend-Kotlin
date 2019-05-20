@@ -1799,7 +1799,6 @@ insert into T_TEAM_IN_CHAMPIONSHIP values (50,21);
 
 /* Player In Team */
 
-
 /*
 	pegar jogos
 	insertMaquina

@@ -19,7 +19,7 @@ class MachineController(private val machineService: MachineService,
                         private val cookie: Cookie) {
     fun routes() {
         path("/machine") {
-            post("/", toJson { insertMachine(it) })
+            post("/:idUser", toJson { insertMachine(it) })
             get("/", toJson { getMachines(it) })
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })
@@ -65,9 +65,7 @@ class MachineController(private val machineService: MachineService,
     }
 
     private fun insertMachine(ctx: Context) : Boolean {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser: String = ctx.pathParam("idUser")
         val insertMachineData = ctx.body<InsertMachineData>()
         machineService.insertMachine(idUser, insertMachineData)
         ctx.insertLogSuccess("Usuário $idUser inseriu uma máquina com os dados: $insertMachineData")

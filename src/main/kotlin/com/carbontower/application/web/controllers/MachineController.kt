@@ -1,6 +1,7 @@
 package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.Cookie
+import com.carbontower.application.web.insertLogSuccess
 import com.carbontower.application.web.toJson
 import com.carbontower.application.web.validateCookie
 import com.carbontower.domain.entities.http.DateMetricMachineData
@@ -29,26 +30,41 @@ class MachineController(private val machineService: MachineService,
     private fun getMetricMachineByDate(ctx: Context) : List<MachineMetricData> {
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
         val idMachine = ctx.pathParam("id").toInt()
         val dateMetricMachineData = ctx.body<DateMetricMachineData>()
-        return machineService.getMachineMetricByDate(idMachine, dateMetricMachineData)
+        val listMachinesMetric = machineService.getMachineMetricByDate(idMachine, dateMetricMachineData)
+        ctx.insertLogSuccess("Metricas da máquina $idMachine solicitados pelo usuário $idUser")
+        return listMachinesMetric
     }
 
     private fun insertMachineMetric(ctx: Context) : Boolean {
         ctx.validateCookie(cookie)
         val insertMetricMachineData = ctx.body<InsertMetricMachineData>()
         machineService.insertMachineMetric(ctx.pathParam("id").toInt(), insertMetricMachineData)
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        ctx.insertLogSuccess("Usuário $idUser inseriu metricas de máquina com sucesso. $insertMetricMachineData")
         return true
     }
 
     private fun getMachine(ctx: Context) : MachineData {
         ctx.validateCookie(cookie)
-        return machineService.getMachine(ctx.pathParam("id").toInt())
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val machineData = machineService.getMachine(ctx.pathParam("id").toInt())
+        ctx.insertLogSuccess("Usuário $idUser solicitou dados da machina ${ctx.pathParam("id").toInt()}" +
+                " retorno: $machineData")
+        return machineData
     }
 
     private fun getMachines(ctx: Context) : List<MachineData> {
         ctx.validateCookie(cookie)
-        return machineService.getAllMachines()
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val allMachines = machineService.getAllMachines()
+        ctx.insertLogSuccess("Usuário $idUser solicitou todas as máquinas")
+        return allMachines
     }
 
     private fun insertMachine(ctx: Context) : Boolean {
@@ -57,6 +73,7 @@ class MachineController(private val machineService: MachineService,
         val idUser: String = cookie.getIdCookie(c.toString())
         val insertMachineData = ctx.body<InsertMachineData>()
         machineService.insertMachine(idUser, insertMachineData)
+        ctx.insertLogSuccess("Usuário $idUser inseriu uma máquina com os dados: $insertMachineData")
         return true
     }
 }

@@ -1,6 +1,7 @@
 package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.Cookie
+import com.carbontower.application.web.insertLogSuccess
 import com.carbontower.application.web.toJson
 import com.carbontower.domain.entities.http.LoginData
 import com.carbontower.domain.entities.http.SignupData
@@ -21,6 +22,7 @@ class SignupController(private val signupService: SignupService, private val coo
         val dateTimeCrypt = cookie.getDateTimeCrypt()
         ctx.cookie(cookie.cookieName, dateTimeCrypt)
         cookie.setIdCookie(signupData.persondata, dateTimeCrypt)
+        ctx.insertLogSuccess("Usuário ${signupData.persondata} foi cadastrado com sucesso")
         return true
     }
 }

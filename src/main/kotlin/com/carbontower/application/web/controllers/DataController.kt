@@ -1,9 +1,6 @@
 package com.carbontower.application.web.controllers
 
-import com.carbontower.application.web.Cookie
-import com.carbontower.application.web.Role
-import com.carbontower.application.web.toJson
-import com.carbontower.application.web.validateCookie
+import com.carbontower.application.web.*
 import com.carbontower.domain.entities.response.UserData
 import com.carbontower.domain.services.data.DataService
 import io.javalin.Context
@@ -26,13 +23,16 @@ class DataController(private val dataService: DataService, private val cookie: C
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        return dataService.getUserData(idUser)
+        val userData = dataService.getUserData(idUser)
+        ctx.insertLogSuccess("Dados do usuário pegos com sucesso $userData")
+        return userData
     }
 
     private fun validate(ctx: Context) : Boolean {
         val c: String? = ctx.cookie(cookie.cookieName)
-        if(c.isNullOrEmpty()) return false
-        return cookie.contains(c)
+        val result = if(c.isNullOrEmpty()) false else cookie.contains(c)
+        ctx.insertLogSuccess("Usuário está válido para acessar, está logado: $result")
+        return result
     }
 
     private fun getIdRole(ctx: Context, role: Role) : Int {
@@ -40,6 +40,7 @@ class DataController(private val dataService: DataService, private val cookie: C
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idRole = dataService.getIdRole(idUser, role)
+        ctx.insertLogSuccess("Usuário $idUser possui o id role: $role")
         return idRole
     }
 
@@ -50,6 +51,7 @@ class DataController(private val dataService: DataService, private val cookie: C
         val idUser: String = cookie.getIdCookie(c.toString())
         if(idUser.count() == 11)  role = "jogador"
         else if(idUser.count() == 14) role = "empresa"
+        ctx.insertLogSuccess("Usuário: $idUser possui o papel: $role")
         return role
     }
 }

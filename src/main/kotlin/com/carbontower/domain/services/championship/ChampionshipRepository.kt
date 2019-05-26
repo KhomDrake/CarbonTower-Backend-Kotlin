@@ -3,9 +3,7 @@ package com.carbontower.domain.services.championship
 import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.database.*
 import com.carbontower.domain.entities.http.SingupChampionshipData
-import com.carbontower.domain.entities.response.ChampionshipData
-import com.carbontower.domain.entities.response.GameData
-import com.carbontower.domain.entities.response.PlayerChampionshipData
+import com.carbontower.domain.entities.response.*
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -14,6 +12,31 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 
 class ChampionshipRepository : IChampionshipRepository {
+    override fun getAllInvitesChampionship(idChampionship: Int): List<InviteTotalData> {
+        var invites = mutableListOf<InviteTotalData>()
+
+        transaction {
+            val invitesDb = T_INVITE_PLAYER.select { T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship) }
+
+            invitesDb.forEach {
+                invites.add(InviteTotalData(it[T_INVITE_PLAYER.idPlayer_fk],
+                    idChampionship,
+                    it[T_INVITE_PLAYER.alreadyAnswered],
+                    it[T_INVITE_PLAYER.accepted]))
+            }
+        }
+
+        return invites.toList()
+    }
+
+    override fun existChampionship(idChampionship: Int): Boolean {
+        var exist = false
+        transaction {
+            exist = T_CHAMPIONSHIP.select { T_CHAMPIONSHIP.idChampionship.eq(idChampionship) }.count() != 0
+        }
+        return exist
+    }
+
     override fun getGames(): List<GameData> {
         val games = mutableListOf<GameData>()
 

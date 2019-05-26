@@ -17,7 +17,19 @@ internal fun toJson(block: (Context) -> Any): (Context) -> Unit{
     return {ctx: Context -> ctx.json(block(ctx))}
 }
 
-fun Context.insertLog(logApplication: LogApplication) {
+fun Context.insertLogSuccess(message: String) {
+    val ctx = this
+    transaction {
+        T_LOGS_SERVER.insert {
+            it[T_LOGS_SERVER.message] = message
+            it[T_LOGS_SERVER.router] = ctx.path()
+            it[T_LOGS_SERVER.statusCode] = 200
+            it[T_LOGS_SERVER.dateTime] = LocalDateTime.now().toString()
+        }
+    }
+}
+
+fun Context.insertLogError(logApplication: LogApplication) {
     transaction {
         T_LOGS_SERVER.insert {
             it[T_LOGS_SERVER.message] = logApplication.message

@@ -1,13 +1,10 @@
 package com.carbontower.application.web.controllers
 
-import com.carbontower.application.web.Cookie
-import com.carbontower.application.web.toJson
-import com.carbontower.application.web.validateCookie
+import com.carbontower.application.web.*
+import com.carbontower.domain.entities.application.LogApplication
 import com.carbontower.domain.entities.http.SingupChampionshipData
-import com.carbontower.domain.entities.response.ChampionshipData
-import com.carbontower.domain.entities.response.GameData
 import com.carbontower.domain.entities.http.InviteCreateData
-import com.carbontower.domain.entities.response.PlayerChampionshipData
+import com.carbontower.domain.entities.response.*
 import com.carbontower.domain.services.championship.ChampionshipService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.*
@@ -22,13 +19,24 @@ class ChampionshipController(private val championshipService: ChampionshipServic
             get(":id/players",  toJson { playersChampionship(it) })
             post("invite/:id/create",  toJson { createInvite(it) })
             get("games/", toJson { getGames(it) })
-            
+            get("invites/:id", toJson {  getAllInvites(it) })
         }
+    }
+
+    private fun getAllInvites(ctx: Context) : List<InviteTotalData> {
+        ctx.validateCookie(cookie)
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val idChampionship = ctx.pathParam("id").toInt()
+        val listInvites = championshipService.getAllInvitesChampionship(idChampionship, idUser)
+        ctx.insertLogSuccess("Empresa $idUser solicitou todos os convites do campeonato $idChampionship com sucesso")
+        return listInvites
     }
 
     private fun getGames(ctx: Context) : List<GameData> {
         ctx.validateCookie(cookie)
         val games = championshipService.getGames()
+        ctx.insertLogSuccess("Games Pegados com sucesso")
         return games
     }
 
@@ -39,6 +47,8 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         val idChampionship = ctx.pathParam("id").toInt()
         val inviteCreateData = ctx.body<InviteCreateData>()
         championshipService.createInvite(idUser, idChampionship, inviteCreateData)
+        ctx.insertLogSuccess("Convite criado com sucesso $inviteCreateData" +
+                ". Campeonato: #$idChampionship, Empresa: $idUser")
         return true
     }
 
@@ -47,7 +57,10 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idChampionship = ctx.pathParam("id").toInt()
-        return championshipService.getPlayersChampionship(idUser, idChampionship)
+        val list = championshipService.getPlayersChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Jogadores que participam do campeonato pegados com sucesso" +
+                ". Campeonato: #$idChampionship, Empresa: $idUser")
+        return list
     }
 
     private fun signupChampionship(ctx: Context) : Boolean {
@@ -56,6 +69,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         val idUser: String = cookie.getIdCookie(c.toString())
         val signupChampionshipData = ctx.body<SingupChampionshipData>()
         championshipService.signupChampionship(idUser, signupChampionshipData)
+        ctx.insertLogSuccess("Cadastro de campeonato feito com sucesso $signupChampionshipData")
         return true
     }
 
@@ -64,13 +78,19 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idChampionship = ctx.pathParam("id").toInt()
-        return championshipService.getChampionship(idUser, idChampionship)
+        val championshipData = championshipService.getChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Dados do campeonato." +
+                " Campeonato: #$idChampionship, Empresa: $idUser")
+        return championshipData
     }
 
     private fun getChampionships(ctx: Context) : List<ChampionshipData> {
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        return championshipService.getChampionships(idUser)
+        val championships = championshipService.getChampionships(idUser)
+        ctx.insertLogSuccess("Campeonatos pegos com sucesso." +
+                " Empresa: $idUser")
+        return championships
     }
 }

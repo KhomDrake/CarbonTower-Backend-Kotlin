@@ -3,6 +3,7 @@ package com.carbontower.application.web.controllers
 import com.carbontower.application.web.Cookie
 import com.carbontower.application.web.Role
 import com.carbontower.application.web.toJson
+import com.carbontower.application.web.validateCookie
 import com.carbontower.domain.entities.response.UserData
 import com.carbontower.domain.services.data.DataService
 import io.javalin.Context
@@ -22,6 +23,7 @@ class DataController(private val dataService: DataService, private val cookie: C
     }
 
     private fun getUserData(ctx: Context) : UserData {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         return dataService.getUserData(idUser)
@@ -34,18 +36,20 @@ class DataController(private val dataService: DataService, private val cookie: C
     }
 
     private fun getIdRole(ctx: Context, role: Role) : Int {
-        var idRole = 0
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        idRole = dataService.getIdRole(idUser, role)
+        val idRole = dataService.getIdRole(idUser, role)
         return idRole
     }
 
     private fun getRole(ctx: Context) : String {
+        ctx.validateCookie(cookie)
         var role: String = "nenhum"
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        role = if(idUser.count() == 11) "jogador" else "empresa"
+        if(idUser.count() == 11)  role = "jogador"
+        else if(idUser.count() == 14) role = "empresa"
         return role
     }
 }

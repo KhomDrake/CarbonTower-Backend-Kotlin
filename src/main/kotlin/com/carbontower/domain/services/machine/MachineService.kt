@@ -6,18 +6,14 @@ import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
 import com.carbontower.domain.entities.response.MachineData
 import com.carbontower.domain.entities.response.MachineMetricData
-import com.carbontower.resources.database.exception.InvalidData
+import com.carbontower.resources.database.exception.MachineNotExist
 import com.carbontower.resources.database.exception.NotACompany
 
 class MachineService(private val machineRepository: IMachineRepository) {
     fun insertMachine(idUser: String, insertMachineData: InsertMachineData) {
         val idUserRole = getIdUserRole(idUser)
-        if(idUserRole == 0) throw NotACompany()
-
+        if(idUserRole == 0) throw NotACompany(idUser)
         val idMachine = machineRepository.insertMachine(insertMachineData)
-
-        if(idMachine == 0) throw InvalidData()
-
         machineRepository.insertMachineUser(idUserRole, idMachine)
     }
 
@@ -33,14 +29,13 @@ class MachineService(private val machineRepository: IMachineRepository) {
         return machineRepository.getMachines(id)
     }
 
-    fun insertMachineMetric(id: Int, insertMetricMachineData: InsertMetricMachineData) {
-        if(machineRepository.machineExist(id).not()) throw InvalidData()
-        machineRepository.insertMachineMetric(id, insertMetricMachineData)
+    fun insertMachineMetric(idMachine: Int, insertMetricMachineData: InsertMetricMachineData) {
+        if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
+        machineRepository.insertMachineMetric(idMachine, insertMetricMachineData)
     }
 
     fun getMachineMetricByDate(idMachine: Int, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData> {
-        if(machineRepository.machineExist(idMachine).not()) throw InvalidData()
-
+        if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
         return machineRepository.getMachineMetricByDate(idMachine, dateMetricMachineData)
     }
 }

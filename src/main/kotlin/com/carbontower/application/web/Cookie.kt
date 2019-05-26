@@ -8,7 +8,11 @@ class Cookie(private val encryptCookie: EncryptCookie) {
 
     private val cookies = mutableMapOf<String, String>()
 
-    fun getIdCookie(cookie: String) = encryptCookie.decryptCookie(cookies.get(cookie)!!)
+    fun getIdCookie(cookie: String) : String {
+        val id = encryptCookie.decryptCookie(cookies.get(cookie)!!)
+        println(id)
+        return id
+    }
 
     fun setIdCookie(idClient: String, dateTimeCrypt: String) {
         cookies[dateTimeCrypt] = encryptCookie.encryptCookie(idClient)

@@ -5,4 +5,5 @@ import java.lang.Exception
 abstract class CarbonTowerException : Exception() {
     abstract override var message: String
     abstract var statusCode: Int
+    abstract var messageLog: String
 }

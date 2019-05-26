@@ -5,4 +5,5 @@ import com.carbontower.application.web.CarbonTowerException
 abstract class UnprocessableEntity : CarbonTowerException(){
     abstract override var message: String
     override var statusCode: Int = 422
+    abstract override var messageLog: String
 }

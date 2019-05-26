@@ -102,10 +102,12 @@ class PlayerRepository : IPlayerRepository {
 
         transaction {
             val results = T_USER_ROLE.select { T_USER_ROLE.idUser_fk.eq(idUserRole).and(T_USER_ROLE.idRole_fk.eq(jogador.ordinal)) }
+            println(results)
             results.forEach {
                 idRole = it[T_USER_ROLE.idUserRole]
             }
         }
+        println(idRole)
         return idRole
     }
 

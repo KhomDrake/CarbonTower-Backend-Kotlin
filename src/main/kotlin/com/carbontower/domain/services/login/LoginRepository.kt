@@ -22,7 +22,7 @@ class LoginRepository : ILoginRepository {
 
         transaction {
             result = T_USER.select { T_USER.idUser.eq(loginData.persondata)
-                .and(T_USER.userPassword.eq(loginData.password)) }.count() != 0
+                .and(T_USER.userPassword.eq(encryptPassword)) }.count() != 0
         }
 
         return result

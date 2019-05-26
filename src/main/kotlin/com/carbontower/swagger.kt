@@ -260,49 +260,183 @@ paths:
       post:
         tags:
         - "machine"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação de favorito"
+          required: true
+          schema:
+            $ref: "#/definitions/InsertMachineData"
+        responses:
+          200:
+            description: "Transação favorito feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Transação favorito feito com sucesso"
       get:
         tags:
         - "machine"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/MachineDataList"
     /machine/:id:
-      post:
+      get:
         tags:
         - "machine"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/MachineData"
     /machine/metric/:id:
       post:
         tags:
         - "machine"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação de favorito"
+          required: true
+          schema:
+            $ref: "#/definitions/InsertMetricMachineData"
+        responses:
+          200:
+            description: "Transação favorito feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Transação favorito feito com sucesso"
     /machine/metric/by-date:
       post:
         tags:
         - "machine"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação de favorito"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Transação favorito feito com sucesso"
+            schema:
+              $ref: "#/definitions/MachineMetricDataList"
     /player/invites/:idchampionship/accept:
       get:
         tags:
         - "player"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
     /player/invites/:idchampionship/refuse:
       get:
         tags:
         - "player"
-    /player/invites/get:
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+    /player/all-invites:
       get:
         tags:
         - "player"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteDataList"
     /player/championship:
       get:
         tags:
         - "player"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
     /player/administrator:
       get:
         tags:
         - "player"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
     /player/administrator/:idchampionship:
       get:
         tags:
         - "player"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        responses:
+          200:
+            description: "Transação favorito feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Transação favorito feito com sucesso"
     /signup:
       post:
         tags:
         - "signup"
+        summary: "Página de Login"
+        description: "Redireciona o usuário para /users/login.html"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação de favorito"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Transação favorito feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Transação favorito feito com sucesso"
 
 definitions:
   DateMetricMachineData:
@@ -465,6 +599,46 @@ definitions:
       nmGame:
         description: "Razão Social do cliente"
         type: string
+  InviteDataList:
+    type: array
+    items:
+      type: object
+      properties:
+        idPlayer:
+          description: "Razão Social do cliente"
+          type: integer
+        idChampionship:
+          description: "Razão Social do cliente"
+          type: integer
+        nmChampionship:
+          description: "Razão Social do cliente"
+          type: string
+        idOwner:
+          description: "Razão Social do cliente"
+          type: integer
+        nmGame:
+          description: "Razão Social do cliente"
+          type: string
+  MachineDataList:
+    type: array
+    items:
+      type: object
+      properties:
+        motherBoard:
+          description: "Razão Social do cliente"
+          type: string
+        os:
+          description: "Razão Social do cliente"
+          type: string
+        manufacturer:
+          description: "Razão Social do cliente"
+          type: string
+        model:
+          description: "Razão Social do cliente"
+          type: string
+        idMachine:
+          description: "Razão Social do cliente"
+          type: integer
   MachineData:
     type: object
     properties:
@@ -522,6 +696,47 @@ definitions:
       idMachineMetric:
         description: "Razão Social do cliente"
         type: integer
+  MachineMetricDataList:
+    type: array
+    items:
+      type: object
+      properties:
+        useRam:
+          description: "Razão Social do cliente"
+          type: number
+        tempGPU:
+          description: "Razão Social do cliente"
+          type: number
+        useGPU:
+          description: "Razão Social do cliente"
+          type: number
+        useCPU:
+          description: "Razão Social do cliente"
+          type: number
+        useDisc:
+          description: "Razão Social do cliente"
+          type: number
+        rpmCooler:
+          description: "Razão Social do cliente"
+          type: integer
+        tempCPU:
+          description: "Razão Social do cliente"
+          type: number
+        usbDevice:
+          description: "Razão Social do cliente"
+          type: string
+        metricDate:
+          description: "Razão Social do cliente"
+          type: string
+        metricTime:
+          description: "Razão Social do cliente"
+          type: string
+        idMachine:
+          description: "Razão Social do cliente"
+          type: integer
+        idMachineMetric:
+          description: "Razão Social do cliente"
+          type: integer
   PlayerChampionshipData:
     type: object
     properties:
@@ -565,6 +780,4 @@ definitions:
       idUserRole:
         description: "Razão Social do cliente"
         type: integer
-
-
- */
+*/

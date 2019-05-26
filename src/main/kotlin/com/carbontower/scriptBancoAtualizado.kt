@@ -140,6 +140,13 @@ create table T_MACHINE_METRIC(
 	foreign key(idMachine_fk) references T_MACHINE(idMachine)
 );
 
+create table T_LOGS_SERVER(
+    idLogsServer int primary key identity(1,1),
+    router varchar(50),
+    statusCode int,
+    message varchar(200)
+);
+
 /* Inserindo os roles */
 insert into T_ROLE values ('Empresa');
 insert into T_ROLE values ('Administrador');

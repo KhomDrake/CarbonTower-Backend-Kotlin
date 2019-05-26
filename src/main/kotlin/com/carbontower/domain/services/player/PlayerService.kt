@@ -11,8 +11,16 @@ import com.carbontower.resources.database.exception.NotAPlayer
 class PlayerService(private val playerRepository: IPlayerRepository) {
     fun getInvites(idUser: String): MutableList<InviteData> {
         val idUserRole = getIdUserRolePlayer(idUser)
-        if(idUserRole == 0) throw NotAPlayer()
+        notAPlayer(idUserRole, idUser)
         return playerRepository.getInvites(idUserRole)
+    }
+
+    private fun notAPlayer(idUserRole: Int, idUser: String) {
+        if(idUserRole == 0) throw NotAPlayer(idUser)
+    }
+
+    private fun notAAdministrator(idUserRole: Int, idUser: String) {
+        if(idUserRole == 0) throw NotAAdministrator(idUser)
     }
 
     private fun getIdUserRolePlayer(idUser: String) : Int {
@@ -25,27 +33,25 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
 
     fun acceptInvite(idUser: String, idChampionship: Int) {
         val idUserRole = getIdUserRolePlayer(idUser)
-        if(idUserRole == 0) throw NotAPlayer()
+        notAPlayer(idUserRole, idUser)
         playerRepository.acceptInvite(idUserRole, idChampionship)
     }
 
     fun refuseInvite(idUser: String, idChampionship: Int) {
         val idUserRole = getIdUserRolePlayer(idUser)
-        if(idUserRole == 0) throw NotAPlayer()
+        notAPlayer(idUserRole, idUser)
         playerRepository.refuseInvite(idUserRole, idChampionship)
     }
 
     fun championshipsParticipate(idUser: String): List<ChampionshipData> {
         val idUserRole = getIdUserRolePlayer(idUser)
-        if(idUserRole == 0) throw NotAPlayer()
-
+        notAPlayer(idUserRole, idUser)
         return playerRepository.championshipsParticipate(idUserRole)
     }
 
     fun administratorChampionship(idUser: String): List<ChampionshipData> {
         val idUserRole = getIdUserRoleAdministrator(idUser)
-        if(idUserRole == 0) throw NotAAdministrator()
-
+        notAAdministrator(idUserRole, idUser)
         return playerRepository.administratorChampionship(idUserRole)
     }
 
@@ -53,7 +59,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         val idUserRole = getIdUserRoleAdministrator(idUser)
         if(idUserRole == 0) return false
 
-        if(playerRepository.existChampionship(idChampionship)) throw ChampionshipNotExist()
+        if(playerRepository.existChampionship(idChampionship)) throw ChampionshipNotExist(idChampionship)
 
         return playerRepository.administerThisChampionship(idUserRole, idChampionship)
     }

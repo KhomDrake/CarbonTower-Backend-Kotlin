@@ -10,18 +10,15 @@ class SignupService(private val signupRepository: ISignupRepository, private val
                     private val encrypt: Encrypt) {
 
     fun signupUser(signupData: SignupData) {
-        if(dataValidation.validPersonData(signupData.persondata).not()) throw PersonDataInvalid()
+        if(dataValidation.validPersonData(signupData.persondata).not()) throw PersonDataInvalid(signupData.persondata)
 
-        if(signupRepository.userExist(signupData)) throw UserAlreadyExist()
+        if(signupRepository.userExist(signupData)) throw UserAlreadyExist(signupData.persondata)
 
         val signupDataEncryptPassword = SignupData(
             persondata = signupData.persondata,
             username = signupData.username,
-            password = signupData.password //encrypt.hash512(signupData.password)
+            password = encrypt.hash512(signupData.password)
         )
-
-        println(signupDataEncryptPassword.password.length)
-
         signupRepository.createUser(signupDataEncryptPassword)
         signupRepository.createUserRole(signupData)
     }

@@ -2,6 +2,7 @@ package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.Cookie
 import com.carbontower.application.web.toJson
+import com.carbontower.application.web.validateCookie
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.GameData
@@ -26,11 +27,13 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun getGames(ctx: Context) : List<GameData> {
+        ctx.validateCookie(cookie)
         val games = championshipService.getGames()
         return games
     }
 
     private fun createInvite(ctx: Context) : Boolean {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idChampionship = ctx.pathParam("id").toInt()
@@ -40,6 +43,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun playersChampionship(ctx: Context) : List<PlayerChampionshipData> {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idChampionship = ctx.pathParam("id").toInt()
@@ -47,6 +51,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun signupChampionship(ctx: Context) : Boolean {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val signupChampionshipData = ctx.body<SingupChampionshipData>()
@@ -55,6 +60,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun getChampionship(ctx: Context) : ChampionshipData {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val idChampionship = ctx.pathParam("id").toInt()
@@ -62,12 +68,9 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun getChampionships(ctx: Context) : List<ChampionshipData> {
+        ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         return championshipService.getChampionships(idUser)
-    }
-
-    fun test(ctx: Context) {
-
     }
 }

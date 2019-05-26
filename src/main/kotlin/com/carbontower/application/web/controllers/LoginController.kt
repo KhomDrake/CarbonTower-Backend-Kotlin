@@ -13,6 +13,7 @@ class LoginController(private val loginService: LoginService, private val cookie
             post("/", toJson { validateLogin(it) })
             get("logout", toJson { logout(it) })
             post("/java", toJson { validateLoginWithoutCookie(it) })
+            post("/cookie", toJson { validateLoginReturnCookie(it) })
         }
     }
 
@@ -29,6 +30,14 @@ class LoginController(private val loginService: LoginService, private val cookie
         val loginData = ctx.body<LoginData>()
         loginService.validLogin(loginData)
         return true
+    }
+
+    private fun validateLoginReturnCookie(ctx: Context) : String {
+        val loginData = ctx.body<LoginData>()
+        loginService.validLogin(loginData)
+        val dateTimeCrypt = cookie.getDateTimeCrypt()
+        cookie.setIdCookie(loginData.persondata, dateTimeCrypt)
+        return dateTimeCrypt
     }
 
     private fun logout(ctx: Context) : Boolean {

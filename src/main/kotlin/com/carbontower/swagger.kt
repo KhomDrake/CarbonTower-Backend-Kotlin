@@ -291,7 +291,7 @@ paths:
             description: OK
             schema:
               $ref: "#/definitions/UserData"
-    /machine/:idUser:
+    /machine/:iduser:
       post:
         tags:
         - "machine"

@@ -19,7 +19,7 @@ class MachineController(private val machineService: MachineService,
                         private val cookie: Cookie) {
     fun routes() {
         path("/machine") {
-            post("/:idUser", toJson { insertMachine(it) })
+            post("/:iduser", toJson { insertMachine(it) })
             get("/", toJson { getMachines(it) })
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })

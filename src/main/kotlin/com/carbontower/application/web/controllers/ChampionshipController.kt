@@ -34,7 +34,6 @@ class ChampionshipController(private val championshipService: ChampionshipServic
     }
 
     private fun getGames(ctx: Context) : List<GameData> {
-        ctx.validateCookie(cookie)
         val games = championshipService.getGames()
         ctx.insertLogSuccess("Games Pegados com sucesso")
         return games

@@ -23,7 +23,7 @@ class MachineController(private val machineService: MachineService,
             get("/", toJson { getMachines(it) })
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })
-            post("/metric/by-date", toJson { getMetricMachineByDate(it) })
+            post("/metric/by-date/:id", toJson { getMetricMachineByDate(it) })
         }
     }
 
@@ -39,12 +39,9 @@ class MachineController(private val machineService: MachineService,
     }
 
     private fun insertMachineMetric(ctx: Context) : Boolean {
-        ctx.validateCookie(cookie)
         val insertMetricMachineData = ctx.body<InsertMetricMachineData>()
         machineService.insertMachineMetric(ctx.pathParam("id").toInt(), insertMetricMachineData)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
-        ctx.insertLogSuccess("Usuário $idUser inseriu metricas de máquina com sucesso. $insertMetricMachineData")
+        ctx.insertLogSuccess("Foi inserido metrica da máquina ${ctx.pathParam("id").toInt()} com sucesso. $insertMetricMachineData")
         return true
     }
 

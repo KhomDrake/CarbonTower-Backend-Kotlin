@@ -18,7 +18,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class MachineRepository: IMachineRepository {
     override fun getMachineMetricByDate(
-        idMachine: Int,
+        idMachine: String,
         dateMetricMachineData: DateMetricMachineData
     ): List<MachineMetricData> {
         val machineMetrics = mutableListOf<MachineMetricData>()
@@ -28,36 +28,40 @@ class MachineRepository: IMachineRepository {
                 .and(T_MACHINE_METRIC.metricDate.eq(dateMetricMachineData.date))}
 
             machineMetricDb.forEach {
-                machineMetrics.add(MachineMetricData(it[T_MACHINE_METRIC.useRam],
-                    it[T_MACHINE_METRIC.tempGPU],
-                    it[T_MACHINE_METRIC.useGPU],
-                    it[T_MACHINE_METRIC.useCPU],
-                    it[T_MACHINE_METRIC.useDisc],
-                    it[T_MACHINE_METRIC.rpmCooler],
-                    it[T_MACHINE_METRIC.tempCPU],
-                    it[T_MACHINE_METRIC.usbDevice],
-                    it[T_MACHINE_METRIC.metricDate],
-                    it[T_MACHINE_METRIC.metricTime],
-                    it[T_MACHINE_METRIC.idMachineMetric],
-                    it[T_MACHINE_METRIC.idMachine_fk]))
+                machineMetrics.add(
+                    MachineMetricData(
+                        it[T_MACHINE_METRIC.useRam],
+                        it[T_MACHINE_METRIC.tempGPU],
+                        it[T_MACHINE_METRIC.useGPU],
+                        it[T_MACHINE_METRIC.useCPU],
+                        it[T_MACHINE_METRIC.useDisc],
+                        it[T_MACHINE_METRIC.rpmCooler],
+                        it[T_MACHINE_METRIC.tempCPU],
+                        it[T_MACHINE_METRIC.usbDevice],
+                        it[T_MACHINE_METRIC.metricDate],
+                        it[T_MACHINE_METRIC.metricTime],
+                        it[T_MACHINE_METRIC.idMachineMetric],
+                        it[T_MACHINE_METRIC.idMachine_fk]
+                    )
+                )
             }
         }
 
         return machineMetrics
     }
 
-    override fun machineExist(id: Int): Boolean {
+    override fun machineExist(idMachine: String): Boolean {
         var exist = false
         transaction {
-            exist = T_MACHINE.select { T_MACHINE.idMachine.eq(id) }.count() != 0
+            exist = T_MACHINE.select { T_MACHINE.idMachine.eq(idMachine) }.count() != 0
         }
         return exist
     }
 
-    override fun insertMachineMetric(id: Int, insertMetricMachineData: InsertMetricMachineData) {
+    override fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData) {
         transaction {
             T_MACHINE_METRIC.insert {
-                it[T_MACHINE_METRIC.idMachine_fk] = id
+                it[T_MACHINE_METRIC.idMachine_fk] = idMachine
                 it[T_MACHINE_METRIC.metricDate] = insertMetricMachineData.metricDate
                 it[T_MACHINE_METRIC.metricTime] = insertMetricMachineData.metricTime
                 it[T_MACHINE_METRIC.rpmCooler] = insertMetricMachineData.rpmCooler
@@ -72,14 +76,14 @@ class MachineRepository: IMachineRepository {
         }
     }
 
-    override fun getMachines(id: Int): MachineData {
+    override fun getMachines(idMachine: String): MachineData {
         var motherBoard = ""
         var os = ""
         var manufacturer = ""
         var model = ""
 
         transaction {
-            val machines = T_MACHINE.select { T_MACHINE.idMachine.eq(id) }
+            val machines = T_MACHINE.select { T_MACHINE.idMachine.eq(idMachine) }
 
             machines.forEach {
                 motherBoard = it[T_MACHINE.motherBoard]
@@ -89,7 +93,7 @@ class MachineRepository: IMachineRepository {
             }
         }
 
-        return MachineData(motherBoard, os, manufacturer, model, id)
+        return MachineData(motherBoard, os, manufacturer, model, idMachine)
     }
 
     override fun getAllMachines(): List<MachineData> {
@@ -100,11 +104,13 @@ class MachineRepository: IMachineRepository {
 
             machines.forEach {
                 listMachines.add(
-                    MachineData(it[T_MACHINE.motherBoard],
+                    MachineData(
+                        it[T_MACHINE.motherBoard],
                         it[T_MACHINE.os],
                         it[T_MACHINE.manufacturer],
                         it[T_MACHINE.model],
-                        it[T_MACHINE.idMachine])
+                        it[T_MACHINE.idMachine]
+                    )
                 )
             }
         }
@@ -112,7 +118,7 @@ class MachineRepository: IMachineRepository {
         return listMachines.toList()
     }
 
-    override fun insertMachineUser(idUserRole: Int, idMachine: Int) {
+    override fun insertMachineUser(idUserRole: Int, idMachine: String) {
         transaction {
             T_USER_MACHINE.insert {
                 it[T_USER_MACHINE.idMachine_fk] = idMachine
@@ -121,11 +127,12 @@ class MachineRepository: IMachineRepository {
         }
     }
 
-    override fun insertMachine(insertMachineData: InsertMachineData): Int {
-        var idMachine: Int? = 0
+    override fun insertMachine(insertMachineData: InsertMachineData): String {
+        var idMachine: String? = ""
 
         transaction {
             idMachine = T_MACHINE.insert {
+                it[T_MACHINE.idMachine] = insertMachineData.idMachine
                 it[T_MACHINE.manufacturer] = insertMachineData.manufacturer
                 it[T_MACHINE.model] = insertMachineData.model
                 it[T_MACHINE.motherBoard] = insertMachineData.motherBoard

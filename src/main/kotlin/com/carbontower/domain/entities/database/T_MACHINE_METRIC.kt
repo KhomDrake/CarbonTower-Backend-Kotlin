@@ -14,5 +14,5 @@ object T_MACHINE_METRIC : Table() {
     val usbDevice = varchar("usbDevice", length = 45)
     val metricDate = varchar("metricDate", length = 12)
     val metricTime = varchar("metricTime", length = 10)
-    val idMachine_fk = integer("idMachine_fk") references T_MACHINE.idMachine
+    val idMachine_fk = varchar("idMachine_fk", length = 100) references T_MACHINE.idMachine
 }

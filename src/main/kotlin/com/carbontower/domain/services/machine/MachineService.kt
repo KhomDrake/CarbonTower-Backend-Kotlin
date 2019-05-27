@@ -25,16 +25,16 @@ class MachineService(private val machineRepository: IMachineRepository) {
         return machineRepository.getAllMachines()
     }
 
-    fun getMachine(id: Int): MachineData {
-        return machineRepository.getMachines(id)
+    fun getMachine(idMachine: String): MachineData {
+        return machineRepository.getMachines(idMachine)
     }
 
-    fun insertMachineMetric(idMachine: Int, insertMetricMachineData: InsertMetricMachineData) {
+    fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData) {
         if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
         machineRepository.insertMachineMetric(idMachine, insertMetricMachineData)
     }
 
-    fun getMachineMetricByDate(idMachine: Int, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData> {
+    fun getMachineMetricByDate(idMachine: String, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData> {
         if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
         return machineRepository.getMachineMetricByDate(idMachine, dateMetricMachineData)
     }

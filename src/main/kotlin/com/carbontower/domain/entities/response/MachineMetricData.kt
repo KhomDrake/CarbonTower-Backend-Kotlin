@@ -13,4 +13,4 @@ data class MachineMetricData(val useRam: BigDecimal,
                              val metricDate: String,
                              val metricTime: String,
                              val idMachine: Int,
-                             val idMachineMetric: Int)
+                             val idMachineMetric: String)

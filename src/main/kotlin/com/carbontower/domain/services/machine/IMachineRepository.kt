@@ -9,11 +9,11 @@ import com.carbontower.domain.entities.response.MachineMetricData
 
 interface IMachineRepository {
     fun getIdUserRole(idUser: String, empresa: Role): Int
-    fun insertMachine(insertMachineData: InsertMachineData) : Int
-    fun insertMachineUser(idUserRole: Int, idMachine: Int)
+    fun insertMachine(insertMachineData: InsertMachineData) : String
+    fun insertMachineUser(idUserRole: Int, idMachine: String)
     fun getAllMachines(): List<MachineData>
-    fun getMachines(id: Int): MachineData
-    fun insertMachineMetric(id: Int, insertMetricMachineData: InsertMetricMachineData)
-    fun machineExist(id: Int): Boolean
-    fun getMachineMetricByDate(idMachine: Int, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData>
+    fun getMachines(idMachine: String): MachineData
+    fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData)
+    fun machineExist(idMachine: String): Boolean
+    fun getMachineMetricByDate(idMachine: String, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData>
 }

@@ -96,9 +96,25 @@ create table T_TEAM_IN_MATCH(
 );
 
 create table T_STREAM(
-	idStream int primary key identity(1,1),
-	typeStream varchar(45),
-	idUserRole_fk int,
+    idStream int primary key,
+    language varchar(50),
+    title varchar(50),
+    type varchar(50),
+    idUserStream_fk int,
+    idGameAPI varchar(50),
+    userName varchar(50),
+    viewCount int,
+    thumbnailUrl varchar(100),
+	foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream)
+);
+
+create table T_USER_STREAM(
+    idUserStream int primary key,
+    login varchar(30),
+    displayName varchar(30),
+    viewCount int,
+    profileImageUrl varchar(100),
+    idUserRole_fk int,
 	foreign key(idUserRole_fk) references T_USER_ROLE(idUserRole)
 );
 

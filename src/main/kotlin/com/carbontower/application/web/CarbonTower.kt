@@ -30,12 +30,12 @@ class CarbonTower : KoinComponent {
         javalin = Javalin.create()
         javalin.apply {
             enableStaticFiles("/public")
-            exception(Exception::class.java, ExceptionHandler { e, ctx ->
+            exception(Exception::class.java) { e, ctx ->
                 when(e) {
                     is CarbonTowerException -> HandlerError.handleCarbonTowerException(ctx, e)
                     else ->  HandlerError.anyOtherError(ctx, e)
                 }
-            })
+            }
             routes {
                 championshipController.routes()
                 dataController.routes()
@@ -46,7 +46,7 @@ class CarbonTower : KoinComponent {
             }
         }
 
-        javalin.start(8000)
+        javalin.start(7000)
 
     }
 

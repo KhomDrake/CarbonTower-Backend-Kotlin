@@ -25,17 +25,22 @@ fun Context.insertLogSuccess(message: String) {
             it[T_LOGS_SERVER.router] = ctx.path()
             it[T_LOGS_SERVER.statusCode] = 200
             it[T_LOGS_SERVER.dateTime] = LocalDateTime.now().toString()
+            it[T_LOGS_SERVER.method] = ctx.method()
+            it[T_LOGS_SERVER.server] = "Carbon Tower"
         }
     }
 }
 
 fun Context.insertLogError(logApplication: LogApplication) {
+    val ctx = this
     transaction {
         T_LOGS_SERVER.insert {
             it[T_LOGS_SERVER.message] = logApplication.message
             it[T_LOGS_SERVER.router] = logApplication.router
             it[T_LOGS_SERVER.statusCode] = logApplication.statusCode
             it[T_LOGS_SERVER.dateTime] = LocalDateTime.now().toString()
+            it[T_LOGS_SERVER.method] = ctx.method()
+            it[T_LOGS_SERVER.server] = "Carbon Tower"
         }
     }
 }

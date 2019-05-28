@@ -8,4 +8,6 @@ object T_LOGS_SERVER : Table() {
     val statusCode = integer("statusCode")
     val message = varchar("message", length = 200)
     val dateTime = varchar("dateTime", length = 30)
+    val method = varchar("method", length = 20)
+    val server = varchar("server", length = 30)
 }

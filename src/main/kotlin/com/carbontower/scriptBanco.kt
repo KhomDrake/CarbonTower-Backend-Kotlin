@@ -95,27 +95,30 @@ create table T_TEAM_IN_MATCH(
 	primary key(idTeam_fk,idMatch_fk)
 );
 
-create table T_STREAM(
-    idStream int primary key,
-    language varchar(50),
-    title varchar(50),
-    type varchar(50),
-    idUserStream_fk int,
-    idGameAPI varchar(50),
-    userName varchar(50),
-    viewCount int,
-    thumbnailUrl varchar(100),
-	foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream)
-);
-
 create table T_USER_STREAM(
     idUserStream int primary key,
     login varchar(30),
     displayName varchar(30),
     viewCount int,
-    profileImageUrl varchar(100),
     idUserRole_fk int,
 	foreign key(idUserRole_fk) references T_USER_ROLE(idUserRole)
+);
+
+create table T_STREAM(
+    idStream int primary key,
+    language varchar(50),
+    title varchar(50),
+    idUserStream_fk int,
+    viewCount int,
+	foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream),
+);
+
+create table T_STREAM_OF_CHAMPION(
+    idChampionship_fk int,
+	idStream_fk int,
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idStream_fk) references T_STREAM(idStream),
+	primary key(idChampionship_fk, idStream_fk)
 );
 
 create table T_METRIC(
@@ -154,6 +157,16 @@ create table T_MACHINE_METRIC(
 	metricDate varchar(12),
 	metricTime varchar(10),
 	foreign key(idMachine_fk) references T_MACHINE(idMachine)
+);
+
+create table T_LOGS_SERVER(
+    idLogsServer int primary key identity(1,1),
+    router varchar(50),
+    statusCode int,
+    message varchar(200),
+    dateTime varchar(30),
+    method varchar(20),
+    server varchar(30)
 );
 
 /* Inserindo os roles */

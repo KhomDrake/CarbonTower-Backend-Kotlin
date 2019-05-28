@@ -36,6 +36,7 @@ class CarbonTower : KoinComponent {
                     else ->  HandlerError.anyOtherError(ctx, e)
                 }
             }
+            enableCorsForAllOrigins()
             routes {
                 championshipController.routes()
                 dataController.routes()

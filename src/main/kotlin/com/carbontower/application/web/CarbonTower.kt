@@ -49,6 +49,12 @@ class CarbonTower : KoinComponent {
 
         javalin.start(7000)
 
+        javalin.after {
+            ctx ->
+
+            ctx.header("Access-Control-Allow-Credentials", "true")
+        }
+
     }
 
     fun stopServer() {

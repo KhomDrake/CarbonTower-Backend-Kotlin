@@ -1,7 +1,5 @@
 package com.carbontower.domain.entities.database
 
-import com.carbontower.domain.entities.database.T_ROLE
-import com.carbontower.domain.entities.database.T_USER
 import org.jetbrains.exposed.sql.Table
 
 object T_USER_ROLE : Table() {

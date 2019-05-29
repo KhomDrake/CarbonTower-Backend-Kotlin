@@ -128,7 +128,7 @@ create table T_METRIC(
 );
 
 create table T_MACHINE(
-	idMachine varchar(100) primary key identity,
+	idMachine varchar(100) primary key,
 	motherboard varchar(45),
 	OS varchar(45),
 	manufacturer varchar(45),

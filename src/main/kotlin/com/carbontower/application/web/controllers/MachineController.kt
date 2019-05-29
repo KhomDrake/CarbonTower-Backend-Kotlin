@@ -65,9 +65,9 @@ class MachineController(private val machineService: MachineService,
     }
 
     private fun insertMachine(ctx: Context) : Boolean {
-        val idUser: String = ctx.pathParam("idUser")
+        val idUser: String = ctx.pathParam("iduser")
         val insertMachineData = ctx.body<InsertMachineData>()
-        machineService.insertMachine(idUser, insertMachineData)
+        machineService.createMachine(idUser, insertMachineData)
         ctx.insertLogSuccess("Usuário $idUser inseriu uma máquina com os dados: $insertMachineData")
         return true
     }

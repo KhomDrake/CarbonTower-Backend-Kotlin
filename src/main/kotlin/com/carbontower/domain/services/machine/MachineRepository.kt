@@ -1,10 +1,7 @@
 package com.carbontower.domain.services.machine
 
 import com.carbontower.application.web.Role
-import com.carbontower.domain.entities.database.T_MACHINE
-import com.carbontower.domain.entities.database.T_MACHINE_METRIC
-import com.carbontower.domain.entities.database.T_USER_MACHINE
-import com.carbontower.domain.entities.database.T_USER_ROLE
+import com.carbontower.domain.entities.database.*
 import com.carbontower.domain.entities.http.DateMetricMachineData
 import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
@@ -127,19 +124,54 @@ class MachineRepository: IMachineRepository {
         }
     }
 
+    override fun checkMachineUser(idUserRole: Int, idMachine: String) {
+        transaction {
+            val userMachines = T_USER_MACHINE.select{
+                T_USER_MACHINE.idMachine_fk.eq(idMachine)
+                    .and(T_USER_MACHINE.idUser_fk.eq(idUserRole))
+            }
+
+            if(userMachines.count() == 0){
+                insertMachineUser(idUserRole, idMachine)
+            }
+        }
+    }
+
     override fun insertMachine(insertMachineData: InsertMachineData): String {
-        var idMachine: String? = ""
+        var idMachine = ""
+
+        T_MACHINE.insert {
+            it[T_MACHINE.idMachine] = insertMachineData.idMachine
+            it[T_MACHINE.manufacturer] = insertMachineData.manufacturer
+            it[T_MACHINE.model] = insertMachineData.model
+            it[T_MACHINE.motherBoard] = insertMachineData.motherBoard
+            it[T_MACHINE.os] = insertMachineData.os
+        }
+
+        val idMachines = T_MACHINE.select {
+            T_MACHINE.idMachine.eq(insertMachineData.idMachine)
+        }
+
+        idMachines.forEach{machine -> idMachine = machine[T_MACHINE.idMachine]}
+
+        return idMachine
+    }
+
+    override fun checkMachine(insertMachineData: InsertMachineData): String {
+        lateinit var idMachine: String
 
         transaction {
-            idMachine = T_MACHINE.insert {
-                it[T_MACHINE.idMachine] = insertMachineData.idMachine
-                it[T_MACHINE.manufacturer] = insertMachineData.manufacturer
-                it[T_MACHINE.model] = insertMachineData.model
-                it[T_MACHINE.motherBoard] = insertMachineData.motherBoard
-                it[T_MACHINE.os] = insertMachineData.os
-            } get T_MACHINE.idMachine
+
+            val machines = T_MACHINE.select {
+                T_MACHINE.idMachine.eq(insertMachineData.idMachine)
+            }
+
+            if(machines.count() == 0)
+                idMachine = insertMachine(insertMachineData)
+            else
+                machines.forEach{ machine -> idMachine = machine[T_MACHINE.idMachine]}
         }
-        return idMachine!!
+        return idMachine
     }
 
     override fun getIdUserRole(idUser: String, empresa: Role): Int {

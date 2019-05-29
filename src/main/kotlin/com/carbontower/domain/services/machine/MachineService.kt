@@ -7,14 +7,14 @@ import com.carbontower.domain.entities.http.InsertMetricMachineData
 import com.carbontower.domain.entities.response.MachineData
 import com.carbontower.domain.entities.response.MachineMetricData
 import com.carbontower.resources.database.exception.MachineNotExist
-import com.carbontower.resources.database.exception.NotACompany
+import com.carbontower.resources.database.exception.NotAPlayer
 
 class MachineService(private val machineRepository: IMachineRepository) {
-    fun insertMachine(idUser: String, insertMachineData: InsertMachineData) {
-        val idUserRole = getIdUserRole(idUser)
-        if(idUserRole == 0) throw NotACompany(idUser)
-        val idMachine = machineRepository.insertMachine(insertMachineData)
-        machineRepository.insertMachineUser(idUserRole, idMachine)
+    fun createMachine(idUser: String, insertMachineData: InsertMachineData) {
+        val idUserRole = machineRepository.getIdUserRole(idUser, Role.Jogador)
+        if(idUserRole == 0) throw NotAPlayer(idUser)
+        val idMachine = machineRepository.checkMachine(insertMachineData)
+        machineRepository.checkMachineUser(idUserRole, idMachine)
     }
 
     private fun getIdUserRole(idUser: String) : Int {

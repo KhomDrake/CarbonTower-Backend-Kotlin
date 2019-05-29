@@ -1,5 +1,4 @@
 package com.carbontower
-
 /*
 
 swagger: "2.0"
@@ -7,7 +6,7 @@ info:
   description: "Essa é a documentação da API da Carbon Tower para uso do grupo da faculdade"
   version: "1.0.0"
   title: "Carbon Tower Backend"
-host: "localhost:8000"
+host: "35.199.74.137:7000"
 tags:
 - name: "login"
 - name: "logout"
@@ -199,7 +198,7 @@ paths:
                   type: boolean
                   description: "Cadastro de convite feito com sucesso"
     /campeonato/games:
-      post:
+      get:
         tags:
         - "championship"
         summary: "Retorna todos os games cadastrado no banco"
@@ -316,7 +315,8 @@ paths:
                 message:
                   type: boolean
                   description: "Cadastro feito com sucesso"
-      get:
+    /machine:
+       get:
         tags:
         - "machine"
         summary: "Retorna máquinas do jogador logado | Necessário Cookie"
@@ -340,7 +340,7 @@ paths:
       post:
         tags:
         - "machine"
-        summary: "Cadastro de métrica em uma máquina | Necessário Cookie"
+        summary: "Cadastro de métrica em uma máquina"
         description: "Cadastro de métrica em uma máquina"
         consumes:
         - "application/json"
@@ -415,7 +415,40 @@ paths:
       get:
         tags:
         - "player"
-        summary: "Retorna todos os convites de um jogador | Necessário Cookie"
+        summary: "Retorna todos os convites(respondidos ou não) de um jogador | Necessário Cookie"
+        description: "Retorna todos os convites de um jogador"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteDataList"
+    /player/all-invites/not-answered:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os convites ainda não respondidos de um jogador | Necessário Cookie"
+        description: "Retorna todos os convites de um jogador"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteDataList"
+    /player/all-invites/refused:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os convites recusados de um jogador | Necessário Cookie"
+        description: "Retorna todos os convites de um jogador"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteDataList"
+    /player/all-invites/accepted:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os convites aceitos de um jogador | Necessário Cookie"
         description: "Retorna todos os convites de um jogador"
         responses:
           200:
@@ -433,7 +466,7 @@ paths:
             description: OK
             schema:
               $ref: "#/definitions/ChampionshipDataList"
-    /player/administrator:
+    /player/championship/administrator:
       get:
         tags:
         - "player"
@@ -444,7 +477,7 @@ paths:
             description: OK
             schema:
               $ref: "#/definitions/ChampionshipDataList"
-    /player/administrator/:idchampionship:
+    /player/championship/administrator/:idchampionship:
       get:
         tags:
         - "player"
@@ -494,6 +527,9 @@ definitions:
   InsertMachineData:
     type: object
     properties:
+      idMachine:
+        description: "Placa Mãe"
+        type: string
       motherBoard:
         description: "Placa Mãe"
         type: string
@@ -645,6 +681,12 @@ definitions:
       nmGame:
         description: "Razão Social do cliente"
         type: string
+      alreadyAnswered:
+        description: "Razão Social do cliente"
+        type: integer
+      accepted:
+        description: "Razão Social do cliente"
+        type: integer
   InviteDataList:
     type: array
     items:
@@ -665,6 +707,12 @@ definitions:
         nmGame:
           description: "Razão Social do cliente"
           type: string
+        alreadyAnswered:
+          description: "Razão Social do cliente"
+          type: integer
+        accepted:
+          description: "Razão Social do cliente"
+          type: integer
   MachineDataList:
     type: array
     items:

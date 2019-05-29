@@ -64,4 +64,22 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         return playerRepository.administerThisChampionship(idUserRole, idChampionship)
     }
 
+    fun getInvitesAccepted(idUser: String): MutableList<InviteData> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getInvitesAccepted(idUserRole)
+    }
+
+    fun getInvitesRefused(idUser: String): MutableList<InviteData> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getInvitesRefused(idUserRole)
+    }
+
+    fun getInvitesNotAnswered(idUser: String): MutableList<InviteData> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getInvitesNotAnswered(idUserRole)
+    }
+
 }

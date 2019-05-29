@@ -21,4 +21,8 @@ class Cookie(private val encryptCookie: EncryptCookie) {
     fun contains(cookie: String?) = cookies.contains(cookie)
 
     fun getDateTimeCrypt() = LocalDateTime.now().toString()
+
+    fun removeCookie(cookieName: String) {
+        cookies.remove(cookieName)
+    }
 }

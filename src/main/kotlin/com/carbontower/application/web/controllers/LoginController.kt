@@ -49,6 +49,7 @@ class LoginController(private val loginService: LoginService, private val cookie
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
+        cookie.removeCookie(cookie.cookieName)
         ctx.removeCookie(cookie.cookieName)
         ctx.insertLogSuccess("Logout do usuário $idUser efetuado com sucesso")
         return true

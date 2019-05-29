@@ -68,7 +68,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         val idUser: String = cookie.getIdCookie(c.toString())
         val signupChampionshipData = ctx.body<SingupChampionshipData>()
         championshipService.signupChampionship(idUser, signupChampionshipData)
-        ctx.insertLogSuccess("Cadastro de campeonato feito com sucesso $signupChampionshipData")
+        ctx.insertLogSuccess("Cadastro de campeonato feito com sucesso $signupChampionshipData pelo usuário $idUser")
         return true
     }
 

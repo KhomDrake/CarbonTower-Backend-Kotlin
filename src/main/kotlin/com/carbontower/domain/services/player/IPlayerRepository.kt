@@ -13,4 +13,7 @@ interface IPlayerRepository {
     fun administratorChampionship(idUserRole: Int): List<ChampionshipData>
     fun administerThisChampionship(idUserRole: Int, idChampionship: Int): Boolean
     fun existChampionship(idChampionship: Int): Boolean
+    fun getInvitesAccepted(idUserRole: Int): MutableList<InviteData>
+    fun getInvitesRefused(idUserRole: Int): MutableList<InviteData>
+    fun getInvitesNotAnswered(idUserRole: Int): MutableList<InviteData>
 }

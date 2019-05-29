@@ -11,6 +11,78 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 class PlayerRepository : IPlayerRepository {
+    override fun getInvitesAccepted(idUserRole: Int): MutableList<InviteData> {
+        val list = mutableListOf<InviteData>()
+
+        transaction {
+            val invites = (T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME).select {
+                T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole).and(T_INVITE_PLAYER.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
+                    .and(T_INVITE_PLAYER.alreadyAnswered.eq(1)).and(T_INVITE_PLAYER.accepted.eq(1))
+                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
+            }
+
+            invites.forEach {
+                list.add(InviteData(it[T_INVITE_PLAYER.idPlayer_fk],
+                    it[T_CHAMPIONSHIP.idChampionship],
+                    it[T_CHAMPIONSHIP.nmChampionship],
+                    it[T_CHAMPIONSHIP.owner_fk],
+                    it[T_GAME.nmGame],
+                    it[T_INVITE_PLAYER.alreadyAnswered],
+                    it[T_INVITE_PLAYER.accepted]))
+            }
+        }
+
+        return list
+    }
+
+    override fun getInvitesRefused(idUserRole: Int): MutableList<InviteData> {
+        val list = mutableListOf<InviteData>()
+
+        transaction {
+            val invites = (T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME).select {
+                T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole).and(T_INVITE_PLAYER.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
+                    .and(T_INVITE_PLAYER.alreadyAnswered.eq(1)).and(T_INVITE_PLAYER.accepted.eq(0))
+                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
+            }
+
+            invites.forEach {
+                list.add(InviteData(it[T_INVITE_PLAYER.idPlayer_fk],
+                    it[T_CHAMPIONSHIP.idChampionship],
+                    it[T_CHAMPIONSHIP.nmChampionship],
+                    it[T_CHAMPIONSHIP.owner_fk],
+                    it[T_GAME.nmGame],
+                    it[T_INVITE_PLAYER.alreadyAnswered],
+                    it[T_INVITE_PLAYER.accepted]))
+            }
+        }
+
+        return list
+    }
+
+    override fun getInvitesNotAnswered(idUserRole: Int): MutableList<InviteData> {
+        val list = mutableListOf<InviteData>()
+
+        transaction {
+            val invites = (T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME).select {
+                T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole).and(T_INVITE_PLAYER.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
+                    .and(T_INVITE_PLAYER.alreadyAnswered.eq(0))
+                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
+            }
+
+            invites.forEach {
+                list.add(InviteData(it[T_INVITE_PLAYER.idPlayer_fk],
+                    it[T_CHAMPIONSHIP.idChampionship],
+                    it[T_CHAMPIONSHIP.nmChampionship],
+                    it[T_CHAMPIONSHIP.owner_fk],
+                    it[T_GAME.nmGame],
+                    it[T_INVITE_PLAYER.alreadyAnswered],
+                    it[T_INVITE_PLAYER.accepted]))
+            }
+        }
+
+        return list
+    }
+
     override fun existChampionship(idChampionship: Int): Boolean {
         var exist = false
 
@@ -53,10 +125,9 @@ class PlayerRepository : IPlayerRepository {
         val listChampionships = mutableListOf<ChampionshipData>()
 
         transaction {
-            val championships = (T_USER_ROLE innerJoin T_CHAMPIONSHIP innerJoin T_PLAYER_IN_CHAMPIONSHIP innerJoin T_GAME)
+            val championships = (T_CHAMPIONSHIP innerJoin T_PLAYER_IN_CHAMPIONSHIP innerJoin T_GAME)
                 .select {
-                    T_USER_ROLE.idUserRole.eq(idUserRole)
-                        .and(T_PLAYER_IN_CHAMPIONSHIP.idPlayer_fk.eq(idUserRole))
+                        (T_PLAYER_IN_CHAMPIONSHIP.idPlayer_fk.eq(idUserRole))
                         .and(T_PLAYER_IN_CHAMPIONSHIP.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
                         .and(T_CHAMPIONSHIP.idGame_fk.eq(T_GAME.idGame))
                 }
@@ -117,7 +188,7 @@ class PlayerRepository : IPlayerRepository {
         transaction {
             val invites = (T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME).select {
                 T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole).and(T_INVITE_PLAYER.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
-                    .and(T_INVITE_PLAYER.alreadyAnswered.eq(0)).and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
+                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
             }
 
             invites.forEach {
@@ -125,7 +196,9 @@ class PlayerRepository : IPlayerRepository {
                     it[T_CHAMPIONSHIP.idChampionship],
                     it[T_CHAMPIONSHIP.nmChampionship],
                     it[T_CHAMPIONSHIP.owner_fk],
-                    it[T_GAME.nmGame]))
+                    it[T_GAME.nmGame],
+                    it[T_INVITE_PLAYER.alreadyAnswered],
+                    it[T_INVITE_PLAYER.accepted]))
             }
         }
 

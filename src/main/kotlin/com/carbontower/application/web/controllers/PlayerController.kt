@@ -16,7 +16,10 @@ class PlayerController(private val playerService: PlayerService, private val coo
         path("/player") {
             get("/invites/:idchampionship/accept", toJson { acceptInvite(it) })
             get("/invites/:idchampionship/refuse", toJson { refuseInvite(it) })
-            get("/all-invites", toJson { getInvites(it) })
+            get("/all-invites", toJson { getAllInvites(it) })
+            get("/all-invites/refused", toJson { getAllInvitesRefused(it) })
+            get("/all-invites/accepted", toJson { getAllInvitesAccepted(it) })
+            get("/all-invites/not-answered", toJson { getAllInvitesNotAnswered(it) })
             get("/championship", toJson { championshipsParticipate(it) })
             get("/championship/administrator", toJson { getAdministratorChampionship(it) })
             get("/championship/administrator/:idchampionship", toJson { administerThisChampionship(it) })
@@ -71,12 +74,39 @@ class PlayerController(private val playerService: PlayerService, private val coo
         return true
     }
 
-    private fun getInvites(ctx: Context) : List<InviteData> {
+    private fun getAllInvites(ctx: Context) : List<InviteData> {
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val listOfInvites: MutableList<InviteData> = playerService.getInvites(idUser)
         ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites com sucesso")
+        return listOfInvites.toList()
+    }
+
+    private fun getAllInvitesNotAnswered(ctx: Context) : List<InviteData> {
+        ctx.validateCookie(cookie)
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val listOfInvites: MutableList<InviteData> = playerService.getInvitesNotAnswered(idUser)
+        ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites ainda não respondidos com sucesso")
+        return listOfInvites.toList()
+    }
+
+    private fun getAllInvitesRefused(ctx: Context) : List<InviteData> {
+        ctx.validateCookie(cookie)
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val listOfInvites: MutableList<InviteData> = playerService.getInvitesRefused(idUser)
+        ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites recusados com sucesso")
+        return listOfInvites.toList()
+    }
+
+    private fun getAllInvitesAccepted(ctx: Context) : List<InviteData> {
+        ctx.validateCookie(cookie)
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        val listOfInvites: MutableList<InviteData> = playerService.getInvitesAccepted(idUser)
+        ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites aceitos com sucesso")
         return listOfInvites.toList()
     }
 }

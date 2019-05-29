@@ -41,7 +41,7 @@ class MachineController(private val machineService: MachineService,
     private fun insertMachineMetric(ctx: Context) : Boolean {
         val insertMetricMachineData = ctx.body<InsertMetricMachineData>()
         machineService.insertMachineMetric(ctx.pathParam("id"), insertMetricMachineData)
-        ctx.insertLogSuccess("Foi inserido metrica da máquina ${ctx.pathParam("id").toInt()} com sucesso. $insertMetricMachineData")
+        ctx.insertLogSuccess("Foi inserido metrica da máquina ${ctx.pathParam("id")} com sucesso. $insertMetricMachineData")
         return true
     }
 
@@ -50,7 +50,7 @@ class MachineController(private val machineService: MachineService,
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val machineData = machineService.getMachine(ctx.pathParam("id"))
-        ctx.insertLogSuccess("Usuário $idUser solicitou dados da machina ${ctx.pathParam("id").toInt()}" +
+        ctx.insertLogSuccess("Usuário $idUser solicitou dados da machina ${ctx.pathParam("id")}" +
                 " retorno: $machineData")
         return machineData
     }

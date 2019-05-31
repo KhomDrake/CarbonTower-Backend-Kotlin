@@ -24,6 +24,8 @@ class MachineController(private val machineService: MachineService,
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })
             post("/metric/by-date/:id", toJson { getMetricMachineByDate(it) })
+            // ultima metrica de uma maquina
+            // todas metricas de uma data
         }
     }
 

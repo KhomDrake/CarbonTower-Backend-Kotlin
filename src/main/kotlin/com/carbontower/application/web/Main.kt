@@ -45,6 +45,12 @@ fun Context.insertLogError(logApplication: LogApplication) {
     }
 }
 
+fun Context.validateCookieAndReturnIdUser(cookie: Cookie) : String {
+    validateCookie(cookie)
+    val c = cookie(cookie.cookieName)
+    return cookie.getIdCookie(c.toString())
+}
+
 fun Context.validateCookie(cookie: Cookie) {
     if(cookie.contains(this.cookie(cookie.cookieName)).not()) throw HasNoCookie()
 }

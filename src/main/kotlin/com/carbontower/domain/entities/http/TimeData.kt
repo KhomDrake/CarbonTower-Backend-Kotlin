@@ -1,3 +1,3 @@
 package com.carbontower.domain.entities.http
 
-data class TimeData(val nmtime: String)
+data class TimeData(val nmTime: String, val idChampionship: Int)

@@ -1,11 +1,12 @@
 package com.carbontower.application.web.controllers
 
-import com.carbontower.application.web.Cookie
-import com.carbontower.application.web.insertLogSuccess
-import com.carbontower.application.web.toJson
-import com.carbontower.application.web.validateCookie
+import com.carbontower.application.web.*
+import com.carbontower.domain.entities.http.MatchData
+import com.carbontower.domain.entities.http.TimeData
 import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.InviteData
+import com.carbontower.domain.entities.response.Match
+import com.carbontower.domain.entities.response.Time
 import com.carbontower.domain.services.player.PlayerService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.*
@@ -22,77 +23,108 @@ class PlayerController(private val playerService: PlayerService, private val coo
             get("/championship", toJson { championshipsParticipate(it) })
             get("/championship/administrator", toJson { getAdministratorChampionship(it) })
             get("/championship/administrator/:idchampionship", toJson { administerThisChampionship(it) })
-            // cadastro time
-            post("/time", toJson {  })
-            // cadastroJogadorNoTime
-            post("/time/:id-time/:id-user", toJson {  })
-            // cadastro Jogadores No Time
-            post("/time/users", toJson {  })
-            // cadastro partida
-            post("/match", toJson {  })
-            // cadastroTimeNaPartida
-            post("/match/:id-match/:id-time", toJson {  })
-            // cadastro Times Na Partida
-            post("/match/times/:id-match", toJson {  })
-            // pegarTimeJogadorCampeonato
-            get("/times/:id-user/:idchampionship", toJson {  })
-            // pegarPartidasCampeonato
-            get("/match/:idchampionship", toJson {  })
-            // pegarPartidasQueParticipei
-            get("/match/player/participate/:id-user", toJson {  })
-            // pegarTimesQueParticipei
-            get("/time/player/participate/:id-user", toJson {  })
+            post("/time", toJson { insertTime(it) })
+            post("/time/:id-time/:id-user", toJson { insertPlayerInTime(it) })
+            post("/time/users/:id-time", toJson { insertPlayersInTime(it) })
+            post("/match", toJson { insertMatch(it) })
+            post("/match/:id-match/:id-time", toJson { insertTimeInMatch(it) })
+            post("/match/times/:id-match", toJson { insertTimesInMatch(it) })
+            get("/times/player/:idchampionship", toJson { timesChampionships(it) })
+            get("/match/:idchampionship", toJson { matchsChampionship(it) })
+            get("/match/player/participate/:id-user", toJson { matchsParticipate(it) })
+            get("/time/player/participate/:id-user", toJson { timesParticipate(it) })
         }
     }
 
-    private fun insertTime(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun insertPlayerInTime(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun insertPlayersInTime(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun insertMatch(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun insertTimeInMatch(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun insertTimesInMatch(ctx: Context) : Boolean {
-        return true
-    }
-
-    private fun timesChampionships(ctx: Context) {
-
-    }
-
-    private fun matchsChampionship(ctx: Context) {
-
+    private fun matchsChampionship(ctx: Context) : List<Match> {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        playerService.notACompany(idUser)
+        val idChampionship = ctx.pathParam("idchampionship")
+        val matchs = playerService.getMatchsChampionship(idUser, idChampionship)
+        return matchs
     }
 
     private fun matchsParticipate(ctx: Context) {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
 
     }
 
     private fun timesParticipate(ctx: Context) {
-
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
     }
 
+    private fun insertTime(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val timeData = ctx.body<TimeData>()
+        playerService.notACompany(idUser)
+        playerService.insertTime(timeData)
+        ctx.insertLogSuccess("Empresa $idUser cadastrou o time $timeData com sucesso")
+        return true
+    }
 
+    private fun insertPlayerInTime(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idPlayer = ctx.pathParam("id-user")
+        val idTime = ctx.pathParam("id-time").toInt()
+        playerService.notACompany(idUser)
+        playerService.insertPlayerInTime(idPlayer, idTime)
+        ctx.insertLogSuccess("Empresa $idUser cadastrou o player $idPlayer no time $idTime")
+        return true
+    }
 
-    //
+    private fun insertPlayersInTime(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val players = ctx.body<List<String>>()
+        val idTime = ctx.pathParam("id-time").toInt()
+        playerService.notACompany(idUser)
+        for (idPlayer in players) {
+            playerService.insertPlayerInTime(idPlayer, idTime)
+        }
+        ctx.insertLogSuccess("Empresa $idUser cadastrou os players $players no time $idTime")
+        return true
+    }
+
+    private fun insertMatch(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val matchData = ctx.body<MatchData>()
+        playerService.notACompany(idUser)
+        playerService.insertMatch(matchData)
+        ctx.insertLogSuccess("Empresa $idUser cadastrou a partida $matchData com sucesso")
+        return true
+    }
+
+    private fun insertTimeInMatch(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idMatch = ctx.pathParam("id-match").toInt()
+        val idTime = ctx.pathParam("id-time").toInt()
+        playerService.notACompany(idUser)
+        playerService.insertTimeInMatch(idMatch, idTime)
+        ctx.insertLogSuccess("Empresa $idUser cadastrou o time $idTime na partida $idMatch com sucesso")
+        return true
+    }
+
+    private fun insertTimesInMatch(ctx: Context) : Boolean {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idMatch = ctx.pathParam("id-match").toInt()
+        val times = ctx.body<List<Int>>()
+        playerService.notACompany(idUser)
+        for(idTime in times) {
+            playerService.insertTimeInMatch(idMatch, idTime)
+        }
+        ctx.insertLogSuccess("Empresa $idUser cadastrou os times $times na partida $idMatch com sucesso")
+        return true
+    }
+
+    private fun timesChampionships(ctx: Context) : Time {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
+        val time = playerService.getPlayerTimeInChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Jogador $idUser participar do time $time no campeonato $idChampionship")
+        return time
+    }
 
     private fun administerThisChampionship(ctx: Context) : Boolean {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val idChampionship  = ctx.pathParam("idchampionship").toInt()
         val administer = playerService.administerThisChampionship(idUser, idChampionship)
         ctx.insertLogSuccess("Jogador $administer administra campeonato $idChampionship: $administer")
@@ -100,27 +132,21 @@ class PlayerController(private val playerService: PlayerService, private val coo
     }
 
     private fun getAdministratorChampionship(ctx: Context) : List<ChampionshipData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val championships = playerService.administratorChampionship(idUser)
         ctx.insertLogSuccess("Jogador $idUser solicita todos os campeonato que administra com sucesso")
         return championships
     }
 
     private fun championshipsParticipate(ctx: Context) : List<ChampionshipData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val championships = playerService.championshipsParticipate(idUser)
         ctx.insertLogSuccess("Jogador $idUser solicita todos os campeonato que participa com sucesso")
         return championships
     }
 
     private fun acceptInvite(ctx: Context) : Boolean {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val idChampionship  = ctx.pathParam("idchampionship").toInt()
         playerService.acceptInvite(idUser, idChampionship)
         ctx.insertLogSuccess("Jogador $idUser aceita convite do campeonato $idChampionship com sucesso")
@@ -128,9 +154,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
     }
 
     private fun refuseInvite(ctx: Context) : Boolean {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val idChampionship  = ctx.pathParam("idchampionship").toInt()
         playerService.refuseInvite(idUser, idChampionship)
         ctx.insertLogSuccess("Jogador $idUser recusa convite do campeonato $idChampionship com sucesso")
@@ -138,38 +162,31 @@ class PlayerController(private val playerService: PlayerService, private val coo
     }
 
     private fun getAllInvites(ctx: Context) : List<InviteData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val listOfInvites: MutableList<InviteData> = playerService.getInvites(idUser)
         ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites com sucesso $listOfInvites")
         return listOfInvites.toList()
     }
 
     private fun getAllInvitesNotAnswered(ctx: Context) : List<InviteData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val listOfInvites: MutableList<InviteData> = playerService.getInvitesNotAnswered(idUser)
         ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites ainda não respondidos com sucesso")
         return listOfInvites.toList()
     }
 
     private fun getAllInvitesRefused(ctx: Context) : List<InviteData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val listOfInvites: MutableList<InviteData> = playerService.getInvitesRefused(idUser)
         ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites recusados com sucesso")
         return listOfInvites.toList()
     }
 
     private fun getAllInvitesAccepted(ctx: Context) : List<InviteData> {
-        ctx.validateCookie(cookie)
-        val c = ctx.cookie(cookie.cookieName)
-        val idUser: String = cookie.getIdCookie(c.toString())
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val listOfInvites: MutableList<InviteData> = playerService.getInvitesAccepted(idUser)
         ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites aceitos com sucesso")
         return listOfInvites.toList()
     }
+
 }

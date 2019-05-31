@@ -16,4 +16,5 @@ interface IPlayerRepository {
     fun getInvitesAccepted(idUserRole: Int): MutableList<InviteData>
     fun getInvitesRefused(idUserRole: Int): MutableList<InviteData>
     fun getInvitesNotAnswered(idUserRole: Int): MutableList<InviteData>
+    fun isInviteAlreadyAnswered(idUserRole: Int, idChampionship: Int): Boolean
 }

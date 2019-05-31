@@ -1,3 +1,4 @@
+package com.carbontower
 
 /*
 
@@ -83,7 +84,11 @@ create table T_TEAM_IN_CHAMPIONSHIP(
 
 create table T_MATCH(
 	idMatch int primary key identity(1,1),
+    date varchar(30),
+    time varchar(30),
 	idChampionship_fk int,
+    winner int,
+    foreign key(winner) references T_TEAM(idTeam),
 	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship)
 );
 
@@ -137,7 +142,7 @@ create table T_MACHINE(
 
 create table T_USER_MACHINE(
 	idUser_fk int,
-	idMachine_fk int,
+	idMachine_fk varchar(100),
 	foreign key(idUser_fk) references T_USER_ROLE(idUserRole),
 	foreign key(idMachine_fk) references T_MACHINE(idMachine),
 	primary key(idUser_fk,idMachine_fk)
@@ -153,20 +158,10 @@ create table T_MACHINE_METRIC(
 	rpmCooler int,
 	tempCPU decimal(6,2),
 	usbDevice varchar(45),
-	idMachine_fk int,
+	idMachine_fk varchar(100),
 	metricDate varchar(12),
 	metricTime varchar(10),
 	foreign key(idMachine_fk) references T_MACHINE(idMachine)
-);
-
-create table T_LOGS_SERVER(
-    idLogsServer int primary key identity(1,1),
-    router varchar(50),
-    statusCode int,
-    message varchar(2000),
-    dateTime varchar(30),
-    method varchar(20),
-    server varchar(30)
 );
 
 /* Inserindo os roles */
@@ -908,420 +903,6 @@ insert into T_USER_ROLE values('84285793008', 3);
 insert into T_USER(idUser, nmUser, userPassword) values('32882400098', 'Mitsam', 'BA3253876AED6BC22D4A6FF53D8406C6AD864195ED144AB5C87621B6C233B548BAEAE6956DF346EC8C17F5EA10F35EE3CBC514797ED7DDD3145464E2A0BAB413');
 insert into T_USER_ROLE values('32882400098', 3);
 
-
-/* cpf
-
-95205316020
-89340690079
-61720259020
-56544241067
-80497240009
-28900538063
-56877016050
-62699451002
-32701435080
-02295176093
-41139537083
-43118661003
-03074124075
-70351432035
-81397436077
-93119210099
-34119781046
-28688544000
-80072634030
-36274562036
-28483462052
-42257562038
-29437263035
-00361586078
-69541472060
-93520221063
-17179110051
-96844051034
-46138128010
-49094850079
-08991049087
-04434724088
-60058171088
-02535254034
-30920373089
-14316994034
-02534269011
-62640042009
-06160316028
-06702720009
-58625972047
-26180113092
-44476102050
-99212869009
-21023987066
-66243561038
-84721118066
-13959948034
-24541336014
-07461117033
-92018673017
-35663248099
-25599749088
-56107196072
-82021776000
-72204753068
-96224651027
-94912690031
-73198650097
-88990640083
-73437070002
-10352445009
-52128331080
-25554285007
-67544625079
-92357946091
-76413700041
-85826131055
-23084635030
-43543039067
-29261527019
-36895258027
-05262348068
-56283984037
-64679646080
-83786943052
-37380339044
-64189729027
-23646376007
-14873072093
-69062437052
-89505491077
-37113920080
-68428423016
-37381406039
-26305758026
-72557073008
-42976516022
-56593370070
-01411419057
-85560863068
-26488545094
-91044422025
-84036822047
-14380661040
-26313059069
-42766325018
-31082949035
-92663568082
-67686737004
-12747031071
-76456708001
-65038342094
-75855154050
-59083912043
-75749235076
-09422583047
-47762064044
-87043499038
-71056039094
-07787015063
-89851813001
-07035195068
-18504177092
-40025780034
-59207851016
-26764041059
-20698814070
-55080828080
-43353877096
-98501390054
-52592666095
-80323693091
-05657567021
-55665722006
-28453067090
-85754008007
-88414248004
-11647234050
-08482224077
-78144495020
-78739005097
-48958410060
-59171612084
-10708070019
-43967005046
-59418451034
-10944459080
-93189291020
-92990778004
-69633148022
-31097284000
-52731931094
-84407350067
-09821332005
-11604219009
-34500380019
-94378106051
-01874473064
-43258551065
-75575217060
-41733237003
-68928950007
-14982396094
-94621370057
-95356454040
-62610443099
-30430222033
-01667955004
-30699941059
-47928315041
-39840963058
-86545208098
-38261982041
-45101311006
-53113778018
-10946893004
-66808382077
-50189299010
-59322699019
-48547625003
-59084002032
-57939319027
-95073538013
-30073604046
-34611553060
-32412989060
-63802724020
-13293460097
-81053644094
-73219211070
-23022484062
-96497694048
-54451809053
-20598109064
-27330651060
-87500520042
-52285604084
-49442808079
-43712061072
-62683331010
-66399184045
-76219203003
-60584789017
-77147898087
-81526713047
-08226409020
-03566474045
-80332175022
-84285793008
-32882400098
-
-
- */
-
-/* nomes
-
-Crowmarma
-Rahrah
-Seandic
-Ichet
-Thrythjo
-Baldkev
-Werd
-Thasdun
-Tri
-Mondwen
-Lasja
-Sa-he
-Don
-Eal
-Paulkim
-Nanbert
-Marksa
-Waldcar
-Sigty
-Dinorich
-Rojeff
-Ceollee
-Eadu
-Elfchard
-Beorth
-Reded
-Nica
-Menjack
-Fastfred
-Fridthas
-Zamac
-San
-Annjoan
-Tinevia
-Kencrow
-Swith
-Kimdod
-Las-ty
-Ceolaldri
-Beorthchel
-Ord
-Ricda
-Jaham
-Marstan
-Jaald
-Jack
-Venven
-Laymark
-Viasu
-Ronsa
-Renward
-Laudas
-Dasbri
-Beoza
-Jackhal
-Sigchael
-Tol'gifu
-Egarroc
-Sung
-Maxmax
-Georbras
-Rahdic
-Wencia
-Naldtho
-Lepaul
-Wilsa
-Raman
-Anrol
-Naldar
-Jaward
-Lachege
-Eli
-Fridwen
-Anvid
-Cwenbeo
-Beoma
-Ley
-Thryththas
-Hamsa
-Thyphiesa
-Grimroc
-Ceolmac
-Daha
-Margifu
-Bursa
-Rob
-Tomchard
-Zadic
-Sandun
-Comecon
-Drytrol
-Jackguth
-Vellceo
-Rah
-Ceou
-Charmes
-Richnath
-Bacome
-Bertma
-Wulfman
-Cane
-Ridar
-Laysu
-Beth-mar
-Mestim
-Feruman
-Ethelwald
-Thasdan
-Lee
-Hames
-Thasbrand
-Linfortintol
-Chardbur
-Herevia
-Lerah
-Bertceol
-Tomlen
-Chelchetjeff
-Marma
-Kamuel
-Nibryt
-Leeruth
-Sowil
-Beorn
-Marmalay
-Vid
-Nielna
-Mannfled
-Marred
-Lebras
-Pei
-Nyasean
-Mondron
-Adeljohn
-Thryththony
-Dryt
-Ris
-Riche
-Donfortin
-Tinetri
-Leof-dryt
-Clabeorth
-Jack
-Beorn-theod
-Frith
-Hildi
-Dodino
-Red-nas
-Phieman
-Hewlett
-Kenpher
-Naned
-Leofu
-Ceol
-Ferphiewulf
-Capaul
-Edmes
-Conmarma
-Kamann
-Leywen
-Bandoea
-Eman
-Lenbert
-Leyson
-Master
-Rengorma
-Hammeri
-Paulan
-Rol
-Dared
-Bavin
-Muel
-Beorncy
-Cenhe
-Hildila
-Fredferum
-Kimald
-Sadun
-Laroc
-Rie
-Kee
-Thaenan
-Linan
-Saracan
-Carnya
-Herelin
-Gar-len
-Jenken
-Son-la
-Bert
-Paris
-Dontho
-Waru
-Riceal
-Grimripe
-Fridtine
-Wynke
-Gifu
-Raha
-Iwen
-Mitsam
-
- */
-
 /* Dota 2 */
 insert into T_CHAMPIONSHIP values (1, 10, 'Minor de Bucareste')
 insert into T_CHAMPIONSHIP values (1, 11, 'DreamLeague')
@@ -1392,7 +973,6 @@ insert into T_CHAMPIONSHIP values (10, 8, 'IEM Katowice')
 insert into T_CHAMPIONSHIP values (10, 12, 'GSL vs the World')
 insert into T_CHAMPIONSHIP values (10, 15, 'WCS Spring')
 
-
 /* convites */
 insert into T_INVITE_PLAYER values (16, 1, 0, 0);
 insert into T_INVITE_PLAYER values (17, 2, 0, 0);
@@ -1417,46 +997,39 @@ insert into T_INVITE_PLAYER values (35, 5, 0, 0);
 insert into T_INVITE_PLAYER values (36, 6, 0, 0);
 insert into T_INVITE_PLAYER values (37, 7, 0, 0);
 
-select * from T_USER_ROLE;
-
 /* Máquinas */
-insert into T_MACHINE values ('LENOVO 1 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 2 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 3 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 4 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 5 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 6 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 7 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 8 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 9 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 10 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 11 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 12 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 13 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 14 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-insert into T_MACHINE values ('LENOVO 15 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
-
+insert into T_MACHINE values ('LENOVO 1 SDK0J40688 WIN', 'LENOVO 1 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 2 SDK0J40688 WIN', 'LENOVO 2 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 3 SDK0J40688 WIN', 'LENOVO 3 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 4 SDK0J40688 WIN', 'LENOVO 4 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 5 SDK0J40688 WIN', 'LENOVO 5 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 6 SDK0J40688 WIN', 'LENOVO 6 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 7 SDK0J40688 WIN', 'LENOVO 7 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 8 SDK0J40688 WIN', 'LENOVO 8 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 9 SDK0J40688 WIN', 'LENOVO 9 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 10 SDK0J40688 WIN', 'LENOVO 10 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 11 SDK0J40688 WIN', 'LENOVO 11 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 12 SDK0J40688 WIN', 'LENOVO 12 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 13 SDK0J40688 WIN', 'LENOVO 13 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 14 SDK0J40688 WIN', 'LENOVO 14 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
+insert into T_MACHINE values ('LENOVO 15 SDK0J40688 WIN', 'LENOVO 15 SDK0J40688 WIN', 'Microsoft Windows 10(home) build 17763', 'LENOVO', '81FE');
 
 /* Máquinas Player */
-insert into T_USER_MACHINE values (16, 1)
-insert into T_USER_MACHINE values (17, 2)
-insert into T_USER_MACHINE values (19, 3)
-insert into T_USER_MACHINE values (20, 4)
-insert into T_USER_MACHINE values (22, 5)
-insert into T_USER_MACHINE values (23, 6)
-insert into T_USER_MACHINE values (25, 7)
-insert into T_USER_MACHINE values (26, 8)
-insert into T_USER_MACHINE values (27, 9)
-insert into T_USER_MACHINE values (28, 10)
-insert into T_USER_MACHINE values (29, 11)
-insert into T_USER_MACHINE values (30, 12)
-insert into T_USER_MACHINE values (31, 13)
-insert into T_USER_MACHINE values (32, 14)
-insert into T_USER_MACHINE values (33, 15)
-
-select * from T_MACHINE;
-
-select count(*) from T_MACHINE_METRIC;
+insert into T_USER_MACHINE values (16, 'LENOVO 1 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (17, 'LENOVO 2 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (19, 'LENOVO 3 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (20, 'LENOVO 4 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (22, 'LENOVO 5 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (23, 'LENOVO 6 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (25, 'LENOVO 7 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (26, 'LENOVO 8 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (27, 'LENOVO 9 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (28, 'LENOVO 10 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (29, 'LENOVO 11 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (30, 'LENOVO 12 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (31, 'LENOVO 13 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (32, 'LENOVO 14 SDK0J40688 WIN')
+insert into T_USER_MACHINE values (33, 'LENOVO 15 SDK0J40688 WIN')
 
 /* Times */
 /* 1 */
@@ -1529,746 +1102,2561 @@ insert into T_TEAM_IN_CHAMPIONSHIP values (1,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (1,2);
 insert into T_TEAM_IN_CHAMPIONSHIP values (1,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (1,7);
-insert into T_TEAM_IN_CHAMPIONSHIP values (1,6);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (2,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (2,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (2,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (2,17);
-insert into T_TEAM_IN_CHAMPIONSHIP values (2,23);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (3,2);
 insert into T_TEAM_IN_CHAMPIONSHIP values (3,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (3,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (3,28);
-insert into T_TEAM_IN_CHAMPIONSHIP values (3,30);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (4,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (4,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (4,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (4,28);
-insert into T_TEAM_IN_CHAMPIONSHIP values (4,4);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (5,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (5,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (5,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (5,5);
-insert into T_TEAM_IN_CHAMPIONSHIP values (5,1);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (6,10);
 insert into T_TEAM_IN_CHAMPIONSHIP values (6,8);
 insert into T_TEAM_IN_CHAMPIONSHIP values (6,18);
 insert into T_TEAM_IN_CHAMPIONSHIP values (6,1);
-insert into T_TEAM_IN_CHAMPIONSHIP values (6,29);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (7,7);
 insert into T_TEAM_IN_CHAMPIONSHIP values (7,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (7,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (7,14);
-insert into T_TEAM_IN_CHAMPIONSHIP values (7,13);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (8,18);
 insert into T_TEAM_IN_CHAMPIONSHIP values (8,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (8,16);
 insert into T_TEAM_IN_CHAMPIONSHIP values (8,4);
-insert into T_TEAM_IN_CHAMPIONSHIP values (8,23);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (9,17);
 insert into T_TEAM_IN_CHAMPIONSHIP values (9,6);
 insert into T_TEAM_IN_CHAMPIONSHIP values (9,29);
 insert into T_TEAM_IN_CHAMPIONSHIP values (9,27);
-insert into T_TEAM_IN_CHAMPIONSHIP values (9,20);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (10,29);
 insert into T_TEAM_IN_CHAMPIONSHIP values (10,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (10,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (10,6);
-insert into T_TEAM_IN_CHAMPIONSHIP values (10,14);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (11,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (11,4);
 insert into T_TEAM_IN_CHAMPIONSHIP values (11,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (11,30);
-insert into T_TEAM_IN_CHAMPIONSHIP values (11,15);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (12,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (12,6);
 insert into T_TEAM_IN_CHAMPIONSHIP values (12,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (12,5);
-insert into T_TEAM_IN_CHAMPIONSHIP values (12,28);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (13,19);
 insert into T_TEAM_IN_CHAMPIONSHIP values (13,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (13,8);
 insert into T_TEAM_IN_CHAMPIONSHIP values (13,5);
-insert into T_TEAM_IN_CHAMPIONSHIP values (13,2);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (14,6);
 insert into T_TEAM_IN_CHAMPIONSHIP values (14,22);
 insert into T_TEAM_IN_CHAMPIONSHIP values (14,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (14,13);
-insert into T_TEAM_IN_CHAMPIONSHIP values (14,20);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (15,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (15,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (15,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (15,1);
-insert into T_TEAM_IN_CHAMPIONSHIP values (15,16);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (16,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (16,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (16,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (16,4);
-insert into T_TEAM_IN_CHAMPIONSHIP values (16,20);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (17,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (17,8);
 insert into T_TEAM_IN_CHAMPIONSHIP values (17,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (17,15);
-insert into T_TEAM_IN_CHAMPIONSHIP values (17,12);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (18,29);
 insert into T_TEAM_IN_CHAMPIONSHIP values (18,22);
 insert into T_TEAM_IN_CHAMPIONSHIP values (18,27);
 insert into T_TEAM_IN_CHAMPIONSHIP values (18,21);
-insert into T_TEAM_IN_CHAMPIONSHIP values (18,5);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (19,16);
 insert into T_TEAM_IN_CHAMPIONSHIP values (19,28);
 insert into T_TEAM_IN_CHAMPIONSHIP values (19,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (19,3);
-insert into T_TEAM_IN_CHAMPIONSHIP values (19,10);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (20,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (20,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (20,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (20,20);
-insert into T_TEAM_IN_CHAMPIONSHIP values (20,24);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (21,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (21,18);
 insert into T_TEAM_IN_CHAMPIONSHIP values (21,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (21,8);
-insert into T_TEAM_IN_CHAMPIONSHIP values (21,11);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (22,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (22,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (22,6);
 insert into T_TEAM_IN_CHAMPIONSHIP values (22,26);
-insert into T_TEAM_IN_CHAMPIONSHIP values (22,30);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (23,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (23,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (23,13);
 insert into T_TEAM_IN_CHAMPIONSHIP values (23,2);
-insert into T_TEAM_IN_CHAMPIONSHIP values (23,12);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (24,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (24,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (24,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (24,29);
-insert into T_TEAM_IN_CHAMPIONSHIP values (24,23);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (25,17);
 insert into T_TEAM_IN_CHAMPIONSHIP values (25,20);
 insert into T_TEAM_IN_CHAMPIONSHIP values (25,24);
 insert into T_TEAM_IN_CHAMPIONSHIP values (25,27);
-insert into T_TEAM_IN_CHAMPIONSHIP values (25,5);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (26,28);
 insert into T_TEAM_IN_CHAMPIONSHIP values (26,20);
 insert into T_TEAM_IN_CHAMPIONSHIP values (26,16);
 insert into T_TEAM_IN_CHAMPIONSHIP values (26,5);
-insert into T_TEAM_IN_CHAMPIONSHIP values (26,3);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (27,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (27,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (27,13);
 insert into T_TEAM_IN_CHAMPIONSHIP values (27,20);
-insert into T_TEAM_IN_CHAMPIONSHIP values (27,3);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (28,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (28,27);
 insert into T_TEAM_IN_CHAMPIONSHIP values (28,22);
 insert into T_TEAM_IN_CHAMPIONSHIP values (28,19);
-insert into T_TEAM_IN_CHAMPIONSHIP values (28,2);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (29,18);
 insert into T_TEAM_IN_CHAMPIONSHIP values (29,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (29,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (29,21);
-insert into T_TEAM_IN_CHAMPIONSHIP values (29,28);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (30,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (30,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (30,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (30,14);
-insert into T_TEAM_IN_CHAMPIONSHIP values (30,16);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (31,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (31,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (31,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (31,3);
-insert into T_TEAM_IN_CHAMPIONSHIP values (31,12);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (32,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (32,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (32,28);
 insert into T_TEAM_IN_CHAMPIONSHIP values (32,24);
-insert into T_TEAM_IN_CHAMPIONSHIP values (32,23);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (33,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (33,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (33,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (33,5);
-insert into T_TEAM_IN_CHAMPIONSHIP values (33,22);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (34,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (34,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (34,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (34,12);
-insert into T_TEAM_IN_CHAMPIONSHIP values (34,34);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (35,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (35,20);
 insert into T_TEAM_IN_CHAMPIONSHIP values (35,22);
 insert into T_TEAM_IN_CHAMPIONSHIP values (35,23);
-insert into T_TEAM_IN_CHAMPIONSHIP values (35,13);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (36,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (36,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (36,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (36,2);
-insert into T_TEAM_IN_CHAMPIONSHIP values (36,9);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (37,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (37,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (37,10);
-insert into T_TEAM_IN_CHAMPIONSHIP values (37,35);
-insert into T_TEAM_IN_CHAMPIONSHIP values (37,19);
+insert into T_TEAM_IN_CHAMPIONSHIP values (37,25);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (38,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (38,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (38,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (38,17);
-insert into T_TEAM_IN_CHAMPIONSHIP values (38,14);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (39,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (39,29);
 insert into T_TEAM_IN_CHAMPIONSHIP values (39,4);
 insert into T_TEAM_IN_CHAMPIONSHIP values (39,31);
-insert into T_TEAM_IN_CHAMPIONSHIP values (39,21);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (40,4);
 insert into T_TEAM_IN_CHAMPIONSHIP values (40,7);
 insert into T_TEAM_IN_CHAMPIONSHIP values (40,18);
 insert into T_TEAM_IN_CHAMPIONSHIP values (40,11);
-insert into T_TEAM_IN_CHAMPIONSHIP values (40,22);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (41,30);
 insert into T_TEAM_IN_CHAMPIONSHIP values (41,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (41,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (41,7);
-insert into T_TEAM_IN_CHAMPIONSHIP values (41,4);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (42,25);
 insert into T_TEAM_IN_CHAMPIONSHIP values (42,12);
 insert into T_TEAM_IN_CHAMPIONSHIP values (42,6);
-insert into T_TEAM_IN_CHAMPIONSHIP values (42,25);
-insert into T_TEAM_IN_CHAMPIONSHIP values (42,7);
+insert into T_TEAM_IN_CHAMPIONSHIP values (42,22);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (43,22);
 insert into T_TEAM_IN_CHAMPIONSHIP values (43,5);
 insert into T_TEAM_IN_CHAMPIONSHIP values (43,26);
 insert into T_TEAM_IN_CHAMPIONSHIP values (43,4);
-insert into T_TEAM_IN_CHAMPIONSHIP values (43,10);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (44,17);
 insert into T_TEAM_IN_CHAMPIONSHIP values (44,31);
 insert into T_TEAM_IN_CHAMPIONSHIP values (44,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (44,15);
-insert into T_TEAM_IN_CHAMPIONSHIP values (44,28);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (45,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (45,17);
 insert into T_TEAM_IN_CHAMPIONSHIP values (45,4);
 insert into T_TEAM_IN_CHAMPIONSHIP values (45,10);
-insert into T_TEAM_IN_CHAMPIONSHIP values (45,11);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (46,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (46,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (46,2);
 insert into T_TEAM_IN_CHAMPIONSHIP values (46,18);
-insert into T_TEAM_IN_CHAMPIONSHIP values (46,25);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (47,10);
 insert into T_TEAM_IN_CHAMPIONSHIP values (47,28);
 insert into T_TEAM_IN_CHAMPIONSHIP values (47,23);
 insert into T_TEAM_IN_CHAMPIONSHIP values (47,17);
-insert into T_TEAM_IN_CHAMPIONSHIP values (47,14);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (48,16);
 insert into T_TEAM_IN_CHAMPIONSHIP values (48,9);
 insert into T_TEAM_IN_CHAMPIONSHIP values (48,21);
 insert into T_TEAM_IN_CHAMPIONSHIP values (48,1);
-insert into T_TEAM_IN_CHAMPIONSHIP values (48,10);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (49,15);
 insert into T_TEAM_IN_CHAMPIONSHIP values (49,14);
 insert into T_TEAM_IN_CHAMPIONSHIP values (49,3);
 insert into T_TEAM_IN_CHAMPIONSHIP values (49,26);
-insert into T_TEAM_IN_CHAMPIONSHIP values (49,9);
 
 insert into T_TEAM_IN_CHAMPIONSHIP values (50,1);
 insert into T_TEAM_IN_CHAMPIONSHIP values (50,28);
 insert into T_TEAM_IN_CHAMPIONSHIP values (50,11);
 insert into T_TEAM_IN_CHAMPIONSHIP values (50,15);
-insert into T_TEAM_IN_CHAMPIONSHIP values (50,21);
 
+/* TEAM IN MATCH and MATCHS */
+insert into T_MATCH values('2019/1/6', '10:22:44', 1, 2)
+insert into T_TEAM_IN_MATCH values(1, 1)
+insert into T_TEAM_IN_MATCH values(2, 1)
+insert into T_MATCH values('2019/2/4', '10:22:44', 1, 1)
+insert into T_TEAM_IN_MATCH values(1, 2)
+insert into T_TEAM_IN_MATCH values(2, 2)
+insert into T_MATCH values('2019/3/27', '10:22:44', 1, 2)
+insert into T_TEAM_IN_MATCH values(1, 3)
+insert into T_TEAM_IN_MATCH values(2, 3)
+insert into T_MATCH values('2019/4/8', '10:22:44', 1, 1)
+insert into T_TEAM_IN_MATCH values(1, 4)
+insert into T_TEAM_IN_MATCH values(2, 4)
+insert into T_MATCH values('2019/5/4', '10:22:44', 1, 2)
+insert into T_TEAM_IN_MATCH values(1, 5)
+insert into T_TEAM_IN_MATCH values(2, 5)
+insert into T_MATCH values('2019/6/10', '10:22:44', 1, 1)
+insert into T_TEAM_IN_MATCH values(1, 6)
+insert into T_TEAM_IN_MATCH values(2, 6)
+insert into T_MATCH values('2019/7/26', '10:22:44', 1, 2)
+insert into T_TEAM_IN_MATCH values(1, 7)
+insert into T_TEAM_IN_MATCH values(2, 7)
+insert into T_MATCH values('2019/1/27', '10:22:44', 1, 7)
+insert into T_TEAM_IN_MATCH values(5, 8)
+insert into T_TEAM_IN_MATCH values(7, 8)
+insert into T_MATCH values('2019/2/14', '10:22:44', 1, 5)
+insert into T_TEAM_IN_MATCH values(5, 9)
+insert into T_TEAM_IN_MATCH values(7, 9)
+insert into T_MATCH values('2019/3/20', '10:22:44', 1, 7)
+insert into T_TEAM_IN_MATCH values(5, 10)
+insert into T_TEAM_IN_MATCH values(7, 10)
+insert into T_MATCH values('2019/4/22', '10:22:44', 1, 5)
+insert into T_TEAM_IN_MATCH values(5, 11)
+insert into T_TEAM_IN_MATCH values(7, 11)
+insert into T_MATCH values('2019/5/24', '10:22:44', 1, 7)
+insert into T_TEAM_IN_MATCH values(5, 12)
+insert into T_TEAM_IN_MATCH values(7, 12)
+insert into T_MATCH values('2019/6/23', '10:22:44', 1, 5)
+insert into T_TEAM_IN_MATCH values(5, 13)
+insert into T_TEAM_IN_MATCH values(7, 13)
+insert into T_MATCH values('2019/7/22', '10:22:44', 1, 7)
+insert into T_TEAM_IN_MATCH values(5, 14)
+insert into T_TEAM_IN_MATCH values(7, 14)
+insert into T_MATCH values('2019/1/27', '10:22:44', 2, 12)
+insert into T_TEAM_IN_MATCH values(3, 15)
+insert into T_TEAM_IN_MATCH values(12, 15)
+insert into T_MATCH values('2019/2/20', '10:22:44', 2, 3)
+insert into T_TEAM_IN_MATCH values(3, 16)
+insert into T_TEAM_IN_MATCH values(12, 16)
+insert into T_MATCH values('2019/3/2', '10:22:44', 2, 12)
+insert into T_TEAM_IN_MATCH values(3, 17)
+insert into T_TEAM_IN_MATCH values(12, 17)
+insert into T_MATCH values('2019/4/5', '10:22:44', 2, 3)
+insert into T_TEAM_IN_MATCH values(3, 18)
+insert into T_TEAM_IN_MATCH values(12, 18)
+insert into T_MATCH values('2019/5/2', '10:22:44', 2, 12)
+insert into T_TEAM_IN_MATCH values(3, 19)
+insert into T_TEAM_IN_MATCH values(12, 19)
+insert into T_MATCH values('2019/6/20', '10:22:44', 2, 3)
+insert into T_TEAM_IN_MATCH values(3, 20)
+insert into T_TEAM_IN_MATCH values(12, 20)
+insert into T_MATCH values('2019/7/9', '10:22:44', 2, 12)
+insert into T_TEAM_IN_MATCH values(3, 21)
+insert into T_TEAM_IN_MATCH values(12, 21)
+insert into T_MATCH values('2019/1/13', '10:22:44', 2, 31)
+insert into T_TEAM_IN_MATCH values(17, 22)
+insert into T_TEAM_IN_MATCH values(31, 22)
+insert into T_MATCH values('2019/2/20', '10:22:44', 2, 17)
+insert into T_TEAM_IN_MATCH values(17, 23)
+insert into T_TEAM_IN_MATCH values(31, 23)
+insert into T_MATCH values('2019/3/17', '10:22:44', 2, 31)
+insert into T_TEAM_IN_MATCH values(17, 24)
+insert into T_TEAM_IN_MATCH values(31, 24)
+insert into T_MATCH values('2019/4/11', '10:22:44', 2, 17)
+insert into T_TEAM_IN_MATCH values(17, 25)
+insert into T_TEAM_IN_MATCH values(31, 25)
+insert into T_MATCH values('2019/5/25', '10:22:44', 2, 31)
+insert into T_TEAM_IN_MATCH values(17, 26)
+insert into T_TEAM_IN_MATCH values(31, 26)
+insert into T_MATCH values('2019/6/23', '10:22:44', 2, 17)
+insert into T_TEAM_IN_MATCH values(17, 27)
+insert into T_TEAM_IN_MATCH values(31, 27)
+insert into T_MATCH values('2019/7/27', '10:22:44', 2, 31)
+insert into T_TEAM_IN_MATCH values(17, 28)
+insert into T_TEAM_IN_MATCH values(31, 28)
+insert into T_MATCH values('2019/1/14', '10:22:44', 3, 2)
+insert into T_TEAM_IN_MATCH values(1, 29)
+insert into T_TEAM_IN_MATCH values(2, 29)
+insert into T_MATCH values('2019/2/24', '10:22:44', 3, 1)
+insert into T_TEAM_IN_MATCH values(1, 30)
+insert into T_TEAM_IN_MATCH values(2, 30)
+insert into T_MATCH values('2019/3/29', '10:22:44', 3, 2)
+insert into T_TEAM_IN_MATCH values(1, 31)
+insert into T_TEAM_IN_MATCH values(2, 31)
+insert into T_MATCH values('2019/4/6', '10:22:44', 3, 1)
+insert into T_TEAM_IN_MATCH values(1, 32)
+insert into T_TEAM_IN_MATCH values(2, 32)
+insert into T_MATCH values('2019/5/2', '10:22:44', 3, 2)
+insert into T_TEAM_IN_MATCH values(1, 33)
+insert into T_TEAM_IN_MATCH values(2, 33)
+insert into T_MATCH values('2019/6/24', '10:22:44', 3, 1)
+insert into T_TEAM_IN_MATCH values(1, 34)
+insert into T_TEAM_IN_MATCH values(2, 34)
+insert into T_MATCH values('2019/7/3', '10:22:44', 3, 2)
+insert into T_TEAM_IN_MATCH values(1, 35)
+insert into T_TEAM_IN_MATCH values(2, 35)
+insert into T_MATCH values('2019/1/25', '10:22:44', 3, 28)
+insert into T_TEAM_IN_MATCH values(5, 36)
+insert into T_TEAM_IN_MATCH values(28, 36)
+insert into T_MATCH values('2019/2/18', '10:22:44', 3, 5)
+insert into T_TEAM_IN_MATCH values(5, 37)
+insert into T_TEAM_IN_MATCH values(28, 37)
+insert into T_MATCH values('2019/3/4', '10:22:44', 3, 28)
+insert into T_TEAM_IN_MATCH values(5, 38)
+insert into T_TEAM_IN_MATCH values(28, 38)
+insert into T_MATCH values('2019/4/15', '10:22:44', 3, 5)
+insert into T_TEAM_IN_MATCH values(5, 39)
+insert into T_TEAM_IN_MATCH values(28, 39)
+insert into T_MATCH values('2019/5/11', '10:22:44', 3, 28)
+insert into T_TEAM_IN_MATCH values(5, 40)
+insert into T_TEAM_IN_MATCH values(28, 40)
+insert into T_MATCH values('2019/6/21', '10:22:44', 3, 5)
+insert into T_TEAM_IN_MATCH values(5, 41)
+insert into T_TEAM_IN_MATCH values(28, 41)
+insert into T_MATCH values('2019/7/11', '10:22:44', 3, 28)
+insert into T_TEAM_IN_MATCH values(5, 42)
+insert into T_TEAM_IN_MATCH values(28, 42)
+insert into T_MATCH values('2019/1/21', '10:22:44', 4, 15)
+insert into T_TEAM_IN_MATCH values(3, 43)
+insert into T_TEAM_IN_MATCH values(15, 43)
+insert into T_MATCH values('2019/2/15', '10:22:44', 4, 3)
+insert into T_TEAM_IN_MATCH values(3, 44)
+insert into T_TEAM_IN_MATCH values(15, 44)
+insert into T_MATCH values('2019/3/11', '10:22:44', 4, 15)
+insert into T_TEAM_IN_MATCH values(3, 45)
+insert into T_TEAM_IN_MATCH values(15, 45)
+insert into T_MATCH values('2019/4/22', '10:22:44', 4, 3)
+insert into T_TEAM_IN_MATCH values(3, 46)
+insert into T_TEAM_IN_MATCH values(15, 46)
+insert into T_MATCH values('2019/5/16', '10:22:44', 4, 15)
+insert into T_TEAM_IN_MATCH values(3, 47)
+insert into T_TEAM_IN_MATCH values(15, 47)
+insert into T_MATCH values('2019/6/3', '10:22:44', 4, 3)
+insert into T_TEAM_IN_MATCH values(3, 48)
+insert into T_TEAM_IN_MATCH values(15, 48)
+insert into T_MATCH values('2019/7/5', '10:22:44', 4, 15)
+insert into T_TEAM_IN_MATCH values(3, 49)
+insert into T_TEAM_IN_MATCH values(15, 49)
+insert into T_MATCH values('2019/1/28', '10:22:44', 4, 30)
+insert into T_TEAM_IN_MATCH values(28, 50)
+insert into T_TEAM_IN_MATCH values(30, 50)
+insert into T_MATCH values('2019/2/24', '10:22:44', 4, 28)
+insert into T_TEAM_IN_MATCH values(28, 51)
+insert into T_TEAM_IN_MATCH values(30, 51)
+insert into T_MATCH values('2019/3/22', '10:22:44', 4, 30)
+insert into T_TEAM_IN_MATCH values(28, 52)
+insert into T_TEAM_IN_MATCH values(30, 52)
+insert into T_MATCH values('2019/4/27', '10:22:44', 4, 28)
+insert into T_TEAM_IN_MATCH values(28, 53)
+insert into T_TEAM_IN_MATCH values(30, 53)
+insert into T_MATCH values('2019/5/2', '10:22:44', 4, 30)
+insert into T_TEAM_IN_MATCH values(28, 54)
+insert into T_TEAM_IN_MATCH values(30, 54)
+insert into T_MATCH values('2019/6/24', '10:22:44', 4, 28)
+insert into T_TEAM_IN_MATCH values(28, 55)
+insert into T_TEAM_IN_MATCH values(30, 55)
+insert into T_MATCH values('2019/7/6', '10:22:44', 4, 30)
+insert into T_TEAM_IN_MATCH values(28, 56)
+insert into T_TEAM_IN_MATCH values(30, 56)
+insert into T_MATCH values('2019/1/22', '10:22:44', 5, 5)
+insert into T_TEAM_IN_MATCH values(3, 57)
+insert into T_TEAM_IN_MATCH values(5, 57)
+insert into T_MATCH values('2019/2/12', '10:22:44', 5, 3)
+insert into T_TEAM_IN_MATCH values(3, 58)
+insert into T_TEAM_IN_MATCH values(5, 58)
+insert into T_MATCH values('2019/3/7', '10:22:44', 5, 5)
+insert into T_TEAM_IN_MATCH values(3, 59)
+insert into T_TEAM_IN_MATCH values(5, 59)
+insert into T_MATCH values('2019/4/10', '10:22:44', 5, 3)
+insert into T_TEAM_IN_MATCH values(3, 60)
+insert into T_TEAM_IN_MATCH values(5, 60)
+insert into T_MATCH values('2019/5/10', '10:22:44', 5, 5)
+insert into T_TEAM_IN_MATCH values(3, 61)
+insert into T_TEAM_IN_MATCH values(5, 61)
+insert into T_MATCH values('2019/6/1', '10:22:44', 5, 3)
+insert into T_TEAM_IN_MATCH values(3, 62)
+insert into T_TEAM_IN_MATCH values(5, 62)
+insert into T_MATCH values('2019/7/12', '10:22:44', 5, 5)
+insert into T_TEAM_IN_MATCH values(3, 63)
+insert into T_TEAM_IN_MATCH values(5, 63)
+insert into T_MATCH values('2019/1/25', '10:22:44', 5, 24)
+insert into T_TEAM_IN_MATCH values(12, 64)
+insert into T_TEAM_IN_MATCH values(24, 64)
+insert into T_MATCH values('2019/2/6', '10:22:44', 5, 12)
+insert into T_TEAM_IN_MATCH values(12, 65)
+insert into T_TEAM_IN_MATCH values(24, 65)
+insert into T_MATCH values('2019/3/1', '10:22:44', 5, 24)
+insert into T_TEAM_IN_MATCH values(12, 66)
+insert into T_TEAM_IN_MATCH values(24, 66)
+insert into T_MATCH values('2019/4/28', '10:22:44', 5, 12)
+insert into T_TEAM_IN_MATCH values(12, 67)
+insert into T_TEAM_IN_MATCH values(24, 67)
+insert into T_MATCH values('2019/5/21', '10:22:44', 5, 24)
+insert into T_TEAM_IN_MATCH values(12, 68)
+insert into T_TEAM_IN_MATCH values(24, 68)
+insert into T_MATCH values('2019/6/22', '10:22:44', 5, 12)
+insert into T_TEAM_IN_MATCH values(12, 69)
+insert into T_TEAM_IN_MATCH values(24, 69)
+insert into T_MATCH values('2019/7/25', '10:22:44', 5, 24)
+insert into T_TEAM_IN_MATCH values(12, 70)
+insert into T_TEAM_IN_MATCH values(24, 70)
+insert into T_MATCH values('2019/1/18', '10:22:44', 6, 8)
+insert into T_TEAM_IN_MATCH values(1, 71)
+insert into T_TEAM_IN_MATCH values(8, 71)
+insert into T_MATCH values('2019/2/3', '10:22:44', 6, 1)
+insert into T_TEAM_IN_MATCH values(1, 72)
+insert into T_TEAM_IN_MATCH values(8, 72)
+insert into T_MATCH values('2019/3/10', '10:22:44', 6, 8)
+insert into T_TEAM_IN_MATCH values(1, 73)
+insert into T_TEAM_IN_MATCH values(8, 73)
+insert into T_MATCH values('2019/4/19', '10:22:44', 6, 1)
+insert into T_TEAM_IN_MATCH values(1, 74)
+insert into T_TEAM_IN_MATCH values(8, 74)
+insert into T_MATCH values('2019/5/17', '10:22:44', 6, 8)
+insert into T_TEAM_IN_MATCH values(1, 75)
+insert into T_TEAM_IN_MATCH values(8, 75)
+insert into T_MATCH values('2019/6/13', '10:22:44', 6, 1)
+insert into T_TEAM_IN_MATCH values(1, 76)
+insert into T_TEAM_IN_MATCH values(8, 76)
+insert into T_MATCH values('2019/7/13', '10:22:44', 6, 8)
+insert into T_TEAM_IN_MATCH values(1, 77)
+insert into T_TEAM_IN_MATCH values(8, 77)
+insert into T_MATCH values('2019/1/26', '10:22:44', 6, 18)
+insert into T_TEAM_IN_MATCH values(10, 78)
+insert into T_TEAM_IN_MATCH values(18, 78)
+insert into T_MATCH values('2019/2/22', '10:22:44', 6, 10)
+insert into T_TEAM_IN_MATCH values(10, 79)
+insert into T_TEAM_IN_MATCH values(18, 79)
+insert into T_MATCH values('2019/3/20', '10:22:44', 6, 18)
+insert into T_TEAM_IN_MATCH values(10, 80)
+insert into T_TEAM_IN_MATCH values(18, 80)
+insert into T_MATCH values('2019/4/23', '10:22:44', 6, 10)
+insert into T_TEAM_IN_MATCH values(10, 81)
+insert into T_TEAM_IN_MATCH values(18, 81)
+insert into T_MATCH values('2019/5/23', '10:22:44', 6, 18)
+insert into T_TEAM_IN_MATCH values(10, 82)
+insert into T_TEAM_IN_MATCH values(18, 82)
+insert into T_MATCH values('2019/6/11', '10:22:44', 6, 10)
+insert into T_TEAM_IN_MATCH values(10, 83)
+insert into T_TEAM_IN_MATCH values(18, 83)
+insert into T_MATCH values('2019/7/30', '10:22:44', 6, 18)
+insert into T_TEAM_IN_MATCH values(10, 84)
+insert into T_TEAM_IN_MATCH values(18, 84)
+insert into T_MATCH values('2019/1/6', '10:22:44', 7, 14)
+insert into T_TEAM_IN_MATCH values(7, 85)
+insert into T_TEAM_IN_MATCH values(14, 85)
+insert into T_MATCH values('2019/2/14', '10:22:44', 7, 7)
+insert into T_TEAM_IN_MATCH values(7, 86)
+insert into T_TEAM_IN_MATCH values(14, 86)
+insert into T_MATCH values('2019/3/9', '10:22:44', 7, 14)
+insert into T_TEAM_IN_MATCH values(7, 87)
+insert into T_TEAM_IN_MATCH values(14, 87)
+insert into T_MATCH values('2019/4/6', '10:22:44', 7, 7)
+insert into T_TEAM_IN_MATCH values(7, 88)
+insert into T_TEAM_IN_MATCH values(14, 88)
+insert into T_MATCH values('2019/5/3', '10:22:44', 7, 14)
+insert into T_TEAM_IN_MATCH values(7, 89)
+insert into T_TEAM_IN_MATCH values(14, 89)
+insert into T_MATCH values('2019/6/17', '10:22:44', 7, 7)
+insert into T_TEAM_IN_MATCH values(7, 90)
+insert into T_TEAM_IN_MATCH values(14, 90)
+insert into T_MATCH values('2019/7/4', '10:22:44', 7, 14)
+insert into T_TEAM_IN_MATCH values(7, 91)
+insert into T_TEAM_IN_MATCH values(14, 91)
+insert into T_MATCH values('2019/1/17', '10:22:44', 7, 30)
+insert into T_TEAM_IN_MATCH values(25, 92)
+insert into T_TEAM_IN_MATCH values(30, 92)
+insert into T_MATCH values('2019/2/10', '10:22:44', 7, 25)
+insert into T_TEAM_IN_MATCH values(25, 93)
+insert into T_TEAM_IN_MATCH values(30, 93)
+insert into T_MATCH values('2019/3/20', '10:22:44', 7, 30)
+insert into T_TEAM_IN_MATCH values(25, 94)
+insert into T_TEAM_IN_MATCH values(30, 94)
+insert into T_MATCH values('2019/4/29', '10:22:44', 7, 25)
+insert into T_TEAM_IN_MATCH values(25, 95)
+insert into T_TEAM_IN_MATCH values(30, 95)
+insert into T_MATCH values('2019/5/11', '10:22:44', 7, 30)
+insert into T_TEAM_IN_MATCH values(25, 96)
+insert into T_TEAM_IN_MATCH values(30, 96)
+insert into T_MATCH values('2019/6/11', '10:22:44', 7, 25)
+insert into T_TEAM_IN_MATCH values(25, 97)
+insert into T_TEAM_IN_MATCH values(30, 97)
+insert into T_MATCH values('2019/7/14', '10:22:44', 7, 30)
+insert into T_TEAM_IN_MATCH values(25, 98)
+insert into T_TEAM_IN_MATCH values(30, 98)
+insert into T_MATCH values('2019/1/29', '10:22:44', 8, 9)
+insert into T_TEAM_IN_MATCH values(4, 99)
+insert into T_TEAM_IN_MATCH values(9, 99)
+insert into T_MATCH values('2019/2/19', '10:22:44', 8, 4)
+insert into T_TEAM_IN_MATCH values(4, 100)
+insert into T_TEAM_IN_MATCH values(9, 100)
+insert into T_MATCH values('2019/3/14', '10:22:44', 8, 9)
+insert into T_TEAM_IN_MATCH values(4, 101)
+insert into T_TEAM_IN_MATCH values(9, 101)
+insert into T_MATCH values('2019/4/2', '10:22:44', 8, 4)
+insert into T_TEAM_IN_MATCH values(4, 102)
+insert into T_TEAM_IN_MATCH values(9, 102)
+insert into T_MATCH values('2019/5/22', '10:22:44', 8, 9)
+insert into T_TEAM_IN_MATCH values(4, 103)
+insert into T_TEAM_IN_MATCH values(9, 103)
+insert into T_MATCH values('2019/6/12', '10:22:44', 8, 4)
+insert into T_TEAM_IN_MATCH values(4, 104)
+insert into T_TEAM_IN_MATCH values(9, 104)
+insert into T_MATCH values('2019/7/8', '10:22:44', 8, 9)
+insert into T_TEAM_IN_MATCH values(4, 105)
+insert into T_TEAM_IN_MATCH values(9, 105)
+insert into T_MATCH values('2019/1/9', '10:22:44', 8, 18)
+insert into T_TEAM_IN_MATCH values(16, 106)
+insert into T_TEAM_IN_MATCH values(18, 106)
+insert into T_MATCH values('2019/2/10', '10:22:44', 8, 16)
+insert into T_TEAM_IN_MATCH values(16, 107)
+insert into T_TEAM_IN_MATCH values(18, 107)
+insert into T_MATCH values('2019/3/27', '10:22:44', 8, 18)
+insert into T_TEAM_IN_MATCH values(16, 108)
+insert into T_TEAM_IN_MATCH values(18, 108)
+insert into T_MATCH values('2019/4/24', '10:22:44', 8, 16)
+insert into T_TEAM_IN_MATCH values(16, 109)
+insert into T_TEAM_IN_MATCH values(18, 109)
+insert into T_MATCH values('2019/5/5', '10:22:44', 8, 18)
+insert into T_TEAM_IN_MATCH values(16, 110)
+insert into T_TEAM_IN_MATCH values(18, 110)
+insert into T_MATCH values('2019/6/2', '10:22:44', 8, 16)
+insert into T_TEAM_IN_MATCH values(16, 111)
+insert into T_TEAM_IN_MATCH values(18, 111)
+insert into T_MATCH values('2019/7/8', '10:22:44', 8, 18)
+insert into T_TEAM_IN_MATCH values(16, 112)
+insert into T_TEAM_IN_MATCH values(18, 112)
+insert into T_MATCH values('2019/1/23', '10:22:44', 9, 17)
+insert into T_TEAM_IN_MATCH values(6, 113)
+insert into T_TEAM_IN_MATCH values(17, 113)
+insert into T_MATCH values('2019/2/2', '10:22:44', 9, 6)
+insert into T_TEAM_IN_MATCH values(6, 114)
+insert into T_TEAM_IN_MATCH values(17, 114)
+insert into T_MATCH values('2019/3/28', '10:22:44', 9, 17)
+insert into T_TEAM_IN_MATCH values(6, 115)
+insert into T_TEAM_IN_MATCH values(17, 115)
+insert into T_MATCH values('2019/4/2', '10:22:44', 9, 6)
+insert into T_TEAM_IN_MATCH values(6, 116)
+insert into T_TEAM_IN_MATCH values(17, 116)
+insert into T_MATCH values('2019/5/7', '10:22:44', 9, 17)
+insert into T_TEAM_IN_MATCH values(6, 117)
+insert into T_TEAM_IN_MATCH values(17, 117)
+insert into T_MATCH values('2019/6/29', '10:22:44', 9, 6)
+insert into T_TEAM_IN_MATCH values(6, 118)
+insert into T_TEAM_IN_MATCH values(17, 118)
+insert into T_MATCH values('2019/7/16', '10:22:44', 9, 17)
+insert into T_TEAM_IN_MATCH values(6, 119)
+insert into T_TEAM_IN_MATCH values(17, 119)
+insert into T_MATCH values('2019/1/21', '10:22:44', 9, 29)
+insert into T_TEAM_IN_MATCH values(27, 120)
+insert into T_TEAM_IN_MATCH values(29, 120)
+insert into T_MATCH values('2019/2/16', '10:22:44', 9, 27)
+insert into T_TEAM_IN_MATCH values(27, 121)
+insert into T_TEAM_IN_MATCH values(29, 121)
+insert into T_MATCH values('2019/3/4', '10:22:44', 9, 29)
+insert into T_TEAM_IN_MATCH values(27, 122)
+insert into T_TEAM_IN_MATCH values(29, 122)
+insert into T_MATCH values('2019/4/28', '10:22:44', 9, 27)
+insert into T_TEAM_IN_MATCH values(27, 123)
+insert into T_TEAM_IN_MATCH values(29, 123)
+insert into T_MATCH values('2019/5/15', '10:22:44', 9, 29)
+insert into T_TEAM_IN_MATCH values(27, 124)
+insert into T_TEAM_IN_MATCH values(29, 124)
+insert into T_MATCH values('2019/6/25', '10:22:44', 9, 27)
+insert into T_TEAM_IN_MATCH values(27, 125)
+insert into T_TEAM_IN_MATCH values(29, 125)
+insert into T_MATCH values('2019/7/26', '10:22:44', 9, 29)
+insert into T_TEAM_IN_MATCH values(27, 126)
+insert into T_TEAM_IN_MATCH values(29, 126)
+insert into T_MATCH values('2019/1/6', '10:22:44', 10, 5)
+insert into T_TEAM_IN_MATCH values(3, 127)
+insert into T_TEAM_IN_MATCH values(5, 127)
+insert into T_MATCH values('2019/2/24', '10:22:44', 10, 3)
+insert into T_TEAM_IN_MATCH values(3, 128)
+insert into T_TEAM_IN_MATCH values(5, 128)
+insert into T_MATCH values('2019/3/7', '10:22:44', 10, 5)
+insert into T_TEAM_IN_MATCH values(3, 129)
+insert into T_TEAM_IN_MATCH values(5, 129)
+insert into T_MATCH values('2019/4/27', '10:22:44', 10, 3)
+insert into T_TEAM_IN_MATCH values(3, 130)
+insert into T_TEAM_IN_MATCH values(5, 130)
+insert into T_MATCH values('2019/5/29', '10:22:44', 10, 5)
+insert into T_TEAM_IN_MATCH values(3, 131)
+insert into T_TEAM_IN_MATCH values(5, 131)
+insert into T_MATCH values('2019/6/21', '10:22:44', 10, 3)
+insert into T_TEAM_IN_MATCH values(3, 132)
+insert into T_TEAM_IN_MATCH values(5, 132)
+insert into T_MATCH values('2019/7/30', '10:22:44', 10, 5)
+insert into T_TEAM_IN_MATCH values(3, 133)
+insert into T_TEAM_IN_MATCH values(5, 133)
+insert into T_MATCH values('2019/1/30', '10:22:44', 10, 29)
+insert into T_TEAM_IN_MATCH values(6, 134)
+insert into T_TEAM_IN_MATCH values(29, 134)
+insert into T_MATCH values('2019/2/6', '10:22:44', 10, 6)
+insert into T_TEAM_IN_MATCH values(6, 135)
+insert into T_TEAM_IN_MATCH values(29, 135)
+insert into T_MATCH values('2019/3/16', '10:22:44', 10, 29)
+insert into T_TEAM_IN_MATCH values(6, 136)
+insert into T_TEAM_IN_MATCH values(29, 136)
+insert into T_MATCH values('2019/4/12', '10:22:44', 10, 6)
+insert into T_TEAM_IN_MATCH values(6, 137)
+insert into T_TEAM_IN_MATCH values(29, 137)
+insert into T_MATCH values('2019/5/20', '10:22:44', 10, 29)
+insert into T_TEAM_IN_MATCH values(6, 138)
+insert into T_TEAM_IN_MATCH values(29, 138)
+insert into T_MATCH values('2019/6/17', '10:22:44', 10, 6)
+insert into T_TEAM_IN_MATCH values(6, 139)
+insert into T_TEAM_IN_MATCH values(29, 139)
+insert into T_MATCH values('2019/7/30', '10:22:44', 10, 29)
+insert into T_TEAM_IN_MATCH values(6, 140)
+insert into T_TEAM_IN_MATCH values(29, 140)
+insert into T_MATCH values('2019/1/21', '10:22:44', 11, 12)
+insert into T_TEAM_IN_MATCH values(4, 141)
+insert into T_TEAM_IN_MATCH values(12, 141)
+insert into T_MATCH values('2019/2/7', '10:22:44', 11, 4)
+insert into T_TEAM_IN_MATCH values(4, 142)
+insert into T_TEAM_IN_MATCH values(12, 142)
+insert into T_MATCH values('2019/3/30', '10:22:44', 11, 12)
+insert into T_TEAM_IN_MATCH values(4, 143)
+insert into T_TEAM_IN_MATCH values(12, 143)
+insert into T_MATCH values('2019/4/10', '10:22:44', 11, 4)
+insert into T_TEAM_IN_MATCH values(4, 144)
+insert into T_TEAM_IN_MATCH values(12, 144)
+insert into T_MATCH values('2019/5/19', '10:22:44', 11, 12)
+insert into T_TEAM_IN_MATCH values(4, 145)
+insert into T_TEAM_IN_MATCH values(12, 145)
+insert into T_MATCH values('2019/6/14', '10:22:44', 11, 4)
+insert into T_TEAM_IN_MATCH values(4, 146)
+insert into T_TEAM_IN_MATCH values(12, 146)
+insert into T_MATCH values('2019/7/12', '10:22:44', 11, 12)
+insert into T_TEAM_IN_MATCH values(4, 147)
+insert into T_TEAM_IN_MATCH values(12, 147)
+insert into T_MATCH values('2019/1/4', '10:22:44', 11, 30)
+insert into T_TEAM_IN_MATCH values(24, 148)
+insert into T_TEAM_IN_MATCH values(30, 148)
+insert into T_MATCH values('2019/2/6', '10:22:44', 11, 24)
+insert into T_TEAM_IN_MATCH values(24, 149)
+insert into T_TEAM_IN_MATCH values(30, 149)
+insert into T_MATCH values('2019/3/11', '10:22:44', 11, 30)
+insert into T_TEAM_IN_MATCH values(24, 150)
+insert into T_TEAM_IN_MATCH values(30, 150)
+insert into T_MATCH values('2019/4/27', '10:22:44', 11, 24)
+insert into T_TEAM_IN_MATCH values(24, 151)
+insert into T_TEAM_IN_MATCH values(30, 151)
+insert into T_MATCH values('2019/5/18', '10:22:44', 11, 30)
+insert into T_TEAM_IN_MATCH values(24, 152)
+insert into T_TEAM_IN_MATCH values(30, 152)
+insert into T_MATCH values('2019/6/13', '10:22:44', 11, 24)
+insert into T_TEAM_IN_MATCH values(24, 153)
+insert into T_TEAM_IN_MATCH values(30, 153)
+insert into T_MATCH values('2019/7/16', '10:22:44', 11, 30)
+insert into T_TEAM_IN_MATCH values(24, 154)
+insert into T_TEAM_IN_MATCH values(30, 154)
+insert into T_MATCH values('2019/1/24', '10:22:44', 12, 5)
+insert into T_TEAM_IN_MATCH values(1, 155)
+insert into T_TEAM_IN_MATCH values(5, 155)
+insert into T_MATCH values('2019/2/13', '10:22:44', 12, 1)
+insert into T_TEAM_IN_MATCH values(1, 156)
+insert into T_TEAM_IN_MATCH values(5, 156)
+insert into T_MATCH values('2019/3/4', '10:22:44', 12, 5)
+insert into T_TEAM_IN_MATCH values(1, 157)
+insert into T_TEAM_IN_MATCH values(5, 157)
+insert into T_MATCH values('2019/4/24', '10:22:44', 12, 1)
+insert into T_TEAM_IN_MATCH values(1, 158)
+insert into T_TEAM_IN_MATCH values(5, 158)
+insert into T_MATCH values('2019/5/26', '10:22:44', 12, 5)
+insert into T_TEAM_IN_MATCH values(1, 159)
+insert into T_TEAM_IN_MATCH values(5, 159)
+insert into T_MATCH values('2019/6/9', '10:22:44', 12, 1)
+insert into T_TEAM_IN_MATCH values(1, 160)
+insert into T_TEAM_IN_MATCH values(5, 160)
+insert into T_MATCH values('2019/7/4', '10:22:44', 12, 5)
+insert into T_TEAM_IN_MATCH values(1, 161)
+insert into T_TEAM_IN_MATCH values(5, 161)
+insert into T_MATCH values('2019/1/20', '10:22:44', 12, 24)
+insert into T_TEAM_IN_MATCH values(6, 162)
+insert into T_TEAM_IN_MATCH values(24, 162)
+insert into T_MATCH values('2019/2/20', '10:22:44', 12, 6)
+insert into T_TEAM_IN_MATCH values(6, 163)
+insert into T_TEAM_IN_MATCH values(24, 163)
+insert into T_MATCH values('2019/3/3', '10:22:44', 12, 24)
+insert into T_TEAM_IN_MATCH values(6, 164)
+insert into T_TEAM_IN_MATCH values(24, 164)
+insert into T_MATCH values('2019/4/27', '10:22:44', 12, 6)
+insert into T_TEAM_IN_MATCH values(6, 165)
+insert into T_TEAM_IN_MATCH values(24, 165)
+insert into T_MATCH values('2019/5/17', '10:22:44', 12, 24)
+insert into T_TEAM_IN_MATCH values(6, 166)
+insert into T_TEAM_IN_MATCH values(24, 166)
+insert into T_MATCH values('2019/6/9', '10:22:44', 12, 6)
+insert into T_TEAM_IN_MATCH values(6, 167)
+insert into T_TEAM_IN_MATCH values(24, 167)
+insert into T_MATCH values('2019/7/19', '10:22:44', 12, 24)
+insert into T_TEAM_IN_MATCH values(6, 168)
+insert into T_TEAM_IN_MATCH values(24, 168)
+insert into T_MATCH values('2019/1/16', '10:22:44', 13, 8)
+insert into T_TEAM_IN_MATCH values(5, 169)
+insert into T_TEAM_IN_MATCH values(8, 169)
+insert into T_MATCH values('2019/2/14', '10:22:44', 13, 5)
+insert into T_TEAM_IN_MATCH values(5, 170)
+insert into T_TEAM_IN_MATCH values(8, 170)
+insert into T_MATCH values('2019/3/27', '10:22:44', 13, 8)
+insert into T_TEAM_IN_MATCH values(5, 171)
+insert into T_TEAM_IN_MATCH values(8, 171)
+insert into T_MATCH values('2019/4/5', '10:22:44', 13, 5)
+insert into T_TEAM_IN_MATCH values(5, 172)
+insert into T_TEAM_IN_MATCH values(8, 172)
+insert into T_MATCH values('2019/5/20', '10:22:44', 13, 8)
+insert into T_TEAM_IN_MATCH values(5, 173)
+insert into T_TEAM_IN_MATCH values(8, 173)
+insert into T_MATCH values('2019/6/10', '10:22:44', 13, 5)
+insert into T_TEAM_IN_MATCH values(5, 174)
+insert into T_TEAM_IN_MATCH values(8, 174)
+insert into T_MATCH values('2019/7/27', '10:22:44', 13, 8)
+insert into T_TEAM_IN_MATCH values(5, 175)
+insert into T_TEAM_IN_MATCH values(8, 175)
+insert into T_MATCH values('2019/1/10', '10:22:44', 13, 19)
+insert into T_TEAM_IN_MATCH values(15, 176)
+insert into T_TEAM_IN_MATCH values(19, 176)
+insert into T_MATCH values('2019/2/17', '10:22:44', 13, 15)
+insert into T_TEAM_IN_MATCH values(15, 177)
+insert into T_TEAM_IN_MATCH values(19, 177)
+insert into T_MATCH values('2019/3/14', '10:22:44', 13, 19)
+insert into T_TEAM_IN_MATCH values(15, 178)
+insert into T_TEAM_IN_MATCH values(19, 178)
+insert into T_MATCH values('2019/4/21', '10:22:44', 13, 15)
+insert into T_TEAM_IN_MATCH values(15, 179)
+insert into T_TEAM_IN_MATCH values(19, 179)
+insert into T_MATCH values('2019/5/12', '10:22:44', 13, 19)
+insert into T_TEAM_IN_MATCH values(15, 180)
+insert into T_TEAM_IN_MATCH values(19, 180)
+insert into T_MATCH values('2019/6/21', '10:22:44', 13, 15)
+insert into T_TEAM_IN_MATCH values(15, 181)
+insert into T_TEAM_IN_MATCH values(19, 181)
+insert into T_MATCH values('2019/7/26', '10:22:44', 13, 19)
+insert into T_TEAM_IN_MATCH values(15, 182)
+insert into T_TEAM_IN_MATCH values(19, 182)
+insert into T_MATCH values('2019/1/6', '10:22:44', 14, 13)
+insert into T_TEAM_IN_MATCH values(6, 183)
+insert into T_TEAM_IN_MATCH values(13, 183)
+insert into T_MATCH values('2019/2/9', '10:22:44', 14, 6)
+insert into T_TEAM_IN_MATCH values(6, 184)
+insert into T_TEAM_IN_MATCH values(13, 184)
+insert into T_MATCH values('2019/3/4', '10:22:44', 14, 13)
+insert into T_TEAM_IN_MATCH values(6, 185)
+insert into T_TEAM_IN_MATCH values(13, 185)
+insert into T_MATCH values('2019/4/14', '10:22:44', 14, 6)
+insert into T_TEAM_IN_MATCH values(6, 186)
+insert into T_TEAM_IN_MATCH values(13, 186)
+insert into T_MATCH values('2019/5/1', '10:22:44', 14, 13)
+insert into T_TEAM_IN_MATCH values(6, 187)
+insert into T_TEAM_IN_MATCH values(13, 187)
+insert into T_MATCH values('2019/6/7', '10:22:44', 14, 6)
+insert into T_TEAM_IN_MATCH values(6, 188)
+insert into T_TEAM_IN_MATCH values(13, 188)
+insert into T_MATCH values('2019/7/2', '10:22:44', 14, 13)
+insert into T_TEAM_IN_MATCH values(6, 189)
+insert into T_TEAM_IN_MATCH values(13, 189)
+insert into T_MATCH values('2019/1/7', '10:22:44', 14, 24)
+insert into T_TEAM_IN_MATCH values(22, 190)
+insert into T_TEAM_IN_MATCH values(24, 190)
+insert into T_MATCH values('2019/2/2', '10:22:44', 14, 22)
+insert into T_TEAM_IN_MATCH values(22, 191)
+insert into T_TEAM_IN_MATCH values(24, 191)
+insert into T_MATCH values('2019/3/15', '10:22:44', 14, 24)
+insert into T_TEAM_IN_MATCH values(22, 192)
+insert into T_TEAM_IN_MATCH values(24, 192)
+insert into T_MATCH values('2019/4/26', '10:22:44', 14, 22)
+insert into T_TEAM_IN_MATCH values(22, 193)
+insert into T_TEAM_IN_MATCH values(24, 193)
+insert into T_MATCH values('2019/5/6', '10:22:44', 14, 24)
+insert into T_TEAM_IN_MATCH values(22, 194)
+insert into T_TEAM_IN_MATCH values(24, 194)
+insert into T_MATCH values('2019/6/3', '10:22:44', 14, 22)
+insert into T_TEAM_IN_MATCH values(22, 195)
+insert into T_TEAM_IN_MATCH values(24, 195)
+insert into T_MATCH values('2019/7/25', '10:22:44', 14, 24)
+insert into T_TEAM_IN_MATCH values(22, 196)
+insert into T_TEAM_IN_MATCH values(24, 196)
+insert into T_MATCH values('2019/1/24', '10:22:44', 15, 11)
+insert into T_TEAM_IN_MATCH values(1, 197)
+insert into T_TEAM_IN_MATCH values(11, 197)
+insert into T_MATCH values('2019/2/23', '10:22:44', 15, 1)
+insert into T_TEAM_IN_MATCH values(1, 198)
+insert into T_TEAM_IN_MATCH values(11, 198)
+insert into T_MATCH values('2019/3/5', '10:22:44', 15, 11)
+insert into T_TEAM_IN_MATCH values(1, 199)
+insert into T_TEAM_IN_MATCH values(11, 199)
+insert into T_MATCH values('2019/4/29', '10:22:44', 15, 1)
+insert into T_TEAM_IN_MATCH values(1, 200)
+insert into T_TEAM_IN_MATCH values(11, 200)
+insert into T_MATCH values('2019/5/25', '10:22:44', 15, 11)
+insert into T_TEAM_IN_MATCH values(1, 201)
+insert into T_TEAM_IN_MATCH values(11, 201)
+insert into T_MATCH values('2019/6/13', '10:22:44', 15, 1)
+insert into T_TEAM_IN_MATCH values(1, 202)
+insert into T_TEAM_IN_MATCH values(11, 202)
+insert into T_MATCH values('2019/7/25', '10:22:44', 15, 11)
+insert into T_TEAM_IN_MATCH values(1, 203)
+insert into T_TEAM_IN_MATCH values(11, 203)
+insert into T_MATCH values('2019/1/29', '10:22:44', 15, 30)
+insert into T_TEAM_IN_MATCH values(25, 204)
+insert into T_TEAM_IN_MATCH values(30, 204)
+insert into T_MATCH values('2019/2/2', '10:22:44', 15, 25)
+insert into T_TEAM_IN_MATCH values(25, 205)
+insert into T_TEAM_IN_MATCH values(30, 205)
+insert into T_MATCH values('2019/3/23', '10:22:44', 15, 30)
+insert into T_TEAM_IN_MATCH values(25, 206)
+insert into T_TEAM_IN_MATCH values(30, 206)
+insert into T_MATCH values('2019/4/21', '10:22:44', 15, 25)
+insert into T_TEAM_IN_MATCH values(25, 207)
+insert into T_TEAM_IN_MATCH values(30, 207)
+insert into T_MATCH values('2019/5/5', '10:22:44', 15, 30)
+insert into T_TEAM_IN_MATCH values(25, 208)
+insert into T_TEAM_IN_MATCH values(30, 208)
+insert into T_MATCH values('2019/6/15', '10:22:44', 15, 25)
+insert into T_TEAM_IN_MATCH values(25, 209)
+insert into T_TEAM_IN_MATCH values(30, 209)
+insert into T_MATCH values('2019/7/24', '10:22:44', 15, 30)
+insert into T_TEAM_IN_MATCH values(25, 210)
+insert into T_TEAM_IN_MATCH values(30, 210)
+insert into T_MATCH values('2019/1/17', '10:22:44', 16, 21)
+insert into T_TEAM_IN_MATCH values(4, 211)
+insert into T_TEAM_IN_MATCH values(21, 211)
+insert into T_MATCH values('2019/2/23', '10:22:44', 16, 4)
+insert into T_TEAM_IN_MATCH values(4, 212)
+insert into T_TEAM_IN_MATCH values(21, 212)
+insert into T_MATCH values('2019/3/15', '10:22:44', 16, 21)
+insert into T_TEAM_IN_MATCH values(4, 213)
+insert into T_TEAM_IN_MATCH values(21, 213)
+insert into T_MATCH values('2019/4/2', '10:22:44', 16, 4)
+insert into T_TEAM_IN_MATCH values(4, 214)
+insert into T_TEAM_IN_MATCH values(21, 214)
+insert into T_MATCH values('2019/5/17', '10:22:44', 16, 21)
+insert into T_TEAM_IN_MATCH values(4, 215)
+insert into T_TEAM_IN_MATCH values(21, 215)
+insert into T_MATCH values('2019/6/20', '10:22:44', 16, 4)
+insert into T_TEAM_IN_MATCH values(4, 216)
+insert into T_TEAM_IN_MATCH values(21, 216)
+insert into T_MATCH values('2019/7/30', '10:22:44', 16, 21)
+insert into T_TEAM_IN_MATCH values(4, 217)
+insert into T_TEAM_IN_MATCH values(21, 217)
+insert into T_MATCH values('2019/1/1', '10:22:44', 16, 24)
+insert into T_TEAM_IN_MATCH values(23, 218)
+insert into T_TEAM_IN_MATCH values(24, 218)
+insert into T_MATCH values('2019/2/14', '10:22:44', 16, 23)
+insert into T_TEAM_IN_MATCH values(23, 219)
+insert into T_TEAM_IN_MATCH values(24, 219)
+insert into T_MATCH values('2019/3/22', '10:22:44', 16, 24)
+insert into T_TEAM_IN_MATCH values(23, 220)
+insert into T_TEAM_IN_MATCH values(24, 220)
+insert into T_MATCH values('2019/4/11', '10:22:44', 16, 23)
+insert into T_TEAM_IN_MATCH values(23, 221)
+insert into T_TEAM_IN_MATCH values(24, 221)
+insert into T_MATCH values('2019/5/10', '10:22:44', 16, 24)
+insert into T_TEAM_IN_MATCH values(23, 222)
+insert into T_TEAM_IN_MATCH values(24, 222)
+insert into T_MATCH values('2019/6/16', '10:22:44', 16, 23)
+insert into T_TEAM_IN_MATCH values(23, 223)
+insert into T_TEAM_IN_MATCH values(24, 223)
+insert into T_MATCH values('2019/7/22', '10:22:44', 16, 24)
+insert into T_TEAM_IN_MATCH values(23, 224)
+insert into T_TEAM_IN_MATCH values(24, 224)
+insert into T_MATCH values('2019/1/8', '10:22:44', 17, 14)
+insert into T_TEAM_IN_MATCH values(8, 225)
+insert into T_TEAM_IN_MATCH values(14, 225)
+insert into T_MATCH values('2019/2/27', '10:22:44', 17, 8)
+insert into T_TEAM_IN_MATCH values(8, 226)
+insert into T_TEAM_IN_MATCH values(14, 226)
+insert into T_MATCH values('2019/3/20', '10:22:44', 17, 14)
+insert into T_TEAM_IN_MATCH values(8, 227)
+insert into T_TEAM_IN_MATCH values(14, 227)
+insert into T_MATCH values('2019/4/17', '10:22:44', 17, 8)
+insert into T_TEAM_IN_MATCH values(8, 228)
+insert into T_TEAM_IN_MATCH values(14, 228)
+insert into T_MATCH values('2019/5/10', '10:22:44', 17, 14)
+insert into T_TEAM_IN_MATCH values(8, 229)
+insert into T_TEAM_IN_MATCH values(14, 229)
+insert into T_MATCH values('2019/6/18', '10:22:44', 17, 8)
+insert into T_TEAM_IN_MATCH values(8, 230)
+insert into T_TEAM_IN_MATCH values(14, 230)
+insert into T_MATCH values('2019/7/17', '10:22:44', 17, 14)
+insert into T_TEAM_IN_MATCH values(8, 231)
+insert into T_TEAM_IN_MATCH values(14, 231)
+insert into T_MATCH values('2019/1/20', '10:22:44', 17, 25)
+insert into T_TEAM_IN_MATCH values(15, 232)
+insert into T_TEAM_IN_MATCH values(25, 232)
+insert into T_MATCH values('2019/2/17', '10:22:44', 17, 15)
+insert into T_TEAM_IN_MATCH values(15, 233)
+insert into T_TEAM_IN_MATCH values(25, 233)
+insert into T_MATCH values('2019/3/5', '10:22:44', 17, 25)
+insert into T_TEAM_IN_MATCH values(15, 234)
+insert into T_TEAM_IN_MATCH values(25, 234)
+insert into T_MATCH values('2019/4/27', '10:22:44', 17, 15)
+insert into T_TEAM_IN_MATCH values(15, 235)
+insert into T_TEAM_IN_MATCH values(25, 235)
+insert into T_MATCH values('2019/5/25', '10:22:44', 17, 25)
+insert into T_TEAM_IN_MATCH values(15, 236)
+insert into T_TEAM_IN_MATCH values(25, 236)
+insert into T_MATCH values('2019/6/21', '10:22:44', 17, 15)
+insert into T_TEAM_IN_MATCH values(15, 237)
+insert into T_TEAM_IN_MATCH values(25, 237)
+insert into T_MATCH values('2019/7/15', '10:22:44', 17, 25)
+insert into T_TEAM_IN_MATCH values(15, 238)
+insert into T_TEAM_IN_MATCH values(25, 238)
+insert into T_MATCH values('2019/1/28', '10:22:44', 18, 22)
+insert into T_TEAM_IN_MATCH values(21, 239)
+insert into T_TEAM_IN_MATCH values(22, 239)
+insert into T_MATCH values('2019/2/23', '10:22:44', 18, 21)
+insert into T_TEAM_IN_MATCH values(21, 240)
+insert into T_TEAM_IN_MATCH values(22, 240)
+insert into T_MATCH values('2019/3/9', '10:22:44', 18, 22)
+insert into T_TEAM_IN_MATCH values(21, 241)
+insert into T_TEAM_IN_MATCH values(22, 241)
+insert into T_MATCH values('2019/4/27', '10:22:44', 18, 21)
+insert into T_TEAM_IN_MATCH values(21, 242)
+insert into T_TEAM_IN_MATCH values(22, 242)
+insert into T_MATCH values('2019/5/20', '10:22:44', 18, 22)
+insert into T_TEAM_IN_MATCH values(21, 243)
+insert into T_TEAM_IN_MATCH values(22, 243)
+insert into T_MATCH values('2019/6/13', '10:22:44', 18, 21)
+insert into T_TEAM_IN_MATCH values(21, 244)
+insert into T_TEAM_IN_MATCH values(22, 244)
+insert into T_MATCH values('2019/7/8', '10:22:44', 18, 22)
+insert into T_TEAM_IN_MATCH values(21, 245)
+insert into T_TEAM_IN_MATCH values(22, 245)
+insert into T_MATCH values('2019/1/18', '10:22:44', 18, 29)
+insert into T_TEAM_IN_MATCH values(27, 246)
+insert into T_TEAM_IN_MATCH values(29, 246)
+insert into T_MATCH values('2019/2/24', '10:22:44', 18, 27)
+insert into T_TEAM_IN_MATCH values(27, 247)
+insert into T_TEAM_IN_MATCH values(29, 247)
+insert into T_MATCH values('2019/3/12', '10:22:44', 18, 29)
+insert into T_TEAM_IN_MATCH values(27, 248)
+insert into T_TEAM_IN_MATCH values(29, 248)
+insert into T_MATCH values('2019/4/9', '10:22:44', 18, 27)
+insert into T_TEAM_IN_MATCH values(27, 249)
+insert into T_TEAM_IN_MATCH values(29, 249)
+insert into T_MATCH values('2019/5/19', '10:22:44', 18, 29)
+insert into T_TEAM_IN_MATCH values(27, 250)
+insert into T_TEAM_IN_MATCH values(29, 250)
+insert into T_MATCH values('2019/6/20', '10:22:44', 18, 27)
+insert into T_TEAM_IN_MATCH values(27, 251)
+insert into T_TEAM_IN_MATCH values(29, 251)
+insert into T_MATCH values('2019/7/20', '10:22:44', 18, 29)
+insert into T_TEAM_IN_MATCH values(27, 252)
+insert into T_TEAM_IN_MATCH values(29, 252)
+insert into T_MATCH values('2019/1/22', '10:22:44', 19, 9)
+insert into T_TEAM_IN_MATCH values(3, 253)
+insert into T_TEAM_IN_MATCH values(9, 253)
+insert into T_MATCH values('2019/2/20', '10:22:44', 19, 3)
+insert into T_TEAM_IN_MATCH values(3, 254)
+insert into T_TEAM_IN_MATCH values(9, 254)
+insert into T_MATCH values('2019/3/26', '10:22:44', 19, 9)
+insert into T_TEAM_IN_MATCH values(3, 255)
+insert into T_TEAM_IN_MATCH values(9, 255)
+insert into T_MATCH values('2019/4/2', '10:22:44', 19, 3)
+insert into T_TEAM_IN_MATCH values(3, 256)
+insert into T_TEAM_IN_MATCH values(9, 256)
+insert into T_MATCH values('2019/5/28', '10:22:44', 19, 9)
+insert into T_TEAM_IN_MATCH values(3, 257)
+insert into T_TEAM_IN_MATCH values(9, 257)
+insert into T_MATCH values('2019/6/1', '10:22:44', 19, 3)
+insert into T_TEAM_IN_MATCH values(3, 258)
+insert into T_TEAM_IN_MATCH values(9, 258)
+insert into T_MATCH values('2019/7/5', '10:22:44', 19, 9)
+insert into T_TEAM_IN_MATCH values(3, 259)
+insert into T_TEAM_IN_MATCH values(9, 259)
+insert into T_MATCH values('2019/1/18', '10:22:44', 19, 28)
+insert into T_TEAM_IN_MATCH values(16, 260)
+insert into T_TEAM_IN_MATCH values(28, 260)
+insert into T_MATCH values('2019/2/14', '10:22:44', 19, 16)
+insert into T_TEAM_IN_MATCH values(16, 261)
+insert into T_TEAM_IN_MATCH values(28, 261)
+insert into T_MATCH values('2019/3/6', '10:22:44', 19, 28)
+insert into T_TEAM_IN_MATCH values(16, 262)
+insert into T_TEAM_IN_MATCH values(28, 262)
+insert into T_MATCH values('2019/4/13', '10:22:44', 19, 16)
+insert into T_TEAM_IN_MATCH values(16, 263)
+insert into T_TEAM_IN_MATCH values(28, 263)
+insert into T_MATCH values('2019/5/17', '10:22:44', 19, 28)
+insert into T_TEAM_IN_MATCH values(16, 264)
+insert into T_TEAM_IN_MATCH values(28, 264)
+insert into T_MATCH values('2019/6/16', '10:22:44', 19, 16)
+insert into T_TEAM_IN_MATCH values(16, 265)
+insert into T_TEAM_IN_MATCH values(28, 265)
+insert into T_MATCH values('2019/7/28', '10:22:44', 19, 28)
+insert into T_TEAM_IN_MATCH values(16, 266)
+insert into T_TEAM_IN_MATCH values(28, 266)
+insert into T_MATCH values('2019/1/6', '10:22:44', 20, 12)
+insert into T_TEAM_IN_MATCH values(11, 267)
+insert into T_TEAM_IN_MATCH values(12, 267)
+insert into T_MATCH values('2019/2/7', '10:22:44', 20, 11)
+insert into T_TEAM_IN_MATCH values(11, 268)
+insert into T_TEAM_IN_MATCH values(12, 268)
+insert into T_MATCH values('2019/3/23', '10:22:44', 20, 12)
+insert into T_TEAM_IN_MATCH values(11, 269)
+insert into T_TEAM_IN_MATCH values(12, 269)
+insert into T_MATCH values('2019/4/12', '10:22:44', 20, 11)
+insert into T_TEAM_IN_MATCH values(11, 270)
+insert into T_TEAM_IN_MATCH values(12, 270)
+insert into T_MATCH values('2019/5/11', '10:22:44', 20, 12)
+insert into T_TEAM_IN_MATCH values(11, 271)
+insert into T_TEAM_IN_MATCH values(12, 271)
+insert into T_MATCH values('2019/6/6', '10:22:44', 20, 11)
+insert into T_TEAM_IN_MATCH values(11, 272)
+insert into T_TEAM_IN_MATCH values(12, 272)
+insert into T_MATCH values('2019/7/29', '10:22:44', 20, 12)
+insert into T_TEAM_IN_MATCH values(11, 273)
+insert into T_TEAM_IN_MATCH values(12, 273)
+insert into T_MATCH values('2019/1/17', '10:22:44', 20, 23)
+insert into T_TEAM_IN_MATCH values(20, 274)
+insert into T_TEAM_IN_MATCH values(23, 274)
+insert into T_MATCH values('2019/2/9', '10:22:44', 20, 20)
+insert into T_TEAM_IN_MATCH values(20, 275)
+insert into T_TEAM_IN_MATCH values(23, 275)
+insert into T_MATCH values('2019/3/17', '10:22:44', 20, 23)
+insert into T_TEAM_IN_MATCH values(20, 276)
+insert into T_TEAM_IN_MATCH values(23, 276)
+insert into T_MATCH values('2019/4/25', '10:22:44', 20, 20)
+insert into T_TEAM_IN_MATCH values(20, 277)
+insert into T_TEAM_IN_MATCH values(23, 277)
+insert into T_MATCH values('2019/5/11', '10:22:44', 20, 23)
+insert into T_TEAM_IN_MATCH values(20, 278)
+insert into T_TEAM_IN_MATCH values(23, 278)
+insert into T_MATCH values('2019/6/23', '10:22:44', 20, 20)
+insert into T_TEAM_IN_MATCH values(20, 279)
+insert into T_TEAM_IN_MATCH values(23, 279)
+insert into T_MATCH values('2019/7/1', '10:22:44', 20, 23)
+insert into T_TEAM_IN_MATCH values(20, 280)
+insert into T_TEAM_IN_MATCH values(23, 280)
+insert into T_MATCH values('2019/1/10', '10:22:44', 21, 14)
+insert into T_TEAM_IN_MATCH values(8, 281)
+insert into T_TEAM_IN_MATCH values(14, 281)
+insert into T_MATCH values('2019/2/13', '10:22:44', 21, 8)
+insert into T_TEAM_IN_MATCH values(8, 282)
+insert into T_TEAM_IN_MATCH values(14, 282)
+insert into T_MATCH values('2019/3/29', '10:22:44', 21, 14)
+insert into T_TEAM_IN_MATCH values(8, 283)
+insert into T_TEAM_IN_MATCH values(14, 283)
+insert into T_MATCH values('2019/4/27', '10:22:44', 21, 8)
+insert into T_TEAM_IN_MATCH values(8, 284)
+insert into T_TEAM_IN_MATCH values(14, 284)
+insert into T_MATCH values('2019/5/12', '10:22:44', 21, 14)
+insert into T_TEAM_IN_MATCH values(8, 285)
+insert into T_TEAM_IN_MATCH values(14, 285)
+insert into T_MATCH values('2019/6/15', '10:22:44', 21, 8)
+insert into T_TEAM_IN_MATCH values(8, 286)
+insert into T_TEAM_IN_MATCH values(14, 286)
+insert into T_MATCH values('2019/7/8', '10:22:44', 21, 14)
+insert into T_TEAM_IN_MATCH values(8, 287)
+insert into T_TEAM_IN_MATCH values(14, 287)
+insert into T_MATCH values('2019/1/29', '10:22:44', 21, 30)
+insert into T_TEAM_IN_MATCH values(18, 288)
+insert into T_TEAM_IN_MATCH values(30, 288)
+insert into T_MATCH values('2019/2/24', '10:22:44', 21, 18)
+insert into T_TEAM_IN_MATCH values(18, 289)
+insert into T_TEAM_IN_MATCH values(30, 289)
+insert into T_MATCH values('2019/3/7', '10:22:44', 21, 30)
+insert into T_TEAM_IN_MATCH values(18, 290)
+insert into T_TEAM_IN_MATCH values(30, 290)
+insert into T_MATCH values('2019/4/3', '10:22:44', 21, 18)
+insert into T_TEAM_IN_MATCH values(18, 291)
+insert into T_TEAM_IN_MATCH values(30, 291)
+insert into T_MATCH values('2019/5/14', '10:22:44', 21, 30)
+insert into T_TEAM_IN_MATCH values(18, 292)
+insert into T_TEAM_IN_MATCH values(30, 292)
+insert into T_MATCH values('2019/6/11', '10:22:44', 21, 18)
+insert into T_TEAM_IN_MATCH values(18, 293)
+insert into T_TEAM_IN_MATCH values(30, 293)
+insert into T_MATCH values('2019/7/11', '10:22:44', 21, 30)
+insert into T_TEAM_IN_MATCH values(18, 294)
+insert into T_TEAM_IN_MATCH values(30, 294)
+insert into T_MATCH values('2019/1/4', '10:22:44', 22, 14)
+insert into T_TEAM_IN_MATCH values(6, 295)
+insert into T_TEAM_IN_MATCH values(14, 295)
+insert into T_MATCH values('2019/2/17', '10:22:44', 22, 6)
+insert into T_TEAM_IN_MATCH values(6, 296)
+insert into T_TEAM_IN_MATCH values(14, 296)
+insert into T_MATCH values('2019/3/11', '10:22:44', 22, 14)
+insert into T_TEAM_IN_MATCH values(6, 297)
+insert into T_TEAM_IN_MATCH values(14, 297)
+insert into T_MATCH values('2019/4/5', '10:22:44', 22, 6)
+insert into T_TEAM_IN_MATCH values(6, 298)
+insert into T_TEAM_IN_MATCH values(14, 298)
+insert into T_MATCH values('2019/5/21', '10:22:44', 22, 14)
+insert into T_TEAM_IN_MATCH values(6, 299)
+insert into T_TEAM_IN_MATCH values(14, 299)
+insert into T_MATCH values('2019/6/25', '10:22:44', 22, 6)
+insert into T_TEAM_IN_MATCH values(6, 300)
+insert into T_TEAM_IN_MATCH values(14, 300)
+insert into T_MATCH values('2019/7/7', '10:22:44', 22, 14)
+insert into T_TEAM_IN_MATCH values(6, 301)
+insert into T_TEAM_IN_MATCH values(14, 301)
+insert into T_MATCH values('2019/1/6', '10:22:44', 22, 26)
+insert into T_TEAM_IN_MATCH values(23, 302)
+insert into T_TEAM_IN_MATCH values(26, 302)
+insert into T_MATCH values('2019/2/19', '10:22:44', 22, 23)
+insert into T_TEAM_IN_MATCH values(23, 303)
+insert into T_TEAM_IN_MATCH values(26, 303)
+insert into T_MATCH values('2019/3/22', '10:22:44', 22, 26)
+insert into T_TEAM_IN_MATCH values(23, 304)
+insert into T_TEAM_IN_MATCH values(26, 304)
+insert into T_MATCH values('2019/4/15', '10:22:44', 22, 23)
+insert into T_TEAM_IN_MATCH values(23, 305)
+insert into T_TEAM_IN_MATCH values(26, 305)
+insert into T_MATCH values('2019/5/8', '10:22:44', 22, 26)
+insert into T_TEAM_IN_MATCH values(23, 306)
+insert into T_TEAM_IN_MATCH values(26, 306)
+insert into T_MATCH values('2019/6/21', '10:22:44', 22, 23)
+insert into T_TEAM_IN_MATCH values(23, 307)
+insert into T_TEAM_IN_MATCH values(26, 307)
+insert into T_MATCH values('2019/7/16', '10:22:44', 22, 26)
+insert into T_TEAM_IN_MATCH values(23, 308)
+insert into T_TEAM_IN_MATCH values(26, 308)
+insert into T_MATCH values('2019/1/8', '10:22:44', 23, 13)
+insert into T_TEAM_IN_MATCH values(2, 309)
+insert into T_TEAM_IN_MATCH values(13, 309)
+insert into T_MATCH values('2019/2/15', '10:22:44', 23, 2)
+insert into T_TEAM_IN_MATCH values(2, 310)
+insert into T_TEAM_IN_MATCH values(13, 310)
+insert into T_MATCH values('2019/3/24', '10:22:44', 23, 13)
+insert into T_TEAM_IN_MATCH values(2, 311)
+insert into T_TEAM_IN_MATCH values(13, 311)
+insert into T_MATCH values('2019/4/26', '10:22:44', 23, 2)
+insert into T_TEAM_IN_MATCH values(2, 312)
+insert into T_TEAM_IN_MATCH values(13, 312)
+insert into T_MATCH values('2019/5/6', '10:22:44', 23, 13)
+insert into T_TEAM_IN_MATCH values(2, 313)
+insert into T_TEAM_IN_MATCH values(13, 313)
+insert into T_MATCH values('2019/6/1', '10:22:44', 23, 2)
+insert into T_TEAM_IN_MATCH values(2, 314)
+insert into T_TEAM_IN_MATCH values(13, 314)
+insert into T_MATCH values('2019/7/13', '10:22:44', 23, 13)
+insert into T_TEAM_IN_MATCH values(2, 315)
+insert into T_TEAM_IN_MATCH values(13, 315)
+insert into T_MATCH values('2019/1/26', '10:22:44', 23, 25)
+insert into T_TEAM_IN_MATCH values(14, 316)
+insert into T_TEAM_IN_MATCH values(25, 316)
+insert into T_MATCH values('2019/2/6', '10:22:44', 23, 14)
+insert into T_TEAM_IN_MATCH values(14, 317)
+insert into T_TEAM_IN_MATCH values(25, 317)
+insert into T_MATCH values('2019/3/28', '10:22:44', 23, 25)
+insert into T_TEAM_IN_MATCH values(14, 318)
+insert into T_TEAM_IN_MATCH values(25, 318)
+insert into T_MATCH values('2019/4/12', '10:22:44', 23, 14)
+insert into T_TEAM_IN_MATCH values(14, 319)
+insert into T_TEAM_IN_MATCH values(25, 319)
+insert into T_MATCH values('2019/5/26', '10:22:44', 23, 25)
+insert into T_TEAM_IN_MATCH values(14, 320)
+insert into T_TEAM_IN_MATCH values(25, 320)
+insert into T_MATCH values('2019/6/3', '10:22:44', 23, 14)
+insert into T_TEAM_IN_MATCH values(14, 321)
+insert into T_TEAM_IN_MATCH values(25, 321)
+insert into T_MATCH values('2019/7/30', '10:22:44', 23, 25)
+insert into T_TEAM_IN_MATCH values(14, 322)
+insert into T_TEAM_IN_MATCH values(25, 322)
+insert into T_MATCH values('2019/1/10', '10:22:44', 24, 3)
+insert into T_TEAM_IN_MATCH values(1, 323)
+insert into T_TEAM_IN_MATCH values(3, 323)
+insert into T_MATCH values('2019/2/13', '10:22:44', 24, 1)
+insert into T_TEAM_IN_MATCH values(1, 324)
+insert into T_TEAM_IN_MATCH values(3, 324)
+insert into T_MATCH values('2019/3/16', '10:22:44', 24, 3)
+insert into T_TEAM_IN_MATCH values(1, 325)
+insert into T_TEAM_IN_MATCH values(3, 325)
+insert into T_MATCH values('2019/4/25', '10:22:44', 24, 1)
+insert into T_TEAM_IN_MATCH values(1, 326)
+insert into T_TEAM_IN_MATCH values(3, 326)
+insert into T_MATCH values('2019/5/13', '10:22:44', 24, 3)
+insert into T_TEAM_IN_MATCH values(1, 327)
+insert into T_TEAM_IN_MATCH values(3, 327)
+insert into T_MATCH values('2019/6/20', '10:22:44', 24, 1)
+insert into T_TEAM_IN_MATCH values(1, 328)
+insert into T_TEAM_IN_MATCH values(3, 328)
+insert into T_MATCH values('2019/7/7', '10:22:44', 24, 3)
+insert into T_TEAM_IN_MATCH values(1, 329)
+insert into T_TEAM_IN_MATCH values(3, 329)
+insert into T_MATCH values('2019/1/13', '10:22:44', 24, 30)
+insert into T_TEAM_IN_MATCH values(29, 330)
+insert into T_TEAM_IN_MATCH values(30, 330)
+insert into T_MATCH values('2019/2/13', '10:22:44', 24, 29)
+insert into T_TEAM_IN_MATCH values(29, 331)
+insert into T_TEAM_IN_MATCH values(30, 331)
+insert into T_MATCH values('2019/3/23', '10:22:44', 24, 30)
+insert into T_TEAM_IN_MATCH values(29, 332)
+insert into T_TEAM_IN_MATCH values(30, 332)
+insert into T_MATCH values('2019/4/13', '10:22:44', 24, 29)
+insert into T_TEAM_IN_MATCH values(29, 333)
+insert into T_TEAM_IN_MATCH values(30, 333)
+insert into T_MATCH values('2019/5/4', '10:22:44', 24, 30)
+insert into T_TEAM_IN_MATCH values(29, 334)
+insert into T_TEAM_IN_MATCH values(30, 334)
+insert into T_MATCH values('2019/6/8', '10:22:44', 24, 29)
+insert into T_TEAM_IN_MATCH values(29, 335)
+insert into T_TEAM_IN_MATCH values(30, 335)
+insert into T_MATCH values('2019/7/29', '10:22:44', 24, 30)
+insert into T_TEAM_IN_MATCH values(29, 336)
+insert into T_TEAM_IN_MATCH values(30, 336)
+insert into T_MATCH values('2019/1/23', '10:22:44', 25, 20)
+insert into T_TEAM_IN_MATCH values(17, 337)
+insert into T_TEAM_IN_MATCH values(20, 337)
+insert into T_MATCH values('2019/2/24', '10:22:44', 25, 17)
+insert into T_TEAM_IN_MATCH values(17, 338)
+insert into T_TEAM_IN_MATCH values(20, 338)
+insert into T_MATCH values('2019/3/30', '10:22:44', 25, 20)
+insert into T_TEAM_IN_MATCH values(17, 339)
+insert into T_TEAM_IN_MATCH values(20, 339)
+insert into T_MATCH values('2019/4/29', '10:22:44', 25, 17)
+insert into T_TEAM_IN_MATCH values(17, 340)
+insert into T_TEAM_IN_MATCH values(20, 340)
+insert into T_MATCH values('2019/5/11', '10:22:44', 25, 20)
+insert into T_TEAM_IN_MATCH values(17, 341)
+insert into T_TEAM_IN_MATCH values(20, 341)
+insert into T_MATCH values('2019/6/16', '10:22:44', 25, 17)
+insert into T_TEAM_IN_MATCH values(17, 342)
+insert into T_TEAM_IN_MATCH values(20, 342)
+insert into T_MATCH values('2019/7/29', '10:22:44', 25, 20)
+insert into T_TEAM_IN_MATCH values(17, 343)
+insert into T_TEAM_IN_MATCH values(20, 343)
+insert into T_MATCH values('2019/1/9', '10:22:44', 25, 27)
+insert into T_TEAM_IN_MATCH values(24, 344)
+insert into T_TEAM_IN_MATCH values(27, 344)
+insert into T_MATCH values('2019/2/14', '10:22:44', 25, 24)
+insert into T_TEAM_IN_MATCH values(24, 345)
+insert into T_TEAM_IN_MATCH values(27, 345)
+insert into T_MATCH values('2019/3/1', '10:22:44', 25, 27)
+insert into T_TEAM_IN_MATCH values(24, 346)
+insert into T_TEAM_IN_MATCH values(27, 346)
+insert into T_MATCH values('2019/4/13', '10:22:44', 25, 24)
+insert into T_TEAM_IN_MATCH values(24, 347)
+insert into T_TEAM_IN_MATCH values(27, 347)
+insert into T_MATCH values('2019/5/9', '10:22:44', 25, 27)
+insert into T_TEAM_IN_MATCH values(24, 348)
+insert into T_TEAM_IN_MATCH values(27, 348)
+insert into T_MATCH values('2019/6/12', '10:22:44', 25, 24)
+insert into T_TEAM_IN_MATCH values(24, 349)
+insert into T_TEAM_IN_MATCH values(27, 349)
+insert into T_MATCH values('2019/7/10', '10:22:44', 25, 27)
+insert into T_TEAM_IN_MATCH values(24, 350)
+insert into T_TEAM_IN_MATCH values(27, 350)
+insert into T_MATCH values('2019/1/26', '10:22:44', 26, 16)
+insert into T_TEAM_IN_MATCH values(5, 351)
+insert into T_TEAM_IN_MATCH values(16, 351)
+insert into T_MATCH values('2019/2/7', '10:22:44', 26, 5)
+insert into T_TEAM_IN_MATCH values(5, 352)
+insert into T_TEAM_IN_MATCH values(16, 352)
+insert into T_MATCH values('2019/3/29', '10:22:44', 26, 16)
+insert into T_TEAM_IN_MATCH values(5, 353)
+insert into T_TEAM_IN_MATCH values(16, 353)
+insert into T_MATCH values('2019/4/25', '10:22:44', 26, 5)
+insert into T_TEAM_IN_MATCH values(5, 354)
+insert into T_TEAM_IN_MATCH values(16, 354)
+insert into T_MATCH values('2019/5/12', '10:22:44', 26, 16)
+insert into T_TEAM_IN_MATCH values(5, 355)
+insert into T_TEAM_IN_MATCH values(16, 355)
+insert into T_MATCH values('2019/6/6', '10:22:44', 26, 5)
+insert into T_TEAM_IN_MATCH values(5, 356)
+insert into T_TEAM_IN_MATCH values(16, 356)
+insert into T_MATCH values('2019/7/26', '10:22:44', 26, 16)
+insert into T_TEAM_IN_MATCH values(5, 357)
+insert into T_TEAM_IN_MATCH values(16, 357)
+insert into T_MATCH values('2019/1/30', '10:22:44', 26, 28)
+insert into T_TEAM_IN_MATCH values(20, 358)
+insert into T_TEAM_IN_MATCH values(28, 358)
+insert into T_MATCH values('2019/2/27', '10:22:44', 26, 20)
+insert into T_TEAM_IN_MATCH values(20, 359)
+insert into T_TEAM_IN_MATCH values(28, 359)
+insert into T_MATCH values('2019/3/10', '10:22:44', 26, 28)
+insert into T_TEAM_IN_MATCH values(20, 360)
+insert into T_TEAM_IN_MATCH values(28, 360)
+insert into T_MATCH values('2019/4/22', '10:22:44', 26, 20)
+insert into T_TEAM_IN_MATCH values(20, 361)
+insert into T_TEAM_IN_MATCH values(28, 361)
+insert into T_MATCH values('2019/5/27', '10:22:44', 26, 28)
+insert into T_TEAM_IN_MATCH values(20, 362)
+insert into T_TEAM_IN_MATCH values(28, 362)
+insert into T_MATCH values('2019/6/8', '10:22:44', 26, 20)
+insert into T_TEAM_IN_MATCH values(20, 363)
+insert into T_TEAM_IN_MATCH values(28, 363)
+insert into T_MATCH values('2019/7/7', '10:22:44', 26, 28)
+insert into T_TEAM_IN_MATCH values(20, 364)
+insert into T_TEAM_IN_MATCH values(28, 364)
+insert into T_MATCH values('2019/1/22', '10:22:44', 27, 13)
+insert into T_TEAM_IN_MATCH values(11, 365)
+insert into T_TEAM_IN_MATCH values(13, 365)
+insert into T_MATCH values('2019/2/21', '10:22:44', 27, 11)
+insert into T_TEAM_IN_MATCH values(11, 366)
+insert into T_TEAM_IN_MATCH values(13, 366)
+insert into T_MATCH values('2019/3/16', '10:22:44', 27, 13)
+insert into T_TEAM_IN_MATCH values(11, 367)
+insert into T_TEAM_IN_MATCH values(13, 367)
+insert into T_MATCH values('2019/4/12', '10:22:44', 27, 11)
+insert into T_TEAM_IN_MATCH values(11, 368)
+insert into T_TEAM_IN_MATCH values(13, 368)
+insert into T_MATCH values('2019/5/28', '10:22:44', 27, 13)
+insert into T_TEAM_IN_MATCH values(11, 369)
+insert into T_TEAM_IN_MATCH values(13, 369)
+insert into T_MATCH values('2019/6/29', '10:22:44', 27, 11)
+insert into T_TEAM_IN_MATCH values(11, 370)
+insert into T_TEAM_IN_MATCH values(13, 370)
+insert into T_MATCH values('2019/7/25', '10:22:44', 27, 13)
+insert into T_TEAM_IN_MATCH values(11, 371)
+insert into T_TEAM_IN_MATCH values(13, 371)
+insert into T_MATCH values('2019/1/6', '10:22:44', 27, 31)
+insert into T_TEAM_IN_MATCH values(20, 372)
+insert into T_TEAM_IN_MATCH values(31, 372)
+insert into T_MATCH values('2019/2/9', '10:22:44', 27, 20)
+insert into T_TEAM_IN_MATCH values(20, 373)
+insert into T_TEAM_IN_MATCH values(31, 373)
+insert into T_MATCH values('2019/3/11', '10:22:44', 27, 31)
+insert into T_TEAM_IN_MATCH values(20, 374)
+insert into T_TEAM_IN_MATCH values(31, 374)
+insert into T_MATCH values('2019/4/22', '10:22:44', 27, 20)
+insert into T_TEAM_IN_MATCH values(20, 375)
+insert into T_TEAM_IN_MATCH values(31, 375)
+insert into T_MATCH values('2019/5/9', '10:22:44', 27, 31)
+insert into T_TEAM_IN_MATCH values(20, 376)
+insert into T_TEAM_IN_MATCH values(31, 376)
+insert into T_MATCH values('2019/6/17', '10:22:44', 27, 20)
+insert into T_TEAM_IN_MATCH values(20, 377)
+insert into T_TEAM_IN_MATCH values(31, 377)
+insert into T_MATCH values('2019/7/7', '10:22:44', 27, 31)
+insert into T_TEAM_IN_MATCH values(20, 378)
+insert into T_TEAM_IN_MATCH values(31, 378)
+insert into T_MATCH values('2019/1/9', '10:22:44', 28, 22)
+insert into T_TEAM_IN_MATCH values(19, 379)
+insert into T_TEAM_IN_MATCH values(22, 379)
+insert into T_MATCH values('2019/2/3', '10:22:44', 28, 19)
+insert into T_TEAM_IN_MATCH values(19, 380)
+insert into T_TEAM_IN_MATCH values(22, 380)
+insert into T_MATCH values('2019/3/22', '10:22:44', 28, 22)
+insert into T_TEAM_IN_MATCH values(19, 381)
+insert into T_TEAM_IN_MATCH values(22, 381)
+insert into T_MATCH values('2019/4/28', '10:22:44', 28, 19)
+insert into T_TEAM_IN_MATCH values(19, 382)
+insert into T_TEAM_IN_MATCH values(22, 382)
+insert into T_MATCH values('2019/5/19', '10:22:44', 28, 22)
+insert into T_TEAM_IN_MATCH values(19, 383)
+insert into T_TEAM_IN_MATCH values(22, 383)
+insert into T_MATCH values('2019/6/19', '10:22:44', 28, 19)
+insert into T_TEAM_IN_MATCH values(19, 384)
+insert into T_TEAM_IN_MATCH values(22, 384)
+insert into T_MATCH values('2019/7/8', '10:22:44', 28, 22)
+insert into T_TEAM_IN_MATCH values(19, 385)
+insert into T_TEAM_IN_MATCH values(22, 385)
+insert into T_MATCH values('2019/1/19', '10:22:44', 28, 30)
+insert into T_TEAM_IN_MATCH values(27, 386)
+insert into T_TEAM_IN_MATCH values(30, 386)
+insert into T_MATCH values('2019/2/6', '10:22:44', 28, 27)
+insert into T_TEAM_IN_MATCH values(27, 387)
+insert into T_TEAM_IN_MATCH values(30, 387)
+insert into T_MATCH values('2019/3/26', '10:22:44', 28, 30)
+insert into T_TEAM_IN_MATCH values(27, 388)
+insert into T_TEAM_IN_MATCH values(30, 388)
+insert into T_MATCH values('2019/4/22', '10:22:44', 28, 27)
+insert into T_TEAM_IN_MATCH values(27, 389)
+insert into T_TEAM_IN_MATCH values(30, 389)
+insert into T_MATCH values('2019/5/2', '10:22:44', 28, 30)
+insert into T_TEAM_IN_MATCH values(27, 390)
+insert into T_TEAM_IN_MATCH values(30, 390)
+insert into T_MATCH values('2019/6/7', '10:22:44', 28, 27)
+insert into T_TEAM_IN_MATCH values(27, 391)
+insert into T_TEAM_IN_MATCH values(30, 391)
+insert into T_MATCH values('2019/7/5', '10:22:44', 28, 30)
+insert into T_TEAM_IN_MATCH values(27, 392)
+insert into T_TEAM_IN_MATCH values(30, 392)
+insert into T_MATCH values('2019/1/21', '10:22:44', 29, 18)
+insert into T_TEAM_IN_MATCH values(9, 393)
+insert into T_TEAM_IN_MATCH values(18, 393)
+insert into T_MATCH values('2019/2/6', '10:22:44', 29, 9)
+insert into T_TEAM_IN_MATCH values(9, 394)
+insert into T_TEAM_IN_MATCH values(18, 394)
+insert into T_MATCH values('2019/3/7', '10:22:44', 29, 18)
+insert into T_TEAM_IN_MATCH values(9, 395)
+insert into T_TEAM_IN_MATCH values(18, 395)
+insert into T_MATCH values('2019/4/11', '10:22:44', 29, 9)
+insert into T_TEAM_IN_MATCH values(9, 396)
+insert into T_TEAM_IN_MATCH values(18, 396)
+insert into T_MATCH values('2019/5/19', '10:22:44', 29, 18)
+insert into T_TEAM_IN_MATCH values(9, 397)
+insert into T_TEAM_IN_MATCH values(18, 397)
+insert into T_MATCH values('2019/6/23', '10:22:44', 29, 9)
+insert into T_TEAM_IN_MATCH values(9, 398)
+insert into T_TEAM_IN_MATCH values(18, 398)
+insert into T_MATCH values('2019/7/20', '10:22:44', 29, 18)
+insert into T_TEAM_IN_MATCH values(9, 399)
+insert into T_TEAM_IN_MATCH values(18, 399)
+insert into T_MATCH values('2019/1/25', '10:22:44', 29, 23)
+insert into T_TEAM_IN_MATCH values(21, 400)
+insert into T_TEAM_IN_MATCH values(23, 400)
+insert into T_MATCH values('2019/2/20', '10:22:44', 29, 21)
+insert into T_TEAM_IN_MATCH values(21, 401)
+insert into T_TEAM_IN_MATCH values(23, 401)
+insert into T_MATCH values('2019/3/9', '10:22:44', 29, 23)
+insert into T_TEAM_IN_MATCH values(21, 402)
+insert into T_TEAM_IN_MATCH values(23, 402)
+insert into T_MATCH values('2019/4/28', '10:22:44', 29, 21)
+insert into T_TEAM_IN_MATCH values(21, 403)
+insert into T_TEAM_IN_MATCH values(23, 403)
+insert into T_MATCH values('2019/5/2', '10:22:44', 29, 23)
+insert into T_TEAM_IN_MATCH values(21, 404)
+insert into T_TEAM_IN_MATCH values(23, 404)
+insert into T_MATCH values('2019/6/15', '10:22:44', 29, 21)
+insert into T_TEAM_IN_MATCH values(21, 405)
+insert into T_TEAM_IN_MATCH values(23, 405)
+insert into T_MATCH values('2019/7/27', '10:22:44', 29, 23)
+insert into T_TEAM_IN_MATCH values(21, 406)
+insert into T_TEAM_IN_MATCH values(23, 406)
+insert into T_MATCH values('2019/1/18', '10:22:44', 30, 5)
+insert into T_TEAM_IN_MATCH values(1, 407)
+insert into T_TEAM_IN_MATCH values(5, 407)
+insert into T_MATCH values('2019/2/3', '10:22:44', 30, 1)
+insert into T_TEAM_IN_MATCH values(1, 408)
+insert into T_TEAM_IN_MATCH values(5, 408)
+insert into T_MATCH values('2019/3/8', '10:22:44', 30, 5)
+insert into T_TEAM_IN_MATCH values(1, 409)
+insert into T_TEAM_IN_MATCH values(5, 409)
+insert into T_MATCH values('2019/4/4', '10:22:44', 30, 1)
+insert into T_TEAM_IN_MATCH values(1, 410)
+insert into T_TEAM_IN_MATCH values(5, 410)
+insert into T_MATCH values('2019/5/19', '10:22:44', 30, 5)
+insert into T_TEAM_IN_MATCH values(1, 411)
+insert into T_TEAM_IN_MATCH values(5, 411)
+insert into T_MATCH values('2019/6/6', '10:22:44', 30, 1)
+insert into T_TEAM_IN_MATCH values(1, 412)
+insert into T_TEAM_IN_MATCH values(5, 412)
+insert into T_MATCH values('2019/7/15', '10:22:44', 30, 5)
+insert into T_TEAM_IN_MATCH values(1, 413)
+insert into T_TEAM_IN_MATCH values(5, 413)
+insert into T_MATCH values('2019/1/5', '10:22:44', 30, 14)
+insert into T_TEAM_IN_MATCH values(11, 414)
+insert into T_TEAM_IN_MATCH values(14, 414)
+insert into T_MATCH values('2019/2/11', '10:22:44', 30, 11)
+insert into T_TEAM_IN_MATCH values(11, 415)
+insert into T_TEAM_IN_MATCH values(14, 415)
+insert into T_MATCH values('2019/3/13', '10:22:44', 30, 14)
+insert into T_TEAM_IN_MATCH values(11, 416)
+insert into T_TEAM_IN_MATCH values(14, 416)
+insert into T_MATCH values('2019/4/20', '10:22:44', 30, 11)
+insert into T_TEAM_IN_MATCH values(11, 417)
+insert into T_TEAM_IN_MATCH values(14, 417)
+insert into T_MATCH values('2019/5/17', '10:22:44', 30, 14)
+insert into T_TEAM_IN_MATCH values(11, 418)
+insert into T_TEAM_IN_MATCH values(14, 418)
+insert into T_MATCH values('2019/6/12', '10:22:44', 30, 11)
+insert into T_TEAM_IN_MATCH values(11, 419)
+insert into T_TEAM_IN_MATCH values(14, 419)
+insert into T_MATCH values('2019/7/10', '10:22:44', 30, 14)
+insert into T_TEAM_IN_MATCH values(11, 420)
+insert into T_TEAM_IN_MATCH values(14, 420)
+insert into T_MATCH values('2019/1/6', '10:22:44', 31, 9)
+insert into T_TEAM_IN_MATCH values(3, 421)
+insert into T_TEAM_IN_MATCH values(9, 421)
+insert into T_MATCH values('2019/2/14', '10:22:44', 31, 3)
+insert into T_TEAM_IN_MATCH values(3, 422)
+insert into T_TEAM_IN_MATCH values(9, 422)
+insert into T_MATCH values('2019/3/2', '10:22:44', 31, 9)
+insert into T_TEAM_IN_MATCH values(3, 423)
+insert into T_TEAM_IN_MATCH values(9, 423)
+insert into T_MATCH values('2019/4/15', '10:22:44', 31, 3)
+insert into T_TEAM_IN_MATCH values(3, 424)
+insert into T_TEAM_IN_MATCH values(9, 424)
+insert into T_MATCH values('2019/5/12', '10:22:44', 31, 9)
+insert into T_TEAM_IN_MATCH values(3, 425)
+insert into T_TEAM_IN_MATCH values(9, 425)
+insert into T_MATCH values('2019/6/19', '10:22:44', 31, 3)
+insert into T_TEAM_IN_MATCH values(3, 426)
+insert into T_TEAM_IN_MATCH values(9, 426)
+insert into T_MATCH values('2019/7/10', '10:22:44', 31, 9)
+insert into T_TEAM_IN_MATCH values(3, 427)
+insert into T_TEAM_IN_MATCH values(9, 427)
+insert into T_MATCH values('2019/1/28', '10:22:44', 31, 30)
+insert into T_TEAM_IN_MATCH values(21, 428)
+insert into T_TEAM_IN_MATCH values(30, 428)
+insert into T_MATCH values('2019/2/5', '10:22:44', 31, 21)
+insert into T_TEAM_IN_MATCH values(21, 429)
+insert into T_TEAM_IN_MATCH values(30, 429)
+insert into T_MATCH values('2019/3/1', '10:22:44', 31, 30)
+insert into T_TEAM_IN_MATCH values(21, 430)
+insert into T_TEAM_IN_MATCH values(30, 430)
+insert into T_MATCH values('2019/4/13', '10:22:44', 31, 21)
+insert into T_TEAM_IN_MATCH values(21, 431)
+insert into T_TEAM_IN_MATCH values(30, 431)
+insert into T_MATCH values('2019/5/15', '10:22:44', 31, 30)
+insert into T_TEAM_IN_MATCH values(21, 432)
+insert into T_TEAM_IN_MATCH values(30, 432)
+insert into T_MATCH values('2019/6/13', '10:22:44', 31, 21)
+insert into T_TEAM_IN_MATCH values(21, 433)
+insert into T_TEAM_IN_MATCH values(30, 433)
+insert into T_MATCH values('2019/7/3', '10:22:44', 31, 30)
+insert into T_TEAM_IN_MATCH values(21, 434)
+insert into T_TEAM_IN_MATCH values(30, 434)
+insert into T_MATCH values('2019/1/12', '10:22:44', 32, 15)
+insert into T_TEAM_IN_MATCH values(11, 435)
+insert into T_TEAM_IN_MATCH values(15, 435)
+insert into T_MATCH values('2019/2/7', '10:22:44', 32, 11)
+insert into T_TEAM_IN_MATCH values(11, 436)
+insert into T_TEAM_IN_MATCH values(15, 436)
+insert into T_MATCH values('2019/3/12', '10:22:44', 32, 15)
+insert into T_TEAM_IN_MATCH values(11, 437)
+insert into T_TEAM_IN_MATCH values(15, 437)
+insert into T_MATCH values('2019/4/5', '10:22:44', 32, 11)
+insert into T_TEAM_IN_MATCH values(11, 438)
+insert into T_TEAM_IN_MATCH values(15, 438)
+insert into T_MATCH values('2019/5/28', '10:22:44', 32, 15)
+insert into T_TEAM_IN_MATCH values(11, 439)
+insert into T_TEAM_IN_MATCH values(15, 439)
+insert into T_MATCH values('2019/6/4', '10:22:44', 32, 11)
+insert into T_TEAM_IN_MATCH values(11, 440)
+insert into T_TEAM_IN_MATCH values(15, 440)
+insert into T_MATCH values('2019/7/3', '10:22:44', 32, 15)
+insert into T_TEAM_IN_MATCH values(11, 441)
+insert into T_TEAM_IN_MATCH values(15, 441)
+insert into T_MATCH values('2019/1/2', '10:22:44', 32, 28)
+insert into T_TEAM_IN_MATCH values(24, 442)
+insert into T_TEAM_IN_MATCH values(28, 442)
+insert into T_MATCH values('2019/2/2', '10:22:44', 32, 24)
+insert into T_TEAM_IN_MATCH values(24, 443)
+insert into T_TEAM_IN_MATCH values(28, 443)
+insert into T_MATCH values('2019/3/15', '10:22:44', 32, 28)
+insert into T_TEAM_IN_MATCH values(24, 444)
+insert into T_TEAM_IN_MATCH values(28, 444)
+insert into T_MATCH values('2019/4/14', '10:22:44', 32, 24)
+insert into T_TEAM_IN_MATCH values(24, 445)
+insert into T_TEAM_IN_MATCH values(28, 445)
+insert into T_MATCH values('2019/5/13', '10:22:44', 32, 28)
+insert into T_TEAM_IN_MATCH values(24, 446)
+insert into T_TEAM_IN_MATCH values(28, 446)
+insert into T_MATCH values('2019/6/17', '10:22:44', 32, 24)
+insert into T_TEAM_IN_MATCH values(24, 447)
+insert into T_TEAM_IN_MATCH values(28, 447)
+insert into T_MATCH values('2019/7/19', '10:22:44', 32, 28)
+insert into T_TEAM_IN_MATCH values(24, 448)
+insert into T_TEAM_IN_MATCH values(28, 448)
+insert into T_MATCH values('2019/1/20', '10:22:44', 33, 9)
+insert into T_TEAM_IN_MATCH values(5, 449)
+insert into T_TEAM_IN_MATCH values(9, 449)
+insert into T_MATCH values('2019/2/4', '10:22:44', 33, 5)
+insert into T_TEAM_IN_MATCH values(5, 450)
+insert into T_TEAM_IN_MATCH values(9, 450)
+insert into T_MATCH values('2019/3/11', '10:22:44', 33, 9)
+insert into T_TEAM_IN_MATCH values(5, 451)
+insert into T_TEAM_IN_MATCH values(9, 451)
+insert into T_MATCH values('2019/4/8', '10:22:44', 33, 5)
+insert into T_TEAM_IN_MATCH values(5, 452)
+insert into T_TEAM_IN_MATCH values(9, 452)
+insert into T_MATCH values('2019/5/27', '10:22:44', 33, 9)
+insert into T_TEAM_IN_MATCH values(5, 453)
+insert into T_TEAM_IN_MATCH values(9, 453)
+insert into T_MATCH values('2019/6/15', '10:22:44', 33, 5)
+insert into T_TEAM_IN_MATCH values(5, 454)
+insert into T_TEAM_IN_MATCH values(9, 454)
+insert into T_MATCH values('2019/7/3', '10:22:44', 33, 9)
+insert into T_TEAM_IN_MATCH values(5, 455)
+insert into T_TEAM_IN_MATCH values(9, 455)
+insert into T_MATCH values('2019/1/26', '10:22:44', 33, 12)
+insert into T_TEAM_IN_MATCH values(11, 456)
+insert into T_TEAM_IN_MATCH values(12, 456)
+insert into T_MATCH values('2019/2/14', '10:22:44', 33, 11)
+insert into T_TEAM_IN_MATCH values(11, 457)
+insert into T_TEAM_IN_MATCH values(12, 457)
+insert into T_MATCH values('2019/3/21', '10:22:44', 33, 12)
+insert into T_TEAM_IN_MATCH values(11, 458)
+insert into T_TEAM_IN_MATCH values(12, 458)
+insert into T_MATCH values('2019/4/18', '10:22:44', 33, 11)
+insert into T_TEAM_IN_MATCH values(11, 459)
+insert into T_TEAM_IN_MATCH values(12, 459)
+insert into T_MATCH values('2019/5/18', '10:22:44', 33, 12)
+insert into T_TEAM_IN_MATCH values(11, 460)
+insert into T_TEAM_IN_MATCH values(12, 460)
+insert into T_MATCH values('2019/6/24', '10:22:44', 33, 11)
+insert into T_TEAM_IN_MATCH values(11, 461)
+insert into T_TEAM_IN_MATCH values(12, 461)
+insert into T_MATCH values('2019/7/27', '10:22:44', 33, 12)
+insert into T_TEAM_IN_MATCH values(11, 462)
+insert into T_TEAM_IN_MATCH values(12, 462)
+insert into T_MATCH values('2019/1/27', '10:22:44', 34, 21)
+insert into T_TEAM_IN_MATCH values(12, 463)
+insert into T_TEAM_IN_MATCH values(21, 463)
+insert into T_MATCH values('2019/2/15', '10:22:44', 34, 12)
+insert into T_TEAM_IN_MATCH values(12, 464)
+insert into T_TEAM_IN_MATCH values(21, 464)
+insert into T_MATCH values('2019/3/17', '10:22:44', 34, 21)
+insert into T_TEAM_IN_MATCH values(12, 465)
+insert into T_TEAM_IN_MATCH values(21, 465)
+insert into T_MATCH values('2019/4/8', '10:22:44', 34, 12)
+insert into T_TEAM_IN_MATCH values(12, 466)
+insert into T_TEAM_IN_MATCH values(21, 466)
+insert into T_MATCH values('2019/5/2', '10:22:44', 34, 21)
+insert into T_TEAM_IN_MATCH values(12, 467)
+insert into T_TEAM_IN_MATCH values(21, 467)
+insert into T_MATCH values('2019/6/17', '10:22:44', 34, 12)
+insert into T_TEAM_IN_MATCH values(12, 468)
+insert into T_TEAM_IN_MATCH values(21, 468)
+insert into T_MATCH values('2019/7/25', '10:22:44', 34, 21)
+insert into T_TEAM_IN_MATCH values(12, 469)
+insert into T_TEAM_IN_MATCH values(21, 469)
+insert into T_MATCH values('2019/1/19', '10:22:44', 34, 31)
+insert into T_TEAM_IN_MATCH values(25, 470)
+insert into T_TEAM_IN_MATCH values(31, 470)
+insert into T_MATCH values('2019/2/2', '10:22:44', 34, 25)
+insert into T_TEAM_IN_MATCH values(25, 471)
+insert into T_TEAM_IN_MATCH values(31, 471)
+insert into T_MATCH values('2019/3/25', '10:22:44', 34, 31)
+insert into T_TEAM_IN_MATCH values(25, 472)
+insert into T_TEAM_IN_MATCH values(31, 472)
+insert into T_MATCH values('2019/4/20', '10:22:44', 34, 25)
+insert into T_TEAM_IN_MATCH values(25, 473)
+insert into T_TEAM_IN_MATCH values(31, 473)
+insert into T_MATCH values('2019/5/2', '10:22:44', 34, 31)
+insert into T_TEAM_IN_MATCH values(25, 474)
+insert into T_TEAM_IN_MATCH values(31, 474)
+insert into T_MATCH values('2019/6/6', '10:22:44', 34, 25)
+insert into T_TEAM_IN_MATCH values(25, 475)
+insert into T_TEAM_IN_MATCH values(31, 475)
+insert into T_MATCH values('2019/7/24', '10:22:44', 34, 31)
+insert into T_TEAM_IN_MATCH values(25, 476)
+insert into T_TEAM_IN_MATCH values(31, 476)
+insert into T_MATCH values('2019/1/6', '10:22:44', 35, 20)
+insert into T_TEAM_IN_MATCH values(5, 477)
+insert into T_TEAM_IN_MATCH values(20, 477)
+insert into T_MATCH values('2019/2/5', '10:22:44', 35, 5)
+insert into T_TEAM_IN_MATCH values(5, 478)
+insert into T_TEAM_IN_MATCH values(20, 478)
+insert into T_MATCH values('2019/3/3', '10:22:44', 35, 20)
+insert into T_TEAM_IN_MATCH values(5, 479)
+insert into T_TEAM_IN_MATCH values(20, 479)
+insert into T_MATCH values('2019/4/5', '10:22:44', 35, 5)
+insert into T_TEAM_IN_MATCH values(5, 480)
+insert into T_TEAM_IN_MATCH values(20, 480)
+insert into T_MATCH values('2019/5/9', '10:22:44', 35, 20)
+insert into T_TEAM_IN_MATCH values(5, 481)
+insert into T_TEAM_IN_MATCH values(20, 481)
+insert into T_MATCH values('2019/6/12', '10:22:44', 35, 5)
+insert into T_TEAM_IN_MATCH values(5, 482)
+insert into T_TEAM_IN_MATCH values(20, 482)
+insert into T_MATCH values('2019/7/7', '10:22:44', 35, 20)
+insert into T_TEAM_IN_MATCH values(5, 483)
+insert into T_TEAM_IN_MATCH values(20, 483)
+insert into T_MATCH values('2019/1/23', '10:22:44', 35, 23)
+insert into T_TEAM_IN_MATCH values(22, 484)
+insert into T_TEAM_IN_MATCH values(23, 484)
+insert into T_MATCH values('2019/2/21', '10:22:44', 35, 22)
+insert into T_TEAM_IN_MATCH values(22, 485)
+insert into T_TEAM_IN_MATCH values(23, 485)
+insert into T_MATCH values('2019/3/21', '10:22:44', 35, 23)
+insert into T_TEAM_IN_MATCH values(22, 486)
+insert into T_TEAM_IN_MATCH values(23, 486)
+insert into T_MATCH values('2019/4/5', '10:22:44', 35, 22)
+insert into T_TEAM_IN_MATCH values(22, 487)
+insert into T_TEAM_IN_MATCH values(23, 487)
+insert into T_MATCH values('2019/5/19', '10:22:44', 35, 23)
+insert into T_TEAM_IN_MATCH values(22, 488)
+insert into T_TEAM_IN_MATCH values(23, 488)
+insert into T_MATCH values('2019/6/28', '10:22:44', 35, 22)
+insert into T_TEAM_IN_MATCH values(22, 489)
+insert into T_TEAM_IN_MATCH values(23, 489)
+insert into T_MATCH values('2019/7/22', '10:22:44', 35, 23)
+insert into T_TEAM_IN_MATCH values(22, 490)
+insert into T_TEAM_IN_MATCH values(23, 490)
+insert into T_MATCH values('2019/1/2', '10:22:44', 36, 3)
+insert into T_TEAM_IN_MATCH values(2, 491)
+insert into T_TEAM_IN_MATCH values(3, 491)
+insert into T_MATCH values('2019/2/27', '10:22:44', 36, 2)
+insert into T_TEAM_IN_MATCH values(2, 492)
+insert into T_TEAM_IN_MATCH values(3, 492)
+insert into T_MATCH values('2019/3/18', '10:22:44', 36, 3)
+insert into T_TEAM_IN_MATCH values(2, 493)
+insert into T_TEAM_IN_MATCH values(3, 493)
+insert into T_MATCH values('2019/4/25', '10:22:44', 36, 2)
+insert into T_TEAM_IN_MATCH values(2, 494)
+insert into T_TEAM_IN_MATCH values(3, 494)
+insert into T_MATCH values('2019/5/11', '10:22:44', 36, 3)
+insert into T_TEAM_IN_MATCH values(2, 495)
+insert into T_TEAM_IN_MATCH values(3, 495)
+insert into T_MATCH values('2019/6/5', '10:22:44', 36, 2)
+insert into T_TEAM_IN_MATCH values(2, 496)
+insert into T_TEAM_IN_MATCH values(3, 496)
+insert into T_MATCH values('2019/7/19', '10:22:44', 36, 3)
+insert into T_TEAM_IN_MATCH values(2, 497)
+insert into T_TEAM_IN_MATCH values(3, 497)
+insert into T_MATCH values('2019/1/3', '10:22:44', 36, 15)
+insert into T_TEAM_IN_MATCH values(5, 498)
+insert into T_TEAM_IN_MATCH values(15, 498)
+insert into T_MATCH values('2019/2/22', '10:22:44', 36, 5)
+insert into T_TEAM_IN_MATCH values(5, 499)
+insert into T_TEAM_IN_MATCH values(15, 499)
+insert into T_MATCH values('2019/3/11', '10:22:44', 36, 15)
+insert into T_TEAM_IN_MATCH values(5, 500)
+insert into T_TEAM_IN_MATCH values(15, 500)
+insert into T_MATCH values('2019/4/29', '10:22:44', 36, 5)
+insert into T_TEAM_IN_MATCH values(5, 501)
+insert into T_TEAM_IN_MATCH values(15, 501)
+insert into T_MATCH values('2019/5/27', '10:22:44', 36, 15)
+insert into T_TEAM_IN_MATCH values(5, 502)
+insert into T_TEAM_IN_MATCH values(15, 502)
+insert into T_MATCH values('2019/6/25', '10:22:44', 36, 5)
+insert into T_TEAM_IN_MATCH values(5, 503)
+insert into T_TEAM_IN_MATCH values(15, 503)
+insert into T_MATCH values('2019/7/6', '10:22:44', 36, 15)
+insert into T_TEAM_IN_MATCH values(5, 504)
+insert into T_TEAM_IN_MATCH values(15, 504)
+insert into T_MATCH values('2019/1/9', '10:22:44', 37, 14)
+insert into T_TEAM_IN_MATCH values(10, 505)
+insert into T_TEAM_IN_MATCH values(14, 505)
+insert into T_MATCH values('2019/2/24', '10:22:44', 37, 10)
+insert into T_TEAM_IN_MATCH values(10, 506)
+insert into T_TEAM_IN_MATCH values(14, 506)
+insert into T_MATCH values('2019/3/16', '10:22:44', 37, 14)
+insert into T_TEAM_IN_MATCH values(10, 507)
+insert into T_TEAM_IN_MATCH values(14, 507)
+insert into T_MATCH values('2019/4/11', '10:22:44', 37, 10)
+insert into T_TEAM_IN_MATCH values(10, 508)
+insert into T_TEAM_IN_MATCH values(14, 508)
+insert into T_MATCH values('2019/5/20', '10:22:44', 37, 14)
+insert into T_TEAM_IN_MATCH values(10, 509)
+insert into T_TEAM_IN_MATCH values(14, 509)
+insert into T_MATCH values('2019/6/23', '10:22:44', 37, 10)
+insert into T_TEAM_IN_MATCH values(10, 510)
+insert into T_TEAM_IN_MATCH values(14, 510)
+insert into T_MATCH values('2019/7/11', '10:22:44', 37, 14)
+insert into T_TEAM_IN_MATCH values(10, 511)
+insert into T_TEAM_IN_MATCH values(14, 511)
+insert into T_MATCH values('2019/1/7', '10:22:44', 37, 31)
+insert into T_TEAM_IN_MATCH values(25, 512)
+insert into T_TEAM_IN_MATCH values(31, 512)
+insert into T_MATCH values('2019/2/13', '10:22:44', 37, 25)
+insert into T_TEAM_IN_MATCH values(25, 513)
+insert into T_TEAM_IN_MATCH values(31, 513)
+insert into T_MATCH values('2019/3/13', '10:22:44', 37, 31)
+insert into T_TEAM_IN_MATCH values(25, 514)
+insert into T_TEAM_IN_MATCH values(31, 514)
+insert into T_MATCH values('2019/4/10', '10:22:44', 37, 25)
+insert into T_TEAM_IN_MATCH values(25, 515)
+insert into T_TEAM_IN_MATCH values(31, 515)
+insert into T_MATCH values('2019/5/12', '10:22:44', 37, 31)
+insert into T_TEAM_IN_MATCH values(25, 516)
+insert into T_TEAM_IN_MATCH values(31, 516)
+insert into T_MATCH values('2019/6/16', '10:22:44', 37, 25)
+insert into T_TEAM_IN_MATCH values(25, 517)
+insert into T_TEAM_IN_MATCH values(31, 517)
+insert into T_MATCH values('2019/7/23', '10:22:44', 37, 31)
+insert into T_TEAM_IN_MATCH values(25, 518)
+insert into T_TEAM_IN_MATCH values(31, 518)
+insert into T_MATCH values('2019/1/7', '10:22:44', 38, 12)
+insert into T_TEAM_IN_MATCH values(11, 519)
+insert into T_TEAM_IN_MATCH values(12, 519)
+insert into T_MATCH values('2019/2/9', '10:22:44', 38, 11)
+insert into T_TEAM_IN_MATCH values(11, 520)
+insert into T_TEAM_IN_MATCH values(12, 520)
+insert into T_MATCH values('2019/3/17', '10:22:44', 38, 12)
+insert into T_TEAM_IN_MATCH values(11, 521)
+insert into T_TEAM_IN_MATCH values(12, 521)
+insert into T_MATCH values('2019/4/26', '10:22:44', 38, 11)
+insert into T_TEAM_IN_MATCH values(11, 522)
+insert into T_TEAM_IN_MATCH values(12, 522)
+insert into T_MATCH values('2019/5/13', '10:22:44', 38, 12)
+insert into T_TEAM_IN_MATCH values(11, 523)
+insert into T_TEAM_IN_MATCH values(12, 523)
+insert into T_MATCH values('2019/6/14', '10:22:44', 38, 11)
+insert into T_TEAM_IN_MATCH values(11, 524)
+insert into T_TEAM_IN_MATCH values(12, 524)
+insert into T_MATCH values('2019/7/8', '10:22:44', 38, 12)
+insert into T_TEAM_IN_MATCH values(11, 525)
+insert into T_TEAM_IN_MATCH values(12, 525)
+insert into T_MATCH values('2019/1/27', '10:22:44', 38, 31)
+insert into T_TEAM_IN_MATCH values(17, 526)
+insert into T_TEAM_IN_MATCH values(31, 526)
+insert into T_MATCH values('2019/2/27', '10:22:44', 38, 17)
+insert into T_TEAM_IN_MATCH values(17, 527)
+insert into T_TEAM_IN_MATCH values(31, 527)
+insert into T_MATCH values('2019/3/12', '10:22:44', 38, 31)
+insert into T_TEAM_IN_MATCH values(17, 528)
+insert into T_TEAM_IN_MATCH values(31, 528)
+insert into T_MATCH values('2019/4/10', '10:22:44', 38, 17)
+insert into T_TEAM_IN_MATCH values(17, 529)
+insert into T_TEAM_IN_MATCH values(31, 529)
+insert into T_MATCH values('2019/5/8', '10:22:44', 38, 31)
+insert into T_TEAM_IN_MATCH values(17, 530)
+insert into T_TEAM_IN_MATCH values(31, 530)
+insert into T_MATCH values('2019/6/24', '10:22:44', 38, 17)
+insert into T_TEAM_IN_MATCH values(17, 531)
+insert into T_TEAM_IN_MATCH values(31, 531)
+insert into T_MATCH values('2019/7/17', '10:22:44', 38, 31)
+insert into T_TEAM_IN_MATCH values(17, 532)
+insert into T_TEAM_IN_MATCH values(31, 532)
+insert into T_MATCH values('2019/1/29', '10:22:44', 39, 21)
+insert into T_TEAM_IN_MATCH values(4, 533)
+insert into T_TEAM_IN_MATCH values(21, 533)
+insert into T_MATCH values('2019/2/14', '10:22:44', 39, 4)
+insert into T_TEAM_IN_MATCH values(4, 534)
+insert into T_TEAM_IN_MATCH values(21, 534)
+insert into T_MATCH values('2019/3/10', '10:22:44', 39, 21)
+insert into T_TEAM_IN_MATCH values(4, 535)
+insert into T_TEAM_IN_MATCH values(21, 535)
+insert into T_MATCH values('2019/4/10', '10:22:44', 39, 4)
+insert into T_TEAM_IN_MATCH values(4, 536)
+insert into T_TEAM_IN_MATCH values(21, 536)
+insert into T_MATCH values('2019/5/17', '10:22:44', 39, 21)
+insert into T_TEAM_IN_MATCH values(4, 537)
+insert into T_TEAM_IN_MATCH values(21, 537)
+insert into T_MATCH values('2019/6/28', '10:22:44', 39, 4)
+insert into T_TEAM_IN_MATCH values(4, 538)
+insert into T_TEAM_IN_MATCH values(21, 538)
+insert into T_MATCH values('2019/7/12', '10:22:44', 39, 21)
+insert into T_TEAM_IN_MATCH values(4, 539)
+insert into T_TEAM_IN_MATCH values(21, 539)
+insert into T_MATCH values('2019/1/5', '10:22:44', 39, 31)
+insert into T_TEAM_IN_MATCH values(29, 540)
+insert into T_TEAM_IN_MATCH values(31, 540)
+insert into T_MATCH values('2019/2/18', '10:22:44', 39, 29)
+insert into T_TEAM_IN_MATCH values(29, 541)
+insert into T_TEAM_IN_MATCH values(31, 541)
+insert into T_MATCH values('2019/3/13', '10:22:44', 39, 31)
+insert into T_TEAM_IN_MATCH values(29, 542)
+insert into T_TEAM_IN_MATCH values(31, 542)
+insert into T_MATCH values('2019/4/22', '10:22:44', 39, 29)
+insert into T_TEAM_IN_MATCH values(29, 543)
+insert into T_TEAM_IN_MATCH values(31, 543)
+insert into T_MATCH values('2019/5/23', '10:22:44', 39, 31)
+insert into T_TEAM_IN_MATCH values(29, 544)
+insert into T_TEAM_IN_MATCH values(31, 544)
+insert into T_MATCH values('2019/6/26', '10:22:44', 39, 29)
+insert into T_TEAM_IN_MATCH values(29, 545)
+insert into T_TEAM_IN_MATCH values(31, 545)
+insert into T_MATCH values('2019/7/1', '10:22:44', 39, 31)
+insert into T_TEAM_IN_MATCH values(29, 546)
+insert into T_TEAM_IN_MATCH values(31, 546)
+insert into T_MATCH values('2019/1/17', '10:22:44', 40, 7)
+insert into T_TEAM_IN_MATCH values(4, 547)
+insert into T_TEAM_IN_MATCH values(7, 547)
+insert into T_MATCH values('2019/2/14', '10:22:44', 40, 4)
+insert into T_TEAM_IN_MATCH values(4, 548)
+insert into T_TEAM_IN_MATCH values(7, 548)
+insert into T_MATCH values('2019/3/17', '10:22:44', 40, 7)
+insert into T_TEAM_IN_MATCH values(4, 549)
+insert into T_TEAM_IN_MATCH values(7, 549)
+insert into T_MATCH values('2019/4/26', '10:22:44', 40, 4)
+insert into T_TEAM_IN_MATCH values(4, 550)
+insert into T_TEAM_IN_MATCH values(7, 550)
+insert into T_MATCH values('2019/5/30', '10:22:44', 40, 7)
+insert into T_TEAM_IN_MATCH values(4, 551)
+insert into T_TEAM_IN_MATCH values(7, 551)
+insert into T_MATCH values('2019/6/6', '10:22:44', 40, 4)
+insert into T_TEAM_IN_MATCH values(4, 552)
+insert into T_TEAM_IN_MATCH values(7, 552)
+insert into T_MATCH values('2019/7/19', '10:22:44', 40, 7)
+insert into T_TEAM_IN_MATCH values(4, 553)
+insert into T_TEAM_IN_MATCH values(7, 553)
+insert into T_MATCH values('2019/1/18', '10:22:44', 40, 18)
+insert into T_TEAM_IN_MATCH values(11, 554)
+insert into T_TEAM_IN_MATCH values(18, 554)
+insert into T_MATCH values('2019/2/8', '10:22:44', 40, 11)
+insert into T_TEAM_IN_MATCH values(11, 555)
+insert into T_TEAM_IN_MATCH values(18, 555)
+insert into T_MATCH values('2019/3/21', '10:22:44', 40, 18)
+insert into T_TEAM_IN_MATCH values(11, 556)
+insert into T_TEAM_IN_MATCH values(18, 556)
+insert into T_MATCH values('2019/4/18', '10:22:44', 40, 11)
+insert into T_TEAM_IN_MATCH values(11, 557)
+insert into T_TEAM_IN_MATCH values(18, 557)
+insert into T_MATCH values('2019/5/3', '10:22:44', 40, 18)
+insert into T_TEAM_IN_MATCH values(11, 558)
+insert into T_TEAM_IN_MATCH values(18, 558)
+insert into T_MATCH values('2019/6/21', '10:22:44', 40, 11)
+insert into T_TEAM_IN_MATCH values(11, 559)
+insert into T_TEAM_IN_MATCH values(18, 559)
+insert into T_MATCH values('2019/7/13', '10:22:44', 40, 18)
+insert into T_TEAM_IN_MATCH values(11, 560)
+insert into T_TEAM_IN_MATCH values(18, 560)
+insert into T_MATCH values('2019/1/18', '10:22:44', 41, 11)
+insert into T_TEAM_IN_MATCH values(7, 561)
+insert into T_TEAM_IN_MATCH values(11, 561)
+insert into T_MATCH values('2019/2/3', '10:22:44', 41, 7)
+insert into T_TEAM_IN_MATCH values(7, 562)
+insert into T_TEAM_IN_MATCH values(11, 562)
+insert into T_MATCH values('2019/3/23', '10:22:44', 41, 11)
+insert into T_TEAM_IN_MATCH values(7, 563)
+insert into T_TEAM_IN_MATCH values(11, 563)
+insert into T_MATCH values('2019/4/11', '10:22:44', 41, 7)
+insert into T_TEAM_IN_MATCH values(7, 564)
+insert into T_TEAM_IN_MATCH values(11, 564)
+insert into T_MATCH values('2019/5/8', '10:22:44', 41, 11)
+insert into T_TEAM_IN_MATCH values(7, 565)
+insert into T_TEAM_IN_MATCH values(11, 565)
+insert into T_MATCH values('2019/6/15', '10:22:44', 41, 7)
+insert into T_TEAM_IN_MATCH values(7, 566)
+insert into T_TEAM_IN_MATCH values(11, 566)
+insert into T_MATCH values('2019/7/24', '10:22:44', 41, 11)
+insert into T_TEAM_IN_MATCH values(7, 567)
+insert into T_TEAM_IN_MATCH values(11, 567)
+insert into T_MATCH values('2019/1/12', '10:22:44', 41, 30)
+insert into T_TEAM_IN_MATCH values(12, 568)
+insert into T_TEAM_IN_MATCH values(30, 568)
+insert into T_MATCH values('2019/2/10', '10:22:44', 41, 12)
+insert into T_TEAM_IN_MATCH values(12, 569)
+insert into T_TEAM_IN_MATCH values(30, 569)
+insert into T_MATCH values('2019/3/20', '10:22:44', 41, 30)
+insert into T_TEAM_IN_MATCH values(12, 570)
+insert into T_TEAM_IN_MATCH values(30, 570)
+insert into T_MATCH values('2019/4/7', '10:22:44', 41, 12)
+insert into T_TEAM_IN_MATCH values(12, 571)
+insert into T_TEAM_IN_MATCH values(30, 571)
+insert into T_MATCH values('2019/5/3', '10:22:44', 41, 30)
+insert into T_TEAM_IN_MATCH values(12, 572)
+insert into T_TEAM_IN_MATCH values(30, 572)
+insert into T_MATCH values('2019/6/16', '10:22:44', 41, 12)
+insert into T_TEAM_IN_MATCH values(12, 573)
+insert into T_TEAM_IN_MATCH values(30, 573)
+insert into T_MATCH values('2019/7/16', '10:22:44', 41, 30)
+insert into T_TEAM_IN_MATCH values(12, 574)
+insert into T_TEAM_IN_MATCH values(30, 574)
+insert into T_MATCH values('2019/1/1', '10:22:44', 42, 12)
+insert into T_TEAM_IN_MATCH values(6, 575)
+insert into T_TEAM_IN_MATCH values(12, 575)
+insert into T_MATCH values('2019/2/3', '10:22:44', 42, 6)
+insert into T_TEAM_IN_MATCH values(6, 576)
+insert into T_TEAM_IN_MATCH values(12, 576)
+insert into T_MATCH values('2019/3/2', '10:22:44', 42, 12)
+insert into T_TEAM_IN_MATCH values(6, 577)
+insert into T_TEAM_IN_MATCH values(12, 577)
+insert into T_MATCH values('2019/4/23', '10:22:44', 42, 6)
+insert into T_TEAM_IN_MATCH values(6, 578)
+insert into T_TEAM_IN_MATCH values(12, 578)
+insert into T_MATCH values('2019/5/4', '10:22:44', 42, 12)
+insert into T_TEAM_IN_MATCH values(6, 579)
+insert into T_TEAM_IN_MATCH values(12, 579)
+insert into T_MATCH values('2019/6/26', '10:22:44', 42, 6)
+insert into T_TEAM_IN_MATCH values(6, 580)
+insert into T_TEAM_IN_MATCH values(12, 580)
+insert into T_MATCH values('2019/7/14', '10:22:44', 42, 12)
+insert into T_TEAM_IN_MATCH values(6, 581)
+insert into T_TEAM_IN_MATCH values(12, 581)
+insert into T_MATCH values('2019/1/8', '10:22:44', 42, 25)
+insert into T_TEAM_IN_MATCH values(22, 582)
+insert into T_TEAM_IN_MATCH values(25, 582)
+insert into T_MATCH values('2019/2/1', '10:22:44', 42, 22)
+insert into T_TEAM_IN_MATCH values(22, 583)
+insert into T_TEAM_IN_MATCH values(25, 583)
+insert into T_MATCH values('2019/3/16', '10:22:44', 42, 25)
+insert into T_TEAM_IN_MATCH values(22, 584)
+insert into T_TEAM_IN_MATCH values(25, 584)
+insert into T_MATCH values('2019/4/15', '10:22:44', 42, 22)
+insert into T_TEAM_IN_MATCH values(22, 585)
+insert into T_TEAM_IN_MATCH values(25, 585)
+insert into T_MATCH values('2019/5/21', '10:22:44', 42, 25)
+insert into T_TEAM_IN_MATCH values(22, 586)
+insert into T_TEAM_IN_MATCH values(25, 586)
+insert into T_MATCH values('2019/6/24', '10:22:44', 42, 22)
+insert into T_TEAM_IN_MATCH values(22, 587)
+insert into T_TEAM_IN_MATCH values(25, 587)
+insert into T_MATCH values('2019/7/4', '10:22:44', 42, 25)
+insert into T_TEAM_IN_MATCH values(22, 588)
+insert into T_TEAM_IN_MATCH values(25, 588)
+insert into T_MATCH values('2019/1/19', '10:22:44', 43, 5)
+insert into T_TEAM_IN_MATCH values(4, 589)
+insert into T_TEAM_IN_MATCH values(5, 589)
+insert into T_MATCH values('2019/2/9', '10:22:44', 43, 4)
+insert into T_TEAM_IN_MATCH values(4, 590)
+insert into T_TEAM_IN_MATCH values(5, 590)
+insert into T_MATCH values('2019/3/20', '10:22:44', 43, 5)
+insert into T_TEAM_IN_MATCH values(4, 591)
+insert into T_TEAM_IN_MATCH values(5, 591)
+insert into T_MATCH values('2019/4/16', '10:22:44', 43, 4)
+insert into T_TEAM_IN_MATCH values(4, 592)
+insert into T_TEAM_IN_MATCH values(5, 592)
+insert into T_MATCH values('2019/5/26', '10:22:44', 43, 5)
+insert into T_TEAM_IN_MATCH values(4, 593)
+insert into T_TEAM_IN_MATCH values(5, 593)
+insert into T_MATCH values('2019/6/7', '10:22:44', 43, 4)
+insert into T_TEAM_IN_MATCH values(4, 594)
+insert into T_TEAM_IN_MATCH values(5, 594)
+insert into T_MATCH values('2019/7/14', '10:22:44', 43, 5)
+insert into T_TEAM_IN_MATCH values(4, 595)
+insert into T_TEAM_IN_MATCH values(5, 595)
+insert into T_MATCH values('2019/1/29', '10:22:44', 43, 26)
+insert into T_TEAM_IN_MATCH values(22, 596)
+insert into T_TEAM_IN_MATCH values(26, 596)
+insert into T_MATCH values('2019/2/19', '10:22:44', 43, 22)
+insert into T_TEAM_IN_MATCH values(22, 597)
+insert into T_TEAM_IN_MATCH values(26, 597)
+insert into T_MATCH values('2019/3/29', '10:22:44', 43, 26)
+insert into T_TEAM_IN_MATCH values(22, 598)
+insert into T_TEAM_IN_MATCH values(26, 598)
+insert into T_MATCH values('2019/4/1', '10:22:44', 43, 22)
+insert into T_TEAM_IN_MATCH values(22, 599)
+insert into T_TEAM_IN_MATCH values(26, 599)
+insert into T_MATCH values('2019/5/22', '10:22:44', 43, 26)
+insert into T_TEAM_IN_MATCH values(22, 600)
+insert into T_TEAM_IN_MATCH values(26, 600)
+insert into T_MATCH values('2019/6/29', '10:22:44', 43, 22)
+insert into T_TEAM_IN_MATCH values(22, 601)
+insert into T_TEAM_IN_MATCH values(26, 601)
+insert into T_MATCH values('2019/7/5', '10:22:44', 43, 26)
+insert into T_TEAM_IN_MATCH values(22, 602)
+insert into T_TEAM_IN_MATCH values(26, 602)
+insert into T_MATCH values('2019/1/21', '10:22:44', 44, 17)
+insert into T_TEAM_IN_MATCH values(15, 603)
+insert into T_TEAM_IN_MATCH values(17, 603)
+insert into T_MATCH values('2019/2/11', '10:22:44', 44, 15)
+insert into T_TEAM_IN_MATCH values(15, 604)
+insert into T_TEAM_IN_MATCH values(17, 604)
+insert into T_MATCH values('2019/3/12', '10:22:44', 44, 17)
+insert into T_TEAM_IN_MATCH values(15, 605)
+insert into T_TEAM_IN_MATCH values(17, 605)
+insert into T_MATCH values('2019/4/9', '10:22:44', 44, 15)
+insert into T_TEAM_IN_MATCH values(15, 606)
+insert into T_TEAM_IN_MATCH values(17, 606)
+insert into T_MATCH values('2019/5/23', '10:22:44', 44, 17)
+insert into T_TEAM_IN_MATCH values(15, 607)
+insert into T_TEAM_IN_MATCH values(17, 607)
+insert into T_MATCH values('2019/6/26', '10:22:44', 44, 15)
+insert into T_TEAM_IN_MATCH values(15, 608)
+insert into T_TEAM_IN_MATCH values(17, 608)
+insert into T_MATCH values('2019/7/11', '10:22:44', 44, 17)
+insert into T_TEAM_IN_MATCH values(15, 609)
+insert into T_TEAM_IN_MATCH values(17, 609)
+insert into T_MATCH values('2019/1/1', '10:22:44', 44, 31)
+insert into T_TEAM_IN_MATCH values(21, 610)
+insert into T_TEAM_IN_MATCH values(31, 610)
+insert into T_MATCH values('2019/2/11', '10:22:44', 44, 21)
+insert into T_TEAM_IN_MATCH values(21, 611)
+insert into T_TEAM_IN_MATCH values(31, 611)
+insert into T_MATCH values('2019/3/12', '10:22:44', 44, 31)
+insert into T_TEAM_IN_MATCH values(21, 612)
+insert into T_TEAM_IN_MATCH values(31, 612)
+insert into T_MATCH values('2019/4/24', '10:22:44', 44, 21)
+insert into T_TEAM_IN_MATCH values(21, 613)
+insert into T_TEAM_IN_MATCH values(31, 613)
+insert into T_MATCH values('2019/5/16', '10:22:44', 44, 31)
+insert into T_TEAM_IN_MATCH values(21, 614)
+insert into T_TEAM_IN_MATCH values(31, 614)
+insert into T_MATCH values('2019/6/19', '10:22:44', 44, 21)
+insert into T_TEAM_IN_MATCH values(21, 615)
+insert into T_TEAM_IN_MATCH values(31, 615)
+insert into T_MATCH values('2019/7/13', '10:22:44', 44, 31)
+insert into T_TEAM_IN_MATCH values(21, 616)
+insert into T_TEAM_IN_MATCH values(31, 616)
+insert into T_MATCH values('2019/1/27', '10:22:44', 45, 10)
+insert into T_TEAM_IN_MATCH values(4, 617)
+insert into T_TEAM_IN_MATCH values(10, 617)
+insert into T_MATCH values('2019/2/19', '10:22:44', 45, 4)
+insert into T_TEAM_IN_MATCH values(4, 618)
+insert into T_TEAM_IN_MATCH values(10, 618)
+insert into T_MATCH values('2019/3/1', '10:22:44', 45, 10)
+insert into T_TEAM_IN_MATCH values(4, 619)
+insert into T_TEAM_IN_MATCH values(10, 619)
+insert into T_MATCH values('2019/4/6', '10:22:44', 45, 4)
+insert into T_TEAM_IN_MATCH values(4, 620)
+insert into T_TEAM_IN_MATCH values(10, 620)
+insert into T_MATCH values('2019/5/24', '10:22:44', 45, 10)
+insert into T_TEAM_IN_MATCH values(4, 621)
+insert into T_TEAM_IN_MATCH values(10, 621)
+insert into T_MATCH values('2019/6/18', '10:22:44', 45, 4)
+insert into T_TEAM_IN_MATCH values(4, 622)
+insert into T_TEAM_IN_MATCH values(10, 622)
+insert into T_MATCH values('2019/7/18', '10:22:44', 45, 10)
+insert into T_TEAM_IN_MATCH values(4, 623)
+insert into T_TEAM_IN_MATCH values(10, 623)
+insert into T_MATCH values('2019/1/26', '10:22:44', 45, 17)
+insert into T_TEAM_IN_MATCH values(15, 624)
+insert into T_TEAM_IN_MATCH values(17, 624)
+insert into T_MATCH values('2019/2/27', '10:22:44', 45, 15)
+insert into T_TEAM_IN_MATCH values(15, 625)
+insert into T_TEAM_IN_MATCH values(17, 625)
+insert into T_MATCH values('2019/3/21', '10:22:44', 45, 17)
+insert into T_TEAM_IN_MATCH values(15, 626)
+insert into T_TEAM_IN_MATCH values(17, 626)
+insert into T_MATCH values('2019/4/1', '10:22:44', 45, 15)
+insert into T_TEAM_IN_MATCH values(15, 627)
+insert into T_TEAM_IN_MATCH values(17, 627)
+insert into T_MATCH values('2019/5/2', '10:22:44', 45, 17)
+insert into T_TEAM_IN_MATCH values(15, 628)
+insert into T_TEAM_IN_MATCH values(17, 628)
+insert into T_MATCH values('2019/6/28', '10:22:44', 45, 15)
+insert into T_TEAM_IN_MATCH values(15, 629)
+insert into T_TEAM_IN_MATCH values(17, 629)
+insert into T_MATCH values('2019/7/12', '10:22:44', 45, 17)
+insert into T_TEAM_IN_MATCH values(15, 630)
+insert into T_TEAM_IN_MATCH values(17, 630)
+insert into T_MATCH values('2019/1/26', '10:22:44', 46, 2)
+insert into T_TEAM_IN_MATCH values(1, 631)
+insert into T_TEAM_IN_MATCH values(2, 631)
+insert into T_MATCH values('2019/2/4', '10:22:44', 46, 1)
+insert into T_TEAM_IN_MATCH values(1, 632)
+insert into T_TEAM_IN_MATCH values(2, 632)
+insert into T_MATCH values('2019/3/1', '10:22:44', 46, 2)
+insert into T_TEAM_IN_MATCH values(1, 633)
+insert into T_TEAM_IN_MATCH values(2, 633)
+insert into T_MATCH values('2019/4/25', '10:22:44', 46, 1)
+insert into T_TEAM_IN_MATCH values(1, 634)
+insert into T_TEAM_IN_MATCH values(2, 634)
+insert into T_MATCH values('2019/5/8', '10:22:44', 46, 2)
+insert into T_TEAM_IN_MATCH values(1, 635)
+insert into T_TEAM_IN_MATCH values(2, 635)
+insert into T_MATCH values('2019/6/1', '10:22:44', 46, 1)
+insert into T_TEAM_IN_MATCH values(1, 636)
+insert into T_TEAM_IN_MATCH values(2, 636)
+insert into T_MATCH values('2019/7/26', '10:22:44', 46, 2)
+insert into T_TEAM_IN_MATCH values(1, 637)
+insert into T_TEAM_IN_MATCH values(2, 637)
+insert into T_MATCH values('2019/1/1', '10:22:44', 46, 23)
+insert into T_TEAM_IN_MATCH values(18, 638)
+insert into T_TEAM_IN_MATCH values(23, 638)
+insert into T_MATCH values('2019/2/13', '10:22:44', 46, 18)
+insert into T_TEAM_IN_MATCH values(18, 639)
+insert into T_TEAM_IN_MATCH values(23, 639)
+insert into T_MATCH values('2019/3/25', '10:22:44', 46, 23)
+insert into T_TEAM_IN_MATCH values(18, 640)
+insert into T_TEAM_IN_MATCH values(23, 640)
+insert into T_MATCH values('2019/4/14', '10:22:44', 46, 18)
+insert into T_TEAM_IN_MATCH values(18, 641)
+insert into T_TEAM_IN_MATCH values(23, 641)
+insert into T_MATCH values('2019/5/12', '10:22:44', 46, 23)
+insert into T_TEAM_IN_MATCH values(18, 642)
+insert into T_TEAM_IN_MATCH values(23, 642)
+insert into T_MATCH values('2019/6/19', '10:22:44', 46, 18)
+insert into T_TEAM_IN_MATCH values(18, 643)
+insert into T_TEAM_IN_MATCH values(23, 643)
+insert into T_MATCH values('2019/7/1', '10:22:44', 46, 23)
+insert into T_TEAM_IN_MATCH values(18, 644)
+insert into T_TEAM_IN_MATCH values(23, 644)
+insert into T_MATCH values('2019/1/17', '10:22:44', 47, 17)
+insert into T_TEAM_IN_MATCH values(10, 645)
+insert into T_TEAM_IN_MATCH values(17, 645)
+insert into T_MATCH values('2019/2/13', '10:22:44', 47, 10)
+insert into T_TEAM_IN_MATCH values(10, 646)
+insert into T_TEAM_IN_MATCH values(17, 646)
+insert into T_MATCH values('2019/3/6', '10:22:44', 47, 17)
+insert into T_TEAM_IN_MATCH values(10, 647)
+insert into T_TEAM_IN_MATCH values(17, 647)
+insert into T_MATCH values('2019/4/19', '10:22:44', 47, 10)
+insert into T_TEAM_IN_MATCH values(10, 648)
+insert into T_TEAM_IN_MATCH values(17, 648)
+insert into T_MATCH values('2019/5/10', '10:22:44', 47, 17)
+insert into T_TEAM_IN_MATCH values(10, 649)
+insert into T_TEAM_IN_MATCH values(17, 649)
+insert into T_MATCH values('2019/6/18', '10:22:44', 47, 10)
+insert into T_TEAM_IN_MATCH values(10, 650)
+insert into T_TEAM_IN_MATCH values(17, 650)
+insert into T_MATCH values('2019/7/21', '10:22:44', 47, 17)
+insert into T_TEAM_IN_MATCH values(10, 651)
+insert into T_TEAM_IN_MATCH values(17, 651)
+insert into T_MATCH values('2019/1/19', '10:22:44', 47, 28)
+insert into T_TEAM_IN_MATCH values(23, 652)
+insert into T_TEAM_IN_MATCH values(28, 652)
+insert into T_MATCH values('2019/2/4', '10:22:44', 47, 23)
+insert into T_TEAM_IN_MATCH values(23, 653)
+insert into T_TEAM_IN_MATCH values(28, 653)
+insert into T_MATCH values('2019/3/5', '10:22:44', 47, 28)
+insert into T_TEAM_IN_MATCH values(23, 654)
+insert into T_TEAM_IN_MATCH values(28, 654)
+insert into T_MATCH values('2019/4/18', '10:22:44', 47, 23)
+insert into T_TEAM_IN_MATCH values(23, 655)
+insert into T_TEAM_IN_MATCH values(28, 655)
+insert into T_MATCH values('2019/5/29', '10:22:44', 47, 28)
+insert into T_TEAM_IN_MATCH values(23, 656)
+insert into T_TEAM_IN_MATCH values(28, 656)
+insert into T_MATCH values('2019/6/27', '10:22:44', 47, 23)
+insert into T_TEAM_IN_MATCH values(23, 657)
+insert into T_TEAM_IN_MATCH values(28, 657)
+insert into T_MATCH values('2019/7/5', '10:22:44', 47, 28)
+insert into T_TEAM_IN_MATCH values(23, 658)
+insert into T_TEAM_IN_MATCH values(28, 658)
+insert into T_MATCH values('2019/1/10', '10:22:44', 48, 9)
+insert into T_TEAM_IN_MATCH values(1, 659)
+insert into T_TEAM_IN_MATCH values(9, 659)
+insert into T_MATCH values('2019/2/13', '10:22:44', 48, 1)
+insert into T_TEAM_IN_MATCH values(1, 660)
+insert into T_TEAM_IN_MATCH values(9, 660)
+insert into T_MATCH values('2019/3/1', '10:22:44', 48, 9)
+insert into T_TEAM_IN_MATCH values(1, 661)
+insert into T_TEAM_IN_MATCH values(9, 661)
+insert into T_MATCH values('2019/4/24', '10:22:44', 48, 1)
+insert into T_TEAM_IN_MATCH values(1, 662)
+insert into T_TEAM_IN_MATCH values(9, 662)
+insert into T_MATCH values('2019/5/17', '10:22:44', 48, 9)
+insert into T_TEAM_IN_MATCH values(1, 663)
+insert into T_TEAM_IN_MATCH values(9, 663)
+insert into T_MATCH values('2019/6/22', '10:22:44', 48, 1)
+insert into T_TEAM_IN_MATCH values(1, 664)
+insert into T_TEAM_IN_MATCH values(9, 664)
+insert into T_MATCH values('2019/7/19', '10:22:44', 48, 9)
+insert into T_TEAM_IN_MATCH values(1, 665)
+insert into T_TEAM_IN_MATCH values(9, 665)
+insert into T_MATCH values('2019/1/3', '10:22:44', 48, 21)
+insert into T_TEAM_IN_MATCH values(16, 666)
+insert into T_TEAM_IN_MATCH values(21, 666)
+insert into T_MATCH values('2019/2/2', '10:22:44', 48, 16)
+insert into T_TEAM_IN_MATCH values(16, 667)
+insert into T_TEAM_IN_MATCH values(21, 667)
+insert into T_MATCH values('2019/3/7', '10:22:44', 48, 21)
+insert into T_TEAM_IN_MATCH values(16, 668)
+insert into T_TEAM_IN_MATCH values(21, 668)
+insert into T_MATCH values('2019/4/23', '10:22:44', 48, 16)
+insert into T_TEAM_IN_MATCH values(16, 669)
+insert into T_TEAM_IN_MATCH values(21, 669)
+insert into T_MATCH values('2019/5/5', '10:22:44', 48, 21)
+insert into T_TEAM_IN_MATCH values(16, 670)
+insert into T_TEAM_IN_MATCH values(21, 670)
+insert into T_MATCH values('2019/6/18', '10:22:44', 48, 16)
+insert into T_TEAM_IN_MATCH values(16, 671)
+insert into T_TEAM_IN_MATCH values(21, 671)
+insert into T_MATCH values('2019/7/3', '10:22:44', 48, 21)
+insert into T_TEAM_IN_MATCH values(16, 672)
+insert into T_TEAM_IN_MATCH values(21, 672)
+insert into T_MATCH values('2019/1/21', '10:22:44', 49, 14)
+insert into T_TEAM_IN_MATCH values(3, 673)
+insert into T_TEAM_IN_MATCH values(14, 673)
+insert into T_MATCH values('2019/2/18', '10:22:44', 49, 3)
+insert into T_TEAM_IN_MATCH values(3, 674)
+insert into T_TEAM_IN_MATCH values(14, 674)
+insert into T_MATCH values('2019/3/27', '10:22:44', 49, 14)
+insert into T_TEAM_IN_MATCH values(3, 675)
+insert into T_TEAM_IN_MATCH values(14, 675)
+insert into T_MATCH values('2019/4/9', '10:22:44', 49, 3)
+insert into T_TEAM_IN_MATCH values(3, 676)
+insert into T_TEAM_IN_MATCH values(14, 676)
+insert into T_MATCH values('2019/5/15', '10:22:44', 49, 14)
+insert into T_TEAM_IN_MATCH values(3, 677)
+insert into T_TEAM_IN_MATCH values(14, 677)
+insert into T_MATCH values('2019/6/22', '10:22:44', 49, 3)
+insert into T_TEAM_IN_MATCH values(3, 678)
+insert into T_TEAM_IN_MATCH values(14, 678)
+insert into T_MATCH values('2019/7/6', '10:22:44', 49, 14)
+insert into T_TEAM_IN_MATCH values(3, 679)
+insert into T_TEAM_IN_MATCH values(14, 679)
+insert into T_MATCH values('2019/1/24', '10:22:44', 49, 26)
+insert into T_TEAM_IN_MATCH values(15, 680)
+insert into T_TEAM_IN_MATCH values(26, 680)
+insert into T_MATCH values('2019/2/7', '10:22:44', 49, 15)
+insert into T_TEAM_IN_MATCH values(15, 681)
+insert into T_TEAM_IN_MATCH values(26, 681)
+insert into T_MATCH values('2019/3/12', '10:22:44', 49, 26)
+insert into T_TEAM_IN_MATCH values(15, 682)
+insert into T_TEAM_IN_MATCH values(26, 682)
+insert into T_MATCH values('2019/4/8', '10:22:44', 49, 15)
+insert into T_TEAM_IN_MATCH values(15, 683)
+insert into T_TEAM_IN_MATCH values(26, 683)
+insert into T_MATCH values('2019/5/27', '10:22:44', 49, 26)
+insert into T_TEAM_IN_MATCH values(15, 684)
+insert into T_TEAM_IN_MATCH values(26, 684)
+insert into T_MATCH values('2019/6/20', '10:22:44', 49, 15)
+insert into T_TEAM_IN_MATCH values(15, 685)
+insert into T_TEAM_IN_MATCH values(26, 685)
+insert into T_MATCH values('2019/7/27', '10:22:44', 49, 26)
+insert into T_TEAM_IN_MATCH values(15, 686)
+insert into T_TEAM_IN_MATCH values(26, 686)
+insert into T_MATCH values('2019/1/9', '10:22:44', 50, 11)
+insert into T_TEAM_IN_MATCH values(1, 687)
+insert into T_TEAM_IN_MATCH values(11, 687)
+insert into T_MATCH values('2019/2/17', '10:22:44', 50, 1)
+insert into T_TEAM_IN_MATCH values(1, 688)
+insert into T_TEAM_IN_MATCH values(11, 688)
+insert into T_MATCH values('2019/3/5', '10:22:44', 50, 11)
+insert into T_TEAM_IN_MATCH values(1, 689)
+insert into T_TEAM_IN_MATCH values(11, 689)
+insert into T_MATCH values('2019/4/17', '10:22:44', 50, 1)
+insert into T_TEAM_IN_MATCH values(1, 690)
+insert into T_TEAM_IN_MATCH values(11, 690)
+insert into T_MATCH values('2019/5/23', '10:22:44', 50, 11)
+insert into T_TEAM_IN_MATCH values(1, 691)
+insert into T_TEAM_IN_MATCH values(11, 691)
+insert into T_MATCH values('2019/6/21', '10:22:44', 50, 1)
+insert into T_TEAM_IN_MATCH values(1, 692)
+insert into T_TEAM_IN_MATCH values(11, 692)
+insert into T_MATCH values('2019/7/11', '10:22:44', 50, 11)
+insert into T_TEAM_IN_MATCH values(1, 693)
+insert into T_TEAM_IN_MATCH values(11, 693)
+insert into T_MATCH values('2019/1/1', '10:22:44', 50, 28)
+insert into T_TEAM_IN_MATCH values(15, 694)
+insert into T_TEAM_IN_MATCH values(28, 694)
+insert into T_MATCH values('2019/2/13', '10:22:44', 50, 15)
+insert into T_TEAM_IN_MATCH values(15, 695)
+insert into T_TEAM_IN_MATCH values(28, 695)
+insert into T_MATCH values('2019/3/9', '10:22:44', 50, 28)
+insert into T_TEAM_IN_MATCH values(15, 696)
+insert into T_TEAM_IN_MATCH values(28, 696)
+insert into T_MATCH values('2019/4/8', '10:22:44', 50, 15)
+insert into T_TEAM_IN_MATCH values(15, 697)
+insert into T_TEAM_IN_MATCH values(28, 697)
+insert into T_MATCH values('2019/5/24', '10:22:44', 50, 28)
+insert into T_TEAM_IN_MATCH values(15, 698)
+insert into T_TEAM_IN_MATCH values(28, 698)
+insert into T_MATCH values('2019/6/1', '10:22:44', 50, 15)
+insert into T_TEAM_IN_MATCH values(15, 699)
+insert into T_TEAM_IN_MATCH values(28, 699)
+insert into T_MATCH values('2019/7/10', '10:22:44', 50, 28)
+insert into T_TEAM_IN_MATCH values(15, 700)
+insert into T_TEAM_IN_MATCH values(28, 700)
 
-/* Player In Team */
-
-/*
-	pegar jogos
-	insertMaquina
-	getMaquina
-	insertMedicaoMaquina
-	getMaquinas
-	getMedicoes
-	getTime
-	getPartida
-	isAdministrador
-	getAdministradores
-*/
-
-/*
-
-val listOfNomes = listOf<String>(
-    "Crowmarma",
-    "Rahrah",
-    "Seandic",
-    "Ichet",
-    "Thrythjo",
-    "Baldkev",
-    "Werd",
-    "Thasdun",
-    "Tri",
-    "Mondwen",
-    "Lasja",
-    "Sa-he",
-    "Don",
-    "Eal",
-    "Paulkim",
-    "Nanbert",
-    "Marksa",
-    "Waldcar",
-    "Sigty",
-    "Dinorich",
-    "Rojeff",
-    "Ceollee",
-    "Eadu",
-    "Elfchard",
-    "Beorth",
-    "Reded",
-    "Nica",
-    "Menjack",
-    "Fastfred",
-    "Fridthas",
-    "Zamac",
-    "San",
-    "Annjoan",
-    "Tinevia",
-    "Kencrow",
-    "Swith",
-    "Kimdod",
-    "Las-ty",
-    "Ceolaldri",
-    "Beorthchel",
-    "Ord",
-    "Ricda",
-    "Jaham",
-    "Marstan",
-    "Jaald",
-    "Jack",
-    "Venven",
-    "Laymark",
-    "Viasu",
-    "Ronsa",
-    "Renward",
-    "Laudas",
-    "Dasbri",
-    "Beoza",
-    "Jackhal",
-    "Sigchael",
-    "Tolgifu",
-    "Egarroc",
-    "Sung",
-    "Maxmax",
-    "Georbras",
-    "Rahdic",
-    "Wencia",
-    "Naldtho",
-    "Lepaul",
-    "Wilsa",
-    "Raman",
-    "Anrol",
-    "Naldar",
-    "Jaward",
-    "Lachege",
-    "Eli",
-    "Fridwen",
-    "Anvid",
-    "Cwenbeo",
-    "Beoma",
-    "Ley",
-    "Thryththas",
-    "Hamsa",
-    "Thyphiesa",
-    "Grimroc",
-    "Ceolmac",
-    "Daha",
-    "Margifu",
-    "Bursa",
-    "Rob",
-    "Tomchard",
-    "Zadic",
-    "Sandun",
-    "Comecon",
-    "Drytrol",
-    "Jackguth",
-    "Vellceo",
-    "Rah",
-    "Ceou",
-    "Charmes",
-    "Richnath",
-    "Bacome",
-    "Bertma",
-    "Wulfman",
-    "Cane",
-    "Ridar",
-    "Laysu",
-    "Beth-mar",
-    "Mestim",
-    "Feruman",
-    "Ethelwald",
-    "Thasdan",
-    "Lee",
-    "Hames",
-    "Thasbrand",
-    "Linfortintol",
-    "Chardbur",
-    "Herevia",
-    "Lerah",
-    "Bertceol",
-    "Tomlen",
-    "Chelchetjeff",
-    "Marma",
-    "Kamuel",
-    "Nibryt",
-    "Leeruth",
-    "Sowil",
-    "Beorn",
-    "Marmalay",
-    "Vid",
-    "Nielna",
-    "Mannfled",
-    "Marred",
-    "Lebras",
-    "Pei",
-    "Nyasean",
-    "Mondron",
-    "Adeljohn",
-    "Thryththony",
-    "Dryt",
-    "Ris",
-    "Riche",
-    "Donfortin",
-    "Tinetri",
-    "Leof-dryt",
-    "Clabeorth",
-    "Jack",
-    "Beorn-theod",
-    "Frith",
-    "Hildi",
-    "Dodino",
-    "Red-nas",
-    "Phieman",
-    "Hewlett",
-    "Kenpher",
-    "Naned",
-    "Leofu",
-    "Ceol",
-    "Ferphiewulf",
-    "Capaul",
-    "Edmes",
-    "Conmarma",
-    "Kamann",
-    "Leywen",
-    "Bandoea",
-    "Eman",
-    "Lenbert",
-    "Leyson",
-    "Master",
-    "Rengorma",
-    "Hammeri",
-    "Paulan",
-    "Rol",
-    "Dared",
-    "Bavin",
-    "Muel",
-    "Beorncy",
-    "Cenhe",
-    "Hildila",
-    "Fredferum",
-    "Kimald",
-    "Sadun",
-    "Laroc",
-    "Rie",
-    "Kee",
-    "Thaenan",
-    "Linan",
-    "Saracan",
-    "Carnya",
-    "Herelin",
-    "Gar-len",
-    "Jenken",
-    "Son-la",
-    "Bert",
-    "Paris",
-    "Dontho",
-    "Waru",
-    "Riceal",
-    "Grimripe",
-    "Fridtine",
-    "Wynke",
-    "Gifu",
-    "Raha",
-    "Iwen",
-    "Mitsam"
-    )
-
-    val listCPF = listOf<Long>(95205316020,
-        89340690079,
-    61720259020,
-    56544241067,
-    80497240009,
-    28900538063,
-    56877016050,
-    62699451002,
-    32701435080,
-    92468295064,
-    41139537083,
-    43118661003,
-    59345282033,
-    70351432035,
-    81397436077,
-    93119210099,
-    34119781046,
-    28688544000,
-    80072634030,
-    36274562036,
-    28483462052,
-    42257562038,
-    29437263035,
-        29210288084,
-    69541472060,
-    93520221063,
-    17179110051,
-    96844051034,
-    46138128010,
-    49094850079,
-        38702731002,
-        36460756007,
-    60058171088,
-        91110850026,
-    30920373089,
-    14316994034,
-        31784298085,
-    62640042009,
-        53432144016,
-        79521170093,
-    58625972047,
-    26180113092,
-    44476102050,
-    99212869009,
-    21023987066,
-    66243561038,
-    84721118066,
-    13959948034,
-    24541336014,
-        65291162066,
-    92018673017,
-    35663248099,
-    25599749088,
-    56107196072,
-    82021776000,
-    72204753068,
-    96224651027,
-    94912690031,
-    73198650097,
-    88990640083,
-    73437070002,
-    10352445009,
-    52128331080,
-    25554285007,
-    67544625079,
-    92357946091,
-    76413700041,
-    85826131055,
-    23084635030,
-    43543039067,
-    29261527019,
-    36895258027,
-        56108352086,
-    56283984037,
-    64679646080,
-    83786943052,
-    37380339044,
-    64189729027,
-    23646376007,
-    14873072093,
-    69062437052,
-    89505491077,
-    37113920080,
-    68428423016,
-    37381406039,
-    26305758026,
-    72557073008,
-    42976516022,
-    56593370070,
-        30495193046,
-    85560863068,
-    26488545094,
-    91044422025,
-    84036822047,
-    14380661040,
-    26313059069,
-    42766325018,
-    31082949035,
-    92663568082,
-    67686737004,
-    12747031071,
-    76456708001,
-    65038342094,
-    75855154050,
-    59083912043,
-    75749235076,
-        64447698099,
-    47762064044,
-    87043499038,
-    71056039094,
-        61990737030,
-    89851813001,
-        78339379089,
-    18504177092,
-    40025780034,
-    59207851016,
-    26764041059,
-    20698814070,
-    55080828080,
-    43353877096,
-    98501390054,
-    52592666095,
-    80323693091,
-        32369103051,
-    55665722006,
-    28453067090,
-    85754008007,
-    88414248004,
-    11647234050,
-        71907295003,
-    78144495020,
-    78739005097,
-    48958410060,
-    59171612084,
-    10708070019,
-    43967005046,
-    59418451034,
-    10944459080,
-    93189291020,
-    92990778004,
-    69633148022,
-    31097284000,
-    52731931094,
-    84407350067,
-        72235329047,
-    11604219009,
-    34500380019,
-    94378106051,
-        53448170020,
-    43258551065,
-    75575217060,
-    41733237003,
-    68928950007,
-    14982396094,
-    94621370057,
-    95356454040,
-    62610443099,
-    30430222033,
-        73732921000,
-    30699941059,
-    47928315041,
-    39840963058,
-    86545208098,
-    38261982041,
-    45101311006,
-    53113778018,
-    10946893004,
-    66808382077,
-    50189299010,
-    59322699019,
-    48547625003,
-    59084002032,
-    57939319027,
-    95073538013,
-    30073604046,
-    34611553060,
-    32412989060,
-    63802724020,
-    13293460097,
-    81053644094,
-    73219211070,
-    23022484062,
-    96497694048,
-    54451809053,
-    20598109064,
-    27330651060,
-    87500520042,
-    52285604084,
-    49442808079,
-    43712061072,
-    62683331010,
-    66399184045,
-    76219203003,
-    60584789017,
-    77147898087,
-    81526713047,
-        63695105054,
-        96704751041,
-    80332175022,
-    84285793008,
-    32882400098)
-
-    var i = 38
-    for (j in 0 until listOfNomes.count()) {
-        println("/* $i */")
-        println("insert into T_USER(idUser, nmUser, userPassword) values('${listCPF[j]}', '${listOfNomes[j]}', 'BA3253876AED6BC22D4A6FF53D8406C6AD864195ED144AB5C87621B6C233B548BAEAE6956DF346EC8C17F5EA10F35EE3CBC514797ED7DDD3145464E2A0BAB413');")
-        println("insert into T_USER_ROLE values('${listCPF[j]}', 3);")
-        i++
-    }
- */
-
+/* Players In TEAM */
+insert into T_PLAYER_IN_TEAM values(17, 1);
+insert into T_PLAYER_IN_TEAM values(18, 1);
+insert into T_PLAYER_IN_TEAM values(19, 1);
+insert into T_PLAYER_IN_TEAM values(20, 1);
+insert into T_PLAYER_IN_TEAM values(21, 1);
+insert into T_PLAYER_IN_TEAM values(22, 1);
+insert into T_PLAYER_IN_TEAM values(23, 2);
+insert into T_PLAYER_IN_TEAM values(24, 2);
+insert into T_PLAYER_IN_TEAM values(25, 2);
+insert into T_PLAYER_IN_TEAM values(26, 2);
+insert into T_PLAYER_IN_TEAM values(27, 2);
+insert into T_PLAYER_IN_TEAM values(28, 2);
+insert into T_PLAYER_IN_TEAM values(29, 3);
+insert into T_PLAYER_IN_TEAM values(30, 3);
+insert into T_PLAYER_IN_TEAM values(31, 3);
+insert into T_PLAYER_IN_TEAM values(32, 3);
+insert into T_PLAYER_IN_TEAM values(33, 3);
+insert into T_PLAYER_IN_TEAM values(34, 3);
+insert into T_PLAYER_IN_TEAM values(35, 4);
+insert into T_PLAYER_IN_TEAM values(36, 4);
+insert into T_PLAYER_IN_TEAM values(37, 4);
+insert into T_PLAYER_IN_TEAM values(38, 4);
+insert into T_PLAYER_IN_TEAM values(39, 4);
+insert into T_PLAYER_IN_TEAM values(40, 4);
+insert into T_PLAYER_IN_TEAM values(41, 5);
+insert into T_PLAYER_IN_TEAM values(42, 5);
+insert into T_PLAYER_IN_TEAM values(43, 5);
+insert into T_PLAYER_IN_TEAM values(44, 5);
+insert into T_PLAYER_IN_TEAM values(45, 5);
+insert into T_PLAYER_IN_TEAM values(46, 5);
+insert into T_PLAYER_IN_TEAM values(47, 6);
+insert into T_PLAYER_IN_TEAM values(48, 6);
+insert into T_PLAYER_IN_TEAM values(49, 6);
+insert into T_PLAYER_IN_TEAM values(50, 6);
+insert into T_PLAYER_IN_TEAM values(51, 6);
+insert into T_PLAYER_IN_TEAM values(52, 6);
+insert into T_PLAYER_IN_TEAM values(53, 7);
+insert into T_PLAYER_IN_TEAM values(54, 7);
+insert into T_PLAYER_IN_TEAM values(55, 7);
+insert into T_PLAYER_IN_TEAM values(56, 7);
+insert into T_PLAYER_IN_TEAM values(57, 7);
+insert into T_PLAYER_IN_TEAM values(58, 7);
+insert into T_PLAYER_IN_TEAM values(59, 8);
+insert into T_PLAYER_IN_TEAM values(60, 8);
+insert into T_PLAYER_IN_TEAM values(61, 8);
+insert into T_PLAYER_IN_TEAM values(62, 8);
+insert into T_PLAYER_IN_TEAM values(63, 8);
+insert into T_PLAYER_IN_TEAM values(64, 8);
+insert into T_PLAYER_IN_TEAM values(65, 9);
+insert into T_PLAYER_IN_TEAM values(66, 9);
+insert into T_PLAYER_IN_TEAM values(67, 9);
+insert into T_PLAYER_IN_TEAM values(68, 9);
+insert into T_PLAYER_IN_TEAM values(69, 9);
+insert into T_PLAYER_IN_TEAM values(70, 9);
+insert into T_PLAYER_IN_TEAM values(71, 10);
+insert into T_PLAYER_IN_TEAM values(72, 10);
+insert into T_PLAYER_IN_TEAM values(73, 10);
+insert into T_PLAYER_IN_TEAM values(74, 10);
+insert into T_PLAYER_IN_TEAM values(75, 10);
+insert into T_PLAYER_IN_TEAM values(76, 10);
+insert into T_PLAYER_IN_TEAM values(77, 11);
+insert into T_PLAYER_IN_TEAM values(78, 11);
+insert into T_PLAYER_IN_TEAM values(79, 11);
+insert into T_PLAYER_IN_TEAM values(80, 11);
+insert into T_PLAYER_IN_TEAM values(81, 11);
+insert into T_PLAYER_IN_TEAM values(82, 11);
+insert into T_PLAYER_IN_TEAM values(83, 12);
+insert into T_PLAYER_IN_TEAM values(84, 12);
+insert into T_PLAYER_IN_TEAM values(85, 12);
+insert into T_PLAYER_IN_TEAM values(86, 12);
+insert into T_PLAYER_IN_TEAM values(87, 12);
+insert into T_PLAYER_IN_TEAM values(88, 12);
+insert into T_PLAYER_IN_TEAM values(89, 13);
+insert into T_PLAYER_IN_TEAM values(90, 13);
+insert into T_PLAYER_IN_TEAM values(91, 13);
+insert into T_PLAYER_IN_TEAM values(92, 13);
+insert into T_PLAYER_IN_TEAM values(93, 13);
+insert into T_PLAYER_IN_TEAM values(94, 13);
+insert into T_PLAYER_IN_TEAM values(95, 14);
+insert into T_PLAYER_IN_TEAM values(96, 14);
+insert into T_PLAYER_IN_TEAM values(97, 14);
+insert into T_PLAYER_IN_TEAM values(98, 14);
+insert into T_PLAYER_IN_TEAM values(99, 14);
+insert into T_PLAYER_IN_TEAM values(100, 14);
+insert into T_PLAYER_IN_TEAM values(101, 15);
+insert into T_PLAYER_IN_TEAM values(102, 15);
+insert into T_PLAYER_IN_TEAM values(103, 15);
+insert into T_PLAYER_IN_TEAM values(104, 15);
+insert into T_PLAYER_IN_TEAM values(105, 15);
+insert into T_PLAYER_IN_TEAM values(106, 15);
+insert into T_PLAYER_IN_TEAM values(107, 16);
+insert into T_PLAYER_IN_TEAM values(108, 16);
+insert into T_PLAYER_IN_TEAM values(109, 16);
+insert into T_PLAYER_IN_TEAM values(110, 16);
+insert into T_PLAYER_IN_TEAM values(111, 16);
+insert into T_PLAYER_IN_TEAM values(112, 16);
+insert into T_PLAYER_IN_TEAM values(113, 17);
+insert into T_PLAYER_IN_TEAM values(114, 17);
+insert into T_PLAYER_IN_TEAM values(115, 17);
+insert into T_PLAYER_IN_TEAM values(116, 17);
+insert into T_PLAYER_IN_TEAM values(117, 17);
+insert into T_PLAYER_IN_TEAM values(118, 17);
+insert into T_PLAYER_IN_TEAM values(119, 18);
+insert into T_PLAYER_IN_TEAM values(120, 18);
+insert into T_PLAYER_IN_TEAM values(121, 18);
+insert into T_PLAYER_IN_TEAM values(122, 18);
+insert into T_PLAYER_IN_TEAM values(123, 18);
+insert into T_PLAYER_IN_TEAM values(124, 18);
+insert into T_PLAYER_IN_TEAM values(125, 19);
+insert into T_PLAYER_IN_TEAM values(126, 19);
+insert into T_PLAYER_IN_TEAM values(127, 19);
+insert into T_PLAYER_IN_TEAM values(128, 19);
+insert into T_PLAYER_IN_TEAM values(129, 19);
+insert into T_PLAYER_IN_TEAM values(130, 19);
+insert into T_PLAYER_IN_TEAM values(131, 20);
+insert into T_PLAYER_IN_TEAM values(132, 20);
+insert into T_PLAYER_IN_TEAM values(133, 20);
+insert into T_PLAYER_IN_TEAM values(134, 20);
+insert into T_PLAYER_IN_TEAM values(135, 20);
+insert into T_PLAYER_IN_TEAM values(136, 20);
+insert into T_PLAYER_IN_TEAM values(137, 21);
+insert into T_PLAYER_IN_TEAM values(138, 21);
+insert into T_PLAYER_IN_TEAM values(139, 21);
+insert into T_PLAYER_IN_TEAM values(140, 21);
+insert into T_PLAYER_IN_TEAM values(141, 21);
+insert into T_PLAYER_IN_TEAM values(142, 21);
+insert into T_PLAYER_IN_TEAM values(143, 22);
+insert into T_PLAYER_IN_TEAM values(144, 22);
+insert into T_PLAYER_IN_TEAM values(145, 22);
+insert into T_PLAYER_IN_TEAM values(146, 22);
+insert into T_PLAYER_IN_TEAM values(147, 22);
+insert into T_PLAYER_IN_TEAM values(148, 22);
+insert into T_PLAYER_IN_TEAM values(149, 23);
+insert into T_PLAYER_IN_TEAM values(150, 23);
+insert into T_PLAYER_IN_TEAM values(151, 23);
+insert into T_PLAYER_IN_TEAM values(152, 23);
+insert into T_PLAYER_IN_TEAM values(153, 23);
+insert into T_PLAYER_IN_TEAM values(154, 23);
+insert into T_PLAYER_IN_TEAM values(155, 24);
+insert into T_PLAYER_IN_TEAM values(156, 24);
+insert into T_PLAYER_IN_TEAM values(157, 24);
+insert into T_PLAYER_IN_TEAM values(158, 24);
+insert into T_PLAYER_IN_TEAM values(159, 24);
+insert into T_PLAYER_IN_TEAM values(160, 24);
+insert into T_PLAYER_IN_TEAM values(161, 25);
+insert into T_PLAYER_IN_TEAM values(162, 25);
+insert into T_PLAYER_IN_TEAM values(163, 25);
+insert into T_PLAYER_IN_TEAM values(164, 25);
+insert into T_PLAYER_IN_TEAM values(165, 25);
+insert into T_PLAYER_IN_TEAM values(166, 25);
+insert into T_PLAYER_IN_TEAM values(167, 26);
+insert into T_PLAYER_IN_TEAM values(168, 26);
+insert into T_PLAYER_IN_TEAM values(169, 26);
+insert into T_PLAYER_IN_TEAM values(170, 26);
+insert into T_PLAYER_IN_TEAM values(171, 26);
+insert into T_PLAYER_IN_TEAM values(172, 26);
+insert into T_PLAYER_IN_TEAM values(173, 27);
+insert into T_PLAYER_IN_TEAM values(174, 27);
+insert into T_PLAYER_IN_TEAM values(175, 27);
+insert into T_PLAYER_IN_TEAM values(176, 27);
+insert into T_PLAYER_IN_TEAM values(177, 27);
+insert into T_PLAYER_IN_TEAM values(178, 27);
+insert into T_PLAYER_IN_TEAM values(179, 28);
+insert into T_PLAYER_IN_TEAM values(180, 28);
+insert into T_PLAYER_IN_TEAM values(181, 28);
+insert into T_PLAYER_IN_TEAM values(182, 28);
+insert into T_PLAYER_IN_TEAM values(183, 28);
+insert into T_PLAYER_IN_TEAM values(184, 28);
+insert into T_PLAYER_IN_TEAM values(185, 29);
+insert into T_PLAYER_IN_TEAM values(186, 29);
+insert into T_PLAYER_IN_TEAM values(187, 29);
+insert into T_PLAYER_IN_TEAM values(188, 29);
+insert into T_PLAYER_IN_TEAM values(189, 29);
+insert into T_PLAYER_IN_TEAM values(190, 29);
+insert into T_PLAYER_IN_TEAM values(191, 30);
+insert into T_PLAYER_IN_TEAM values(192, 30);
+insert into T_PLAYER_IN_TEAM values(193, 30);
+insert into T_PLAYER_IN_TEAM values(194, 30);
+insert into T_PLAYER_IN_TEAM values(195, 30);
+insert into T_PLAYER_IN_TEAM values(196, 30);
+insert into T_PLAYER_IN_TEAM values(197, 31);
+insert into T_PLAYER_IN_TEAM values(198, 31);
+insert into T_PLAYER_IN_TEAM values(199, 31);
+insert into T_PLAYER_IN_TEAM values(200, 31);
+insert into T_PLAYER_IN_TEAM values(201, 31);
+insert into T_PLAYER_IN_TEAM values(202, 31);
+insert into T_PLAYER_IN_TEAM values(203, 32);
+insert into T_PLAYER_IN_TEAM values(204, 32);
+insert into T_PLAYER_IN_TEAM values(205, 32);
+insert into T_PLAYER_IN_TEAM values(206, 32);
+insert into T_PLAYER_IN_TEAM values(207, 32);
+insert into T_PLAYER_IN_TEAM values(208, 32);
 
 /* Comandos para dropar as tabelas */
+/*
 drop table T_MACHINE_METRIC;
 drop table T_USER_MACHINE;
 drop table T_MACHINE;
+drop table T_STREAM_OF_CHAMPION;
 drop table T_METRIC;
 drop table T_STREAM;
+drop table T_USER_STREAM;
 drop table T_TEAM_IN_MATCH;
 drop table T_MATCH;
-drop table T_PLAYER_IN_TEAM;
 drop table T_TEAM_IN_CHAMPIONSHIP;
+drop table T_PLAYER_IN_TEAM;
 drop table T_TEAM;
 drop table T_ADMINISTRATOR_CHAMPIONSHIP;
 drop table T_INVITE_PLAYER;
@@ -2280,5 +3668,4 @@ drop table T_ROLE;
 drop table T_USER;
 */
 
-package com.carbontower
-
+*/

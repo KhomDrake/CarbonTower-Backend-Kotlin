@@ -11,6 +11,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 class PlayerRepository : IPlayerRepository {
+
+    override fun isInviteAlreadyAnswered(idUserRole: Int, idChampionship: Int): Boolean {
+        var answer = false
+
+        transaction {
+            answer = T_INVITE_PLAYER.select { T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship)
+                .and(T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole))
+                .and(T_INVITE_PLAYER.alreadyAnswered.eq(1))
+            }.count() != 0
+        }
+
+        return answer
+    }
+
     override fun getInvitesAccepted(idUserRole: Int): MutableList<InviteData> {
         val list = mutableListOf<InviteData>()
 
@@ -159,6 +173,7 @@ class PlayerRepository : IPlayerRepository {
 
     override fun refuseInvite(idUserRole: Int, idChampionship: Int) {
         transaction {
+
             T_INVITE_PLAYER.update({ T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship)
                 .and(T_INVITE_PLAYER.idPlayer_fk.eq(idUserRole))
                 .and(T_INVITE_PLAYER.alreadyAnswered.eq(0))}) {

@@ -4,6 +4,7 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.InviteData
 import com.carbontower.resources.database.exception.ChampionshipNotExist
+import com.carbontower.resources.database.exception.InviteAlreadyAnswer
 import com.carbontower.resources.database.exception.NotAAdministrator
 import com.carbontower.resources.database.exception.NotAPlayer
 
@@ -34,12 +35,18 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
     fun acceptInvite(idUser: String, idChampionship: Int) {
         val idUserRole = getIdUserRolePlayer(idUser)
         notAPlayer(idUserRole, idUser)
+
+        if(playerRepository.isInviteAlreadyAnswered(idUserRole, idChampionship)) throw InviteAlreadyAnswer(idUser, idChampionship)
+
         playerRepository.acceptInvite(idUserRole, idChampionship)
     }
 
     fun refuseInvite(idUser: String, idChampionship: Int) {
         val idUserRole = getIdUserRolePlayer(idUser)
         notAPlayer(idUserRole, idUser)
+
+        if(playerRepository.isInviteAlreadyAnswered(idUserRole, idChampionship)) throw InviteAlreadyAnswer(idUser, idChampionship)
+
         playerRepository.refuseInvite(idUserRole, idChampionship)
     }
 

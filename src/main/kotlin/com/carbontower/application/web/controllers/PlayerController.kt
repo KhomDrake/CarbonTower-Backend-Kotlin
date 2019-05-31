@@ -8,8 +8,7 @@ import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.InviteData
 import com.carbontower.domain.services.player.PlayerService
 import io.javalin.Context
-import io.javalin.apibuilder.ApiBuilder.path
-import io.javalin.apibuilder.ApiBuilder.get
+import io.javalin.apibuilder.ApiBuilder.*
 
 class PlayerController(private val playerService: PlayerService, private val cookie: Cookie) {
     fun routes() {
@@ -23,8 +22,72 @@ class PlayerController(private val playerService: PlayerService, private val coo
             get("/championship", toJson { championshipsParticipate(it) })
             get("/championship/administrator", toJson { getAdministratorChampionship(it) })
             get("/championship/administrator/:idchampionship", toJson { administerThisChampionship(it) })
+            // cadastro time
+            post("/time", toJson {  })
+            // cadastroJogadorNoTime
+            post("/time/:id-time/:id-user", toJson {  })
+            // cadastro Jogadores No Time
+            post("/time/users", toJson {  })
+            // cadastro partida
+            post("/match", toJson {  })
+            // cadastroTimeNaPartida
+            post("/match/:id-match/:id-time", toJson {  })
+            // cadastro Times Na Partida
+            post("/match/times/:id-match", toJson {  })
+            // pegarTimeJogadorCampeonato
+            get("/times/:id-user/:idchampionship", toJson {  })
+            // pegarPartidasCampeonato
+            get("/match/:idchampionship", toJson {  })
+            // pegarPartidasQueParticipei
+            get("/match/player/participate/:id-user", toJson {  })
+            // pegarTimesQueParticipei
+            get("/time/player/participate/:id-user", toJson {  })
         }
     }
+
+    private fun insertTime(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun insertPlayerInTime(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun insertPlayersInTime(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun insertMatch(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun insertTimeInMatch(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun insertTimesInMatch(ctx: Context) : Boolean {
+        return true
+    }
+
+    private fun timesChampionships(ctx: Context) {
+
+    }
+
+    private fun matchsChampionship(ctx: Context) {
+
+    }
+
+    private fun matchsParticipate(ctx: Context) {
+
+    }
+
+    private fun timesParticipate(ctx: Context) {
+
+    }
+
+
+
+    //
 
     private fun administerThisChampionship(ctx: Context) : Boolean {
         ctx.validateCookie(cookie)
@@ -79,7 +142,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
         val listOfInvites: MutableList<InviteData> = playerService.getInvites(idUser)
-        ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites com sucesso")
+        ctx.insertLogSuccess("Jogaodr $idUser solicita todos os convites com sucesso $listOfInvites")
         return listOfInvites.toList()
     }
 

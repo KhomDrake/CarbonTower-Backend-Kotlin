@@ -12,8 +12,72 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.math.BigDecimal
 
 class MachineRepository: IMachineRepository {
+    override fun getLastMachineMetric(idMachine: String): MachineMetricData {
+        var useRam: BigDecimal = "0".toBigDecimal()
+        var tempGPU: BigDecimal = "0".toBigDecimal()
+        var useGPU: BigDecimal = "0".toBigDecimal()
+        var useCPU: BigDecimal = "0".toBigDecimal()
+        var useDisc: BigDecimal = "0".toBigDecimal()
+        var rpmCooler = 0
+        var tempCPU: BigDecimal = "0".toBigDecimal()
+        var usbDevice = ""
+        var metricDate = ""
+        var metricTime = ""
+        var idMachineMetric = 0
+
+        transaction {
+            val machinesMetric = T_MACHINE_METRIC.select { T_MACHINE_METRIC.idMachine_fk.eq(idMachine) }
+            val machineMetric = machinesMetric.last()
+
+            useRam = machineMetric[T_MACHINE_METRIC.useRam]
+            tempGPU = machineMetric[T_MACHINE_METRIC.tempGPU]
+            useGPU = machineMetric[T_MACHINE_METRIC.useGPU]
+            useCPU = machineMetric[T_MACHINE_METRIC.useCPU]
+            useDisc = machineMetric[T_MACHINE_METRIC.useDisc]
+            rpmCooler = machineMetric[T_MACHINE_METRIC.rpmCooler]
+            tempCPU = machineMetric[T_MACHINE_METRIC.tempCPU]
+            usbDevice = machineMetric[T_MACHINE_METRIC.usbDevice]
+            metricDate = machineMetric[T_MACHINE_METRIC.metricDate]
+            metricTime = machineMetric[T_MACHINE_METRIC.metricTime]
+            idMachineMetric = machineMetric[T_MACHINE_METRIC.idMachineMetric]
+        }
+
+        return MachineMetricData(useRam, tempGPU, useGPU, useCPU, useDisc, rpmCooler, tempCPU,
+            usbDevice, metricDate, metricTime, idMachine, idMachineMetric)
+    }
+
+    override fun getAllMachineMetric(idMachine: String): List<MachineMetricData> {
+        val machineMetrics = mutableListOf<MachineMetricData>()
+
+        transaction {
+            val machineMetricDb = T_MACHINE_METRIC.select { T_MACHINE_METRIC.idMachine_fk.eq(idMachine) }
+
+            machineMetricDb.forEach {
+                machineMetrics.add(
+                    MachineMetricData(
+                        it[T_MACHINE_METRIC.useRam],
+                        it[T_MACHINE_METRIC.tempGPU],
+                        it[T_MACHINE_METRIC.useGPU],
+                        it[T_MACHINE_METRIC.useCPU],
+                        it[T_MACHINE_METRIC.useDisc],
+                        it[T_MACHINE_METRIC.rpmCooler],
+                        it[T_MACHINE_METRIC.tempCPU],
+                        it[T_MACHINE_METRIC.usbDevice],
+                        it[T_MACHINE_METRIC.metricDate],
+                        it[T_MACHINE_METRIC.metricTime],
+                        it[T_MACHINE_METRIC.idMachine_fk],
+                        it[T_MACHINE_METRIC.idMachineMetric]
+                    )
+                )
+            }
+        }
+
+        return machineMetrics.toList()
+    }
+
     override fun getMachineMetricByDate(
         idMachine: String,
         dateMetricMachineData: DateMetricMachineData
@@ -37,9 +101,9 @@ class MachineRepository: IMachineRepository {
                         it[T_MACHINE_METRIC.usbDevice],
                         it[T_MACHINE_METRIC.metricDate],
                         it[T_MACHINE_METRIC.metricTime],
-                        it[T_MACHINE_METRIC.idMachineMetric],
-                        it[T_MACHINE_METRIC.idMachine_fk]
-                    )
+                        it[T_MACHINE_METRIC.idMachine_fk],
+                        it[T_MACHINE_METRIC.idMachineMetric]
+                        )
                 )
             }
         }

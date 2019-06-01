@@ -38,4 +38,14 @@ class MachineService(private val machineRepository: IMachineRepository) {
         if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
         return machineRepository.getMachineMetricByDate(idMachine, dateMetricMachineData)
     }
+
+    fun getLastMachineMetric(idMachine: String): MachineMetricData {
+        if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
+        return machineRepository.getLastMachineMetric(idMachine)
+    }
+
+    fun getAllMachineMetric(idMachine: String): List<MachineMetricData> {
+        if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
+        return machineRepository.getAllMachineMetric(idMachine)
+    }
 }

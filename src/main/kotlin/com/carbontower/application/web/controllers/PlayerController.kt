@@ -31,26 +31,49 @@ class PlayerController(private val playerService: PlayerService, private val coo
             post("/match/times/:id-match", toJson { insertTimesInMatch(it) })
             get("/times/player/:idchampionship", toJson { timesChampionships(it) })
             get("/match/:idchampionship", toJson { matchsChampionship(it) })
-            get("/match/player/participate/:id-user", toJson { matchsParticipate(it) })
-            get("/time/player/participate/:id-user", toJson { timesParticipate(it) })
+            get("/match/player/participate/", toJson { allMatchsParticipate(it) })
+            get("/time/player/participate/", toJson { allTimesParticipate(it) })
+            get("/match/player/participate/:idchampionship", toJson { matchsParticipateChampionship(it) })
+            get("/time/player/participate/:idchampionship", toJson { timesParticipateChampionship(it) })
         }
     }
 
     private fun matchsChampionship(ctx: Context) : List<Match> {
         val idUser = ctx.validateCookieAndReturnIdUser(cookie)
-        playerService.notACompany(idUser)
-        val idChampionship = ctx.pathParam("idchampionship")
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
         val matchs = playerService.getMatchsChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Empresa $idUser solicitou todos as partidas do campeonato $idChampionship")
         return matchs
     }
 
-    private fun matchsParticipate(ctx: Context) {
+    private fun allMatchsParticipate(ctx: Context) : List<Match> {
         val idUser = ctx.validateCookieAndReturnIdUser(cookie)
-
+        val matchs = playerService.getAllMatchsPlayer(idUser)
+        ctx.insertLogSuccess("Usuário $idUser solicitou todas as partidas que participou")
+        return matchs
     }
 
-    private fun timesParticipate(ctx: Context) {
+    private fun allTimesParticipate(ctx: Context) : List<Time> {
         val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val times = playerService.getAllTimesPlayer(idUser)
+        ctx.insertLogSuccess("Usuário $idUser solicitou todos os times que participou")
+        return times
+    }
+
+    private fun matchsParticipateChampionship(ctx: Context) : List<Match> {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
+        val matchsChampionship = playerService.getAllMatchsPlayerChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Usuário $idUser solicitou todos as partidas que participou do campeonato $idChampionship")
+        return matchsChampionship
+    }
+
+    private fun timesParticipateChampionship(ctx: Context) : List<Time> {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
+        val timesChampionship = playerService.getAllTimesPlayerChampionship(idUser, idChampionship)
+        ctx.insertLogSuccess("Usuário $idUser solicitou todos os times que participou do campeonato $idChampionship")
+        return timesChampionship
     }
 
     private fun insertTime(ctx: Context) : Boolean {

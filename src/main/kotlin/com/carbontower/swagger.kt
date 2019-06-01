@@ -619,7 +619,7 @@ definitions:
         nmCompany:
           description: "Razão Social do cliente"
           type: string
-        idChampionship:
+        idChampionship_fk:
           description: "Razão Social do cliente"
           type: integer
   ChampionshipData:
@@ -634,7 +634,7 @@ definitions:
       nmCompany:
         description: "Razão Social do cliente"
         type: string
-      idChampionship:
+      idChampionship_fk:
         description: "Razão Social do cliente"
         type: integer
   GameData:
@@ -669,7 +669,7 @@ definitions:
       idPlayer:
         description: "Razão Social do cliente"
         type: integer
-      idChampionship:
+      idChampionship_fk:
         description: "Razão Social do cliente"
         type: integer
       nmChampionship:
@@ -695,7 +695,7 @@ definitions:
         idPlayer:
           description: "Razão Social do cliente"
           type: integer
-        idChampionship:
+        idChampionship_fk:
           description: "Razão Social do cliente"
           type: integer
         nmChampionship:
@@ -840,7 +840,7 @@ definitions:
       idUserRole:
         description: "Razão Social do cliente"
         type: integer
-      idChampionship:
+      idChampionship_fk:
         description: "Razão Social do cliente"
         type: integer
   PlayerChampionshipDataList:
@@ -854,7 +854,7 @@ definitions:
         idUserRole:
           description: "Razão Social do cliente"
           type: integer
-        idChampionship:
+        idChampionship_fk:
           description: "Razão Social do cliente"
           type: integer
   UserData:
@@ -880,7 +880,7 @@ definitions:
       idPlayer:
         description: "Razão Social do cliente"
         type: string
-      idChampionship:
+      idChampionship_fk:
         description: "Razão Social do cliente"
         type: integer
       alreadyAnswered:
@@ -897,7 +897,7 @@ definitions:
         idPlayer:
           description: "Razão Social do cliente"
           type: string
-        idChampionship:
+        idChampionship_fk:
           description: "Razão Social do cliente"
           type: integer
         alreadyAnswered:

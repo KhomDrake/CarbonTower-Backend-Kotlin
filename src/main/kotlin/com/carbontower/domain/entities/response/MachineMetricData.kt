@@ -12,5 +12,5 @@ data class MachineMetricData(val useRam: BigDecimal,
                              val usbDevice: String,
                              val metricDate: String,
                              val metricTime: String,
-                             val idMachine: Int,
-                             val idMachineMetric: String)
+                             val idMachine: String,
+                             val idMachineMetric: Int)

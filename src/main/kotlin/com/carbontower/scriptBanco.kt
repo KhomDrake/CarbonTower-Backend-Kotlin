@@ -27,7 +27,7 @@ create table T_GAME(
 );
 
 create table T_CHAMPIONSHIP(
-	idChampionship int primary key identity(1,1),
+	idChampionship_fk int primary key identity(1,1),
 	idGame_fk int,
 	owner_fk int,
 	nmChampionship varchar(60),
@@ -39,7 +39,7 @@ create table T_PLAYER_IN_CHAMPIONSHIP(
 	idPlayer_fk int,
 	idChampionship_fk int,
 	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
 	primary key(idPlayer_fk,idChampionship_fk)
 );
 
@@ -49,7 +49,7 @@ create table T_INVITE_PLAYER(
 	accepted int,
 	alreadyAnswered int,
 	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
 	primary key(idPlayer_fk,idChampionship_fk)
 );
 
@@ -57,7 +57,7 @@ create table T_ADMINISTRATOR_CHAMPIONSHIP(
 	idAdministrator_fk int,
 	idChampionship_fk int,
 	foreign key(idAdministrator_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
 	primary key(idAdministrator_fk,idChampionship_fk)
 );
 
@@ -77,7 +77,7 @@ create table T_PLAYER_IN_TEAM(
 create table T_TEAM_IN_CHAMPIONSHIP(
 	idChampionship_fk int,
 	idTeam_fk int,
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
 	foreign key(idTeam_fk) references T_TEAM(idTeam),
 	primary key(idChampionship_fk,idTeam_fk)
 );
@@ -89,7 +89,7 @@ create table T_MATCH(
 	idChampionship_fk int,
     winner int,
     foreign key(winner) references T_TEAM(idTeam),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship)
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk)
 );
 
 create table T_TEAM_IN_MATCH(
@@ -121,7 +121,7 @@ create table T_STREAM(
 create table T_STREAM_OF_CHAMPION(
     idChampionship_fk int,
 	idStream_fk int,
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
 	foreign key(idStream_fk) references T_STREAM(idStream),
 	primary key(idChampionship_fk, idStream_fk)
 );

@@ -8,6 +8,7 @@ import com.carbontower.domain.entities.response.InviteData
 import com.carbontower.domain.entities.response.Match
 import com.carbontower.domain.entities.response.Time
 import com.carbontower.resources.database.exception.*
+import java.sql.Timestamp
 
 
 class PlayerService(private val playerRepository: IPlayerRepository) {
@@ -150,8 +151,37 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         return playerRepository.getPlayerTimeInChampionship(idUserRole, idChampionship)
     }
 
-    fun getMatchsChampionship(idUser: String, idChampionship: String): List<Match> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun getMatchsChampionship(idUser: String, idChampionship: Int): List<Match> {
+        val idUserRole = getIdUserRoleCompany(idUser)
+        notACompany(idUserRole, idUser)
+
+        if(playerRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
+
+        return playerRepository.getMatchsChampionship(idUserRole, idChampionship)
+    }
+
+    fun getAllMatchsPlayer(idUser: String): List<Match> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getAllMatchsPlayer(idUserRole)
+    }
+
+    fun getAllTimesPlayer(idUser: String): List<Time> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getAllTimesPlayers(idUserRole)
+    }
+
+    fun getAllMatchsPlayerChampionship(idUser: String, idChampionship: Int): List<Match> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getAllMatchsPlayerChampionship(idUserRole, idChampionship)
+    }
+
+    fun getAllTimesPlayerChampionship(idUser: String, idChampionship: Int): List<Time> {
+        val idUserRole = getIdUserRolePlayer(idUser)
+        notAPlayer(idUserRole, idUser)
+        return playerRepository.getAllTimesPlayerChampionship(idUserRole, idChampionship)
     }
 
 }

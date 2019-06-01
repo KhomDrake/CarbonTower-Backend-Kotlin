@@ -18,4 +18,6 @@ interface IMachineRepository {
     fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData)
     fun machineExist(idMachine: String): Boolean
     fun getMachineMetricByDate(idMachine: String, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData>
+    fun getLastMachineMetric(idMachine: String): MachineMetricData
+    fun getAllMachineMetric(idMachine: String): List<MachineMetricData>
 }

@@ -4,6 +4,7 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.MatchData
 import com.carbontower.domain.entities.response.ChampionshipData
 import com.carbontower.domain.entities.response.InviteData
+import com.carbontower.domain.entities.response.Match
 import com.carbontower.domain.entities.response.Time
 
 interface IPlayerRepository {
@@ -31,4 +32,9 @@ interface IPlayerRepository {
     fun existMatch(idMatch: Int): Boolean
     fun insertTimeInMatch(idMatch: Int, idTime: Int)
     fun getPlayerTimeInChampionship(idUserRole: Int, idChampionship: Int): Time
+    fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match>
+    fun getAllMatchsPlayer(idUserRole: Int): List<Match>
+    fun getAllTimesPlayers(idUserRole: Int): List<Time>
+    fun getAllMatchsPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Match>
+    fun getAllTimesPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Time>
 }

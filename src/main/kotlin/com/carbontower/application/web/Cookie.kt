@@ -10,7 +10,6 @@ class Cookie(private val encryptCookie: EncryptCookie) {
 
     fun getIdCookie(cookie: String) : String {
         val id = encryptCookie.decryptCookie(cookies.get(cookie)!!)
-        println(id)
         return id
     }
 

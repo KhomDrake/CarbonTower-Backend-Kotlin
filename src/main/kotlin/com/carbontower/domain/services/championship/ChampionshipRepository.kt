@@ -12,6 +12,24 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 
 class ChampionshipRepository : IChampionshipRepository {
+    override fun insertAdministratorInChampionship(idUserAdministrator: Int, idChampionship: Int) {
+       transaction {
+           T_ADMINISTRATOR_CHAMPIONSHIP.insert {
+               it[T_ADMINISTRATOR_CHAMPIONSHIP.idAdministrator_fk] = idUserAdministrator
+               it[T_ADMINISTRATOR_CHAMPIONSHIP.idChampionship_fk] = idChampionship
+           }
+       }
+    }
+
+    override fun insertRoleAdministrator(idAdministrator: String) {
+        transaction {
+            T_USER_ROLE.insert {
+                it[T_USER_ROLE.idUser_fk] = idAdministrator
+                it[T_USER_ROLE.idRole_fk] = 2
+            }
+        }
+    }
+
     override fun getAllInvitesChampionship(idChampionship: Int): List<InviteTotalData> {
         var invites = mutableListOf<InviteTotalData>()
 

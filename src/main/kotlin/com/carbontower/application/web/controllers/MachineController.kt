@@ -32,7 +32,7 @@ class MachineController(private val machineService: MachineService,
     private fun getAllMetricsMachine(ctx: Context) : List<MachineMetricData> {
         val idMachine = ctx.pathParam("idmachine")
         val machineMetricsData = machineService.getAllMachineMetric(idMachine)
-        ctx.insertLogSuccess("Pego todas métricas da machine $idMachine com sucesso\"")
+        ctx.insertLogSuccess("Pego todas métricas da machine $idMachine com sucesso")
         return machineMetricsData
     }
 

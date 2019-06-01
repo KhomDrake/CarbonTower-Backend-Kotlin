@@ -8,7 +8,6 @@ import com.carbontower.domain.entities.response.InviteData
 import com.carbontower.domain.entities.response.Match
 import com.carbontower.domain.entities.response.Time
 import com.carbontower.resources.database.exception.*
-import java.sql.Timestamp
 
 
 class PlayerService(private val playerRepository: IPlayerRepository) {
@@ -142,13 +141,13 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         playerRepository.insertTimeInMatch(idMatch, idTime)
     }
 
-    fun getPlayerTimeInChampionship(idUser: String, idChampionship: Int): Time {
+    fun timesInChampionship(idUser: String, idChampionship: Int): Time {
         val idUserRole = getIdUserRolePlayer(idUser)
         notAPlayer(idUserRole, idUser)
 
         if(playerRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
 
-        return playerRepository.getPlayerTimeInChampionship(idUserRole, idChampionship)
+        return playerRepository.timesInChampionship(idUserRole, idChampionship)
     }
 
     fun getMatchsChampionship(idUser: String, idChampionship: Int): List<Match> {

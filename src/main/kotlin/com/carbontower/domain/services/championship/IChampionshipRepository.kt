@@ -15,4 +15,6 @@ interface IChampionshipRepository {
     fun getGames(): List<GameData>
     fun existChampionship(idChampionship: Int): Boolean
     fun getAllInvitesChampionship(idChampionship: Int): List<InviteTotalData>
+    fun insertAdministratorInChampionship(idUserAdministrator: Int, idChampionship: Int)
+    fun insertRoleAdministrator(idAdministrator: String)
 }

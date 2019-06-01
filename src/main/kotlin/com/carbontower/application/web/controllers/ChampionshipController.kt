@@ -20,7 +20,19 @@ class ChampionshipController(private val championshipService: ChampionshipServic
             post("invite/:id/create",  toJson { createInvite(it) })
             get("games/", toJson { getGames(it) })
             get("invites/:id", toJson {  getAllInvites(it) })
+            post("administrator/:id-user-administrator/:idchampionship", toJson { insertAdministrator(it) })
         }
+    }
+
+    private fun insertAdministrator(ctx: Context) : Boolean {
+        ctx.validateCookie(cookie)
+        val c = ctx.cookie(cookie.cookieName)
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
+        val idAdministrator = ctx.pathParam("id-user-administrator")
+        val idUser: String = cookie.getIdCookie(c.toString())
+        championshipService.insertAdministrator(idUser, idChampionship, idAdministrator)
+        ctx.insertLogSuccess("Empresa $idUser cadastrou um administrador $idAdministrator no campeonato $idChampionship")
+        return true
     }
 
     private fun getAllInvites(ctx: Context) : List<InviteTotalData> {

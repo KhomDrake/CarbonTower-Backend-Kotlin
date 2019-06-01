@@ -141,7 +141,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
     private fun timesChampionships(ctx: Context) : Time {
         val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val idChampionship = ctx.pathParam("idchampionship").toInt()
-        val time = playerService.getPlayerTimeInChampionship(idUser, idChampionship)
+        val time = playerService.timesInChampionship(idUser, idChampionship)
         ctx.insertLogSuccess("Jogador $idUser participar do time $time no campeonato $idChampionship")
         return time
     }

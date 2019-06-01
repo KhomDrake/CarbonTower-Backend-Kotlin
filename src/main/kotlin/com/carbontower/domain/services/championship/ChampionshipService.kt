@@ -4,9 +4,7 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.http.InviteCreateData
 import com.carbontower.domain.entities.response.*
-import com.carbontower.resources.database.exception.ChampionshipNotExist
-import com.carbontower.resources.database.exception.InviteAlreadyExist
-import com.carbontower.resources.database.exception.NotACompany
+import com.carbontower.resources.database.exception.*
 
 class ChampionshipService(private val championshipRepository: IChampionshipRepository) {
     fun signupChampionship(idUser: String, signupChampionshipData: SingupChampionshipData) {
@@ -71,6 +69,22 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
 
     private fun existChampionship(idChampionship: Int){
         if(championshipRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
+    }
+
+    fun insertAdministrator(idUser: String, idChampionship: Int, idAdministrator: String) {
+        val idUserRole = getIdUserRoleCompany(idUser)
+        notACompany(idUserRole, idUser)
+        existChampionship(idChampionship)
+
+        if(championshipRepository.getIdUserRole(idAdministrator, Role.Jogador) == 0)
+            throw UserNotExist(idUser, role = Role.Jogador)
+
+        if(championshipRepository.getIdUserRole(idAdministrator, Role.Administrador) != 0)
+            throw AdministratorAlreadyExist(idAdministrator, idChampionship)
+
+        championshipRepository.insertRoleAdministrator(idAdministrator)
+        val idUserAdministrator = championshipRepository.getIdUserRole(idAdministrator, Role.Administrador)
+        championshipRepository.insertAdministratorInChampionship(idUserAdministrator, idChampionship)
     }
 
 }

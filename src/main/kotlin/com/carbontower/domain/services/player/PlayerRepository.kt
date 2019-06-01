@@ -116,7 +116,7 @@ class PlayerRepository : IPlayerRepository {
         }
     }
 
-    override fun getPlayerTimeInChampionship(idUserRole: Int, idChampionship: Int): Time {
+    override fun timesInChampionship(idUserRole: Int, idChampionship: Int): Time {
         val players = mutableListOf<UserData>()
         var nmTime = ""
 
@@ -124,7 +124,6 @@ class PlayerRepository : IPlayerRepository {
             val time = (T_PLAYER_IN_TEAM innerJoin T_TEAM innerJoin T_TEAM_IN_CHAMPIONSHIP).select {
                 T_TEAM_IN_CHAMPIONSHIP.idChampionship_fk.eq(idChampionship)
                     .and(T_TEAM_IN_CHAMPIONSHIP.idTeam_fk.eq(T_TEAM.idTeam))
-                    .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(idUserRole))
             }
 
             var idTime = 0
@@ -153,26 +152,189 @@ class PlayerRepository : IPlayerRepository {
         val matchs = mutableListOf<Match>()
 
         transaction {
-            val matchsDb = (T_MATCH)
-        }
+            val matchsDb = T_MATCH.select { T_MATCH.idChampionship_fk.eq(idChampionship) }
 
+            matchsDb.forEach {
+                val match = it
+                val times = mutableListOf<Time>()
+                val timesDb = (T_TEAM_IN_MATCH innerJoin T_TEAM innerJoin T_PLAYER_IN_TEAM).select {
+                    T_TEAM_IN_MATCH.idMatch_fk.eq(match[T_MATCH.idMatch])
+                    .and(T_TEAM_IN_MATCH.idTeam_fk.eq(T_TEAM.idTeam))
+                }
+
+                val date = match[T_MATCH.date]
+                val time = match[T_MATCH.time]
+                var nmWinner = ""
+                var timeWinner = mutableListOf<UserData>()
+
+                timesDb.forEach {
+                    val time = it
+                    val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
+                        T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
+                            .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                            .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                    }
+
+                    val players = mutableListOf<UserData>()
+                    playersInTime.forEach {
+                        val userData = UserData(it[T_USER_ROLE.idUser_fk], it[T_USER.nmUser], listOf(), it[T_USER_ROLE.idUserRole])
+                        players.add(userData)
+                    }
+                    times.add(Time(time[T_TEAM.nmTeam], players))
+                    if(time[T_TEAM.idTeam] == match[T_MATCH.winner]) {
+                        timeWinner = players
+                        nmWinner = time[T_TEAM.nmTeam]
+                    }
+                }
+                matchs.add(Match(times, Time(nmWinner, timeWinner), date, time))
+            }
+        }
         return matchs.toList()
     }
 
     override fun getAllMatchsPlayer(idUserRole: Int): List<Match> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val matchs = mutableListOf<Match>()
+        transaction {
+            val matchsDb = (T_PLAYER_IN_TEAM innerJoin T_TEAM innerJoin T_TEAM_IN_MATCH innerJoin T_MATCH)
+                .select { T_PLAYER_IN_TEAM.idPlayer_fk.eq(16)
+                    .and(T_PLAYER_IN_TEAM.idTeam_fk.eq(T_TEAM.idTeam)
+                        .and(T_TEAM_IN_MATCH.idTeam_fk.eq(T_TEAM.idTeam))
+                        .and(T_TEAM_IN_MATCH.idMatch_fk.eq(T_MATCH.idMatch)))}
+
+            println("asdasd")
+
+            matchsDb.forEach {
+                val match = it
+                val times = mutableListOf<Time>()
+                val timesDb = (T_TEAM_IN_MATCH innerJoin T_TEAM innerJoin T_PLAYER_IN_TEAM).select { T_TEAM_IN_MATCH.idMatch_fk.eq(match[T_MATCH.idMatch])
+                    .and(T_TEAM_IN_MATCH.idTeam_fk.eq(T_TEAM.idTeam))
+                }
+
+                val date = match[T_MATCH.date]
+                val time = match[T_MATCH.time]
+                var nmWinner = ""
+                var timeWinner = mutableListOf<UserData>()
+
+                timesDb.forEach {
+                    val time = it
+                    val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
+                        T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
+                            .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                            .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                    }
+
+                    val players = mutableListOf<UserData>()
+                    playersInTime.forEach {
+                        val userData = UserData(it[T_USER_ROLE.idUser_fk], it[T_USER.nmUser], listOf(), it[T_USER_ROLE.idUserRole])
+                        players.add(userData)
+                    }
+                    times.add(Time(time[T_TEAM.nmTeam], players))
+                    if(time[T_TEAM.idTeam] == match[T_MATCH.winner]) {
+                        timeWinner = players
+                        nmWinner = time[T_TEAM.nmTeam]
+                    }
+                }
+                matchs.add(Match(times, Time(nmWinner, timeWinner), date, time))
+            }
+        }
+        return matchs.toList()
     }
 
     override fun getAllTimesPlayers(idUserRole: Int): List<Time> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val times = mutableListOf<Time>()
+
+        transaction {
+            val timesDb = (T_PLAYER_IN_TEAM).select { T_PLAYER_IN_TEAM.idPlayer_fk.eq(idUserRole) }
+            timesDb.forEach {
+                val time = it
+                val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
+                    T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
+                        .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                        .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                }
+
+                val players = mutableListOf<UserData>()
+                playersInTime.forEach {
+                    val userData = UserData(it[T_USER_ROLE.idUser_fk], it[T_USER.nmUser], listOf(), it[T_USER_ROLE.idUserRole])
+                    players.add(userData)
+                }
+                times.add(Time(time[T_TEAM.nmTeam], players))
+            }
+        }
+
+        return times
     }
 
     override fun getAllMatchsPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Match> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val matchs = mutableListOf<Match>()
+
+        transaction {
+            val matchsDb = (T_PLAYER_IN_TEAM innerJoin T_TEAM innerJoin T_TEAM_IN_MATCH innerJoin T_MATCH).
+                select { T_PLAYER_IN_TEAM.idPlayer_fk.eq(idUserRole).and(T_MATCH.idChampionship_fk.eq(idChampionship)) }
+
+            matchsDb.forEach {
+                val match = it
+                val times = mutableListOf<Time>()
+                val timesDb = (T_TEAM_IN_MATCH innerJoin T_TEAM innerJoin T_PLAYER_IN_TEAM).select { T_TEAM_IN_MATCH.idMatch_fk.eq(match[T_MATCH.idMatch])
+                    .and(T_TEAM_IN_MATCH.idTeam_fk.eq(T_TEAM.idTeam))
+                }
+
+                val date = match[T_MATCH.date]
+                val time = match[T_MATCH.time]
+                var nmWinner = ""
+                var timeWinner = mutableListOf<UserData>()
+
+                timesDb.forEach {
+                    val time = it
+                    val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
+                        T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
+                            .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                            .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                    }
+
+                    val players = mutableListOf<UserData>()
+                    playersInTime.forEach {
+                        val userData = UserData(it[T_USER_ROLE.idUser_fk], it[T_USER.nmUser], listOf(), it[T_USER_ROLE.idUserRole])
+                        players.add(userData)
+                    }
+                    times.add(Time(time[T_TEAM.nmTeam], players))
+                    if(time[T_TEAM.idTeam] == match[T_MATCH.winner]) {
+                        timeWinner = players
+                        nmWinner = time[T_TEAM.nmTeam]
+                    }
+                }
+                matchs.add(Match(times, Time(nmWinner, timeWinner), date, time))
+            }
+        }
+        return matchs.toList()
     }
 
     override fun getAllTimesPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Time> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val times = mutableListOf<Time>()
+
+        transaction {
+            val timesDb = (T_TEAM_IN_CHAMPIONSHIP innerJoin T_PLAYER_IN_TEAM).select {
+                T_TEAM_IN_CHAMPIONSHIP.idChampionship_fk.eq(idChampionship)
+                    .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(idUserRole))
+            }
+            timesDb.forEach {
+                val time = it
+                val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
+                    T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
+                        .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                        .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                }
+
+                val players = mutableListOf<UserData>()
+                playersInTime.forEach {
+                    val userData = UserData(it[T_USER_ROLE.idUser_fk], it[T_USER.nmUser], listOf(), it[T_USER_ROLE.idUserRole])
+                    players.add(userData)
+                }
+                times.add(Time(time[T_TEAM.nmTeam], players))
+            }
+        }
+
+        return times
     }
 
     override fun isInviteAlreadyAnswered(idUserRole: Int, idChampionship: Int): Boolean {
@@ -351,12 +513,10 @@ class PlayerRepository : IPlayerRepository {
 
         transaction {
             val results = T_USER_ROLE.select { T_USER_ROLE.idUser_fk.eq(idUserRole).and(T_USER_ROLE.idRole_fk.eq(jogador.ordinal)) }
-            println(results)
             results.forEach {
                 idRole = it[T_USER_ROLE.idUserRole]
             }
         }
-        println(idRole)
         return idRole
     }
 

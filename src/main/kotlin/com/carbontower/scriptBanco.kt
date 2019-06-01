@@ -39,7 +39,7 @@ create table T_PLAYER_IN_CHAMPIONSHIP(
 	idPlayer_fk int,
 	idChampionship_fk int,
 	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
 	primary key(idPlayer_fk,idChampionship_fk)
 );
 
@@ -49,7 +49,7 @@ create table T_INVITE_PLAYER(
 	accepted int,
 	alreadyAnswered int,
 	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
 	primary key(idPlayer_fk,idChampionship_fk)
 );
 
@@ -57,7 +57,7 @@ create table T_ADMINISTRATOR_CHAMPIONSHIP(
 	idAdministrator_fk int,
 	idChampionship_fk int,
 	foreign key(idAdministrator_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
 	primary key(idAdministrator_fk,idChampionship_fk)
 );
 
@@ -77,7 +77,7 @@ create table T_PLAYER_IN_TEAM(
 create table T_TEAM_IN_CHAMPIONSHIP(
 	idChampionship_fk int,
 	idTeam_fk int,
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk),
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
 	foreign key(idTeam_fk) references T_TEAM(idTeam),
 	primary key(idChampionship_fk,idTeam_fk)
 );
@@ -89,7 +89,7 @@ create table T_MATCH(
 	idChampionship_fk int,
     winner int,
     foreign key(winner) references T_TEAM(idTeam),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship_fk)
+	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship)
 );
 
 create table T_TEAM_IN_MATCH(
@@ -3653,6 +3653,7 @@ drop table T_STREAM_OF_CHAMPION;
 drop table T_METRIC;
 drop table T_STREAM;
 drop table T_USER_STREAM;
+drop table T_MATCH_IN_CHAMPIONSHIP;
 drop table T_TEAM_IN_MATCH;
 drop table T_MATCH;
 drop table T_TEAM_IN_CHAMPIONSHIP;

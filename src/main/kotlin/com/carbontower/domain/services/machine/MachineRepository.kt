@@ -30,6 +30,9 @@ class MachineRepository: IMachineRepository {
 
         transaction {
             val machinesMetric = T_MACHINE_METRIC.select { T_MACHINE_METRIC.idMachine_fk.eq(idMachine) }
+
+            if(machinesMetric.empty()) return@transaction
+
             val machineMetric = machinesMetric.last()
 
             useRam = machineMetric[T_MACHINE_METRIC.useRam]

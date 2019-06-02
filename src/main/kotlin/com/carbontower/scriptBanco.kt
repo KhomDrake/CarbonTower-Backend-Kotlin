@@ -3827,6 +3827,49 @@ insert into T_STREAM values ('34367832272', 'en','Masters 3 Toss Ladder','566364
 insert into T_STREAM values ('34369802816', 'en','Late night jungle','72234226',29)
 insert into T_STREAM values ('34368063296', 'en','DATE NIGHT!!! type !datenight for more info','32005302',29)
 
+insert into T_STREAM_OF_CHAMPION values (6,'34366469888');
+insert into T_STREAM_OF_CHAMPION values (20,'34366695488');
+insert into T_STREAM_OF_CHAMPION values (41,'34368790480');
+insert into T_STREAM_OF_CHAMPION values (5,'34366502032');
+insert into T_STREAM_OF_CHAMPION values (11,'34367693552');
+insert into T_STREAM_OF_CHAMPION values (13,'34368400640');
+insert into T_STREAM_OF_CHAMPION values (19,'34369077408');
+insert into T_STREAM_OF_CHAMPION values (10,'34364454080');
+insert into T_STREAM_OF_CHAMPION values (18,'34367391200');
+insert into T_STREAM_OF_CHAMPION values (29,'34370499376');
+insert into T_STREAM_OF_CHAMPION values (4,'34368362160');
+insert into T_STREAM_OF_CHAMPION values (30,'34369549680');
+insert into T_STREAM_OF_CHAMPION values (43,'34369675152');
+insert into T_STREAM_OF_CHAMPION values (14,'34368674704');
+insert into T_STREAM_OF_CHAMPION values (17,'34369546160');
+insert into T_STREAM_OF_CHAMPION values (27,'34368592176');
+insert into T_STREAM_OF_CHAMPION values (38,'34369114032');
+insert into T_STREAM_OF_CHAMPION values (7,'34366357552');
+insert into T_STREAM_OF_CHAMPION values (26,'34367497984');
+insert into T_STREAM_OF_CHAMPION values (44,'34368286096');
+insert into T_STREAM_OF_CHAMPION values (8,'34364838848');
+insert into T_STREAM_OF_CHAMPION values (15,'34367307808');
+insert into T_STREAM_OF_CHAMPION values (39,'34367919552');
+insert into T_STREAM_OF_CHAMPION values (48,'34369391120');
+insert into T_STREAM_OF_CHAMPION values (16,'34363461968');
+insert into T_STREAM_OF_CHAMPION values (45,'34368900720');
+insert into T_STREAM_OF_CHAMPION values (1,'34366701360');
+insert into T_STREAM_OF_CHAMPION values (9,'34366995904');
+insert into T_STREAM_OF_CHAMPION values (22,'34369140976');
+insert into T_STREAM_OF_CHAMPION values (31,'34369991376');
+insert into T_STREAM_OF_CHAMPION values (2,'34360025744');
+insert into T_STREAM_OF_CHAMPION values (21,'34367240016');
+insert into T_STREAM_OF_CHAMPION values (34,'34369858560');
+insert into T_STREAM_OF_CHAMPION values (24,'34363923360');
+insert into T_STREAM_OF_CHAMPION values (33,'34366049152');
+insert into T_STREAM_OF_CHAMPION values (49,'34366471312');
+insert into T_STREAM_OF_CHAMPION values (3,'34368237280');
+insert into T_STREAM_OF_CHAMPION values (25,'34369221392');
+insert into T_STREAM_OF_CHAMPION values (23,'34368444320');
+insert into T_STREAM_OF_CHAMPION values (12,'34367098272');
+insert into T_STREAM_OF_CHAMPION values (32,'34367832272');
+insert into T_STREAM_OF_CHAMPION values (50,'34368549696');
+
 /* Comandos para dropar as tabelas */
 /*
 drop table T_MACHINE_METRIC;

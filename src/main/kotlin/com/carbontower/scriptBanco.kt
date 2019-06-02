@@ -2,7 +2,7 @@ package com.carbontower
 
 /*
 
-create table T_USER(
+    create table T_USER(
 	idUser varchar(14) primary key,
 	userPassword varchar(150),
 	nmUser varchar(60)
@@ -101,7 +101,7 @@ create table T_TEAM_IN_MATCH(
 );
 
 create table T_USER_STREAM(
-    idUserStream int primary key,
+    idUserStream varchar(20) primary key,
     login varchar(30),
     displayName varchar(30),
     viewCount int,
@@ -110,26 +110,20 @@ create table T_USER_STREAM(
 );
 
 create table T_STREAM(
-    idStream int primary key,
+    idStream varchar(30) primary key,
     language varchar(50),
-    title varchar(50),
-    idUserStream_fk int,
+    title varchar(200),
+    idUserStream_fk varchar(20),
     viewCount int,
 	foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream),
 );
 
 create table T_STREAM_OF_CHAMPION(
     idChampionship_fk int,
-	idStream_fk int,
+	idStream_fk varchar(30),
 	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
 	foreign key(idStream_fk) references T_STREAM(idStream),
 	primary key(idChampionship_fk, idStream_fk)
-);
-
-create table T_METRIC(
-	idMetric int primary key identity(1,1),
-	idStream_fk int,
-	foreign key(idStream_fk) references T_STREAM(idStream)
 );
 
 create table T_MACHINE(
@@ -3668,6 +3662,170 @@ insert into T_ADMINISTRATOR_CHAMPIONSHIP values (216, 21)
 insert into T_ADMINISTRATOR_CHAMPIONSHIP values (226, 22)
 insert into T_ADMINISTRATOR_CHAMPIONSHIP values (236, 23)
 
+insert into T_USER_STREAM values ('36481935', 'esl_dota2', 'ESL_DOTA2', 46794470, 1)
+insert into T_USER_STREAM values ('124021995', 'beyondthesummit_pt', 'BeyondTheSummit_PT', 39482098, 1)
+insert into T_USER_STREAM values ('32556389', 'universedota', 'UniverseDota', 2963577, 1)
+insert into T_USER_STREAM values ('20666751', 'grandgrant', 'GranDGranT', 4178333, 1)
+insert into T_USER_STREAM values ('26954716', 'eternalenvyy', 'EternaLEnVyy', 22425966, 1)
+insert into T_USER_STREAM values ('36903850', 'kingrdxd', 'Kingrdxd', 679350, 1)
+insert into T_USER_STREAM values ('34932688', 'monkeys_forever', 'monkeys_forever', 2641003, 1)
+insert into T_USER_STREAM values ('46736025', 'missclick_tv', 'missclick_tv', 3102138, 2)
+insert into T_USER_STREAM values ('39777954', 'lelisdota', 'lelisdota', 519280, 2)
+insert into T_USER_STREAM values ('84218661', 'henry', 'henry', 1532156, 2)
+insert into T_USER_STREAM values ('37851362', 'wcg_main', 'WCG_Main', 2749549, 2)
+insert into T_USER_STREAM values ('73324511', 'amirphanthom', 'AmirPhanThom', 554291, 2)
+insert into T_USER_STREAM values ('86636321', 'buckarmy', 'BuckArmy', 2073909, 2)
+insert into T_USER_STREAM values ('244161180', 'massnarx', 'MassNarX', 166056, 2)
+insert into T_USER_STREAM values ('12487539', 'r9rai', 'R9Rai', 952035, 3)
+insert into T_USER_STREAM values ('92048242', 'pistolpete2506', 'PistolPete2506', 563587, 3)
+insert into T_USER_STREAM values ('98446694', 'ratedhugo', 'ratedhugo', 689632, 3)
+insert into T_USER_STREAM values ('161412838', 'fifateca66', 'FifaTeca66', 173371, 3)
+insert into T_USER_STREAM values ('102011214', 'caliscg', 'CaliSCG', 888099, 3)
+insert into T_USER_STREAM values ('55125740', 'fortnite', 'Fortnite', 47404842, 3)
+insert into T_USER_STREAM values ('32140000', 'sypherpk', 'SypherPK', 39941245, 3)
+insert into T_USER_STREAM values ('120244187', 'aydan', 'Aydan', 10627507, 4)
+insert into T_USER_STREAM values ('214560121', 'brookeab', 'BrookeAB', 938847, 4)
+insert into T_USER_STREAM values ('205401621', 'liljarvis', 'liljarvis', 1590359, 4)
+insert into T_USER_STREAM values ('128489946', 'cizzorz', 'Cizzorz', 18022881, 4)
+insert into T_USER_STREAM values ('92372244', 'annoying', 'Annoying', 2659531, 4)
+insert into T_USER_STREAM values ('53811294', 'dellor', 'dellor', 2920148, 4)
+insert into T_USER_STREAM values ('50191268', 'crayator', 'Crayator', 5720504, 4)
+insert into T_USER_STREAM values ('49303276', 'nick28t', 'Nick28T', 35391691, 5)
+insert into T_USER_STREAM values ('79936475', 'riversan', 'riversan', 131811, 5)
+insert into T_USER_STREAM values ('145786272', 'epikwhale', 'EpikWhale', 149035, 5)
+insert into T_USER_STREAM values ('78068008', 'introllsive', 'InTrollsive', 108377, 5)
+insert into T_USER_STREAM values ('110892046', 'ranger', 'Ranger', 1474792, 5)
+insert into T_USER_STREAM values ('168769094', 'gamingfeelsman', 'gamingfeelsman', 24710, 5)
+insert into T_USER_STREAM values ('93087523', 'dizeliun', 'Dizeliun', 257933, 5)
+insert into T_USER_STREAM values ('52968416', 'asmodaitv', 'AsmodaiTV', 20654195, 6)
+insert into T_USER_STREAM values ('67479479', 'mryagut', 'MrYagut', 6802502, 6)
+insert into T_USER_STREAM values ('38442474', 'dreads', 'dreads', 2160640, 6)
+insert into T_USER_STREAM values ('64788017', 'navioot', 'navioot', 5042540, 6)
+insert into T_USER_STREAM values ('44811367', 'zeddyhs', 'ZeddyHS', 366879, 6)
+insert into T_USER_STREAM values ('70941755', 'pizzahs', 'PizzaHS', 568689, 6)
+insert into T_USER_STREAM values ('95889160', 'teamamerica_usa', 'TeamAmerica_USA', 24268, 6)
+insert into T_USER_STREAM values ('101926815', 'nanda', 'Nanda', 3489200, 7)
+insert into T_USER_STREAM values ('36029255', 'riotgames', 'Riot Games', 1142008205, 7)
+insert into T_USER_STREAM values ('44099416', 'rakin', 'Rakin', 33369196, 7)
+insert into T_USER_STREAM values ('28036688', 'trick2g', 'Trick2g', 139228320, 7)
+insert into T_USER_STREAM values ('35647075', 'patopapao', 'PatoPapao', 18986717, 7)
+insert into T_USER_STREAM values ('121203480', 'yassuo', 'Yassuo', 39989338, 7)
+insert into T_USER_STREAM values ('18074328', 'destiny', 'Destiny', 92502988, 7)
+insert into T_USER_STREAM values ('52203144', 'gratis150ml', 'gratis150ml', 45574775, 8)
+insert into T_USER_STREAM values ('30171560', 'wingsofdeath', 'Wingsofdeath', 99209647, 8)
+insert into T_USER_STREAM values ('98306631', 'shrimp9710', 'Shrimp9710', 116935, 8)
+insert into T_USER_STREAM values ('30721712', 'goodguygarry', 'GoodGuyGarry', 21505233, 8)
+insert into T_USER_STREAM values ('114476906', 'kabajiow', 'KabajiOW', 7983494, 8)
+insert into T_USER_STREAM values ('62597620', 'tf2pine', 'tf2PINE', 1626451, 8)
+insert into T_USER_STREAM values ('156567621', 'overwatchcontenders', 'OverwatchContenders', 19880958, 8)
+insert into T_USER_STREAM values ('23155607', 'fitzyhere', 'Fitzyhere', 3266676, 9)
+insert into T_USER_STREAM values ('147953635', 'space', 'space', 697871, 9)
+insert into T_USER_STREAM values ('5690948', 'fran', 'FRAN', 6498528, 9)
+insert into T_USER_STREAM values ('80781002', 'pvpx', 'PVPX', 3305343, 9)
+insert into T_USER_STREAM values ('130432314', 'brandito', 'Brandito', 901060, 9)
+insert into T_USER_STREAM values ('52914282', 'danteh', 'Danteh', 2966816, 9)
+insert into T_USER_STREAM values ('45815466', 'fusions_ow', 'Fusions_OW', 65747, 9)
+insert into T_USER_STREAM values ('72945990', 'saltyphish', 'SaltyPhish', 193151, 10)
+insert into T_USER_STREAM values ('182506427', 'yeatle', 'Yeatle', 392042, 10)
+insert into T_USER_STREAM values ('49819902', 'georgelion66', 'Georgelion66', 577314, 10)
+insert into T_USER_STREAM values ('29183589', 'ashm0nster', 'ASHM0NSTER', 554264, 10)
+insert into T_USER_STREAM values ('36772976', 'tecnosh', 'Tecnosh', 18630188, 10)
+insert into T_USER_STREAM values ('165040132', 'frogman1', 'FROGMAN1', 769025, 10)
+insert into T_USER_STREAM values ('175578241', 'avori', 'Avori', 1857362, 10)
+insert into T_USER_STREAM values ('170478065', 'grizz', 'Grizz', 344835, 11)
+insert into T_USER_STREAM values ('2005586', 'moczy', 'Moczy', 1595124, 11)
+insert into T_USER_STREAM values ('93538696', 'xboxmilgrau', 'XboxMilGrau', 322504, 11)
+insert into T_USER_STREAM values ('41696529', 'smacetron', 'SmaceTRON', 532282, 11)
+insert into T_USER_STREAM values ('49484733', 'ysoexotic', 'ysoEXOtic', 391667, 11)
+insert into T_USER_STREAM values ('62180335', 'ippaku', 'ippaku', 394074, 11)
+insert into T_USER_STREAM values ('121778164', 'reznick', 'reznick', 134892, 11)
+insert into T_USER_STREAM values ('178046642', 'd__rich', 'D__Rich', 702023, 12)
+insert into T_USER_STREAM values ('61560205', 'rogifps', 'rogifps', 20180, 12)
+insert into T_USER_STREAM values ('218117657', 'armyentertainment', 'armyentertainment', 4133427, 12)
+insert into T_USER_STREAM values ('63788558', 'dreamhackfighters', 'DreamHackFighters', 1843884, 12)
+insert into T_USER_STREAM values ('161835870', 'nemo_good', 'nemo_good', 84428, 12)
+insert into T_USER_STREAM values ('66990412', 'amkidd', 'AMKIDD', 216949, 12)
+insert into T_USER_STREAM values ('195450620', 'redeye_deadeye', 'RedEye_DeadEye', 151375, 12)
+insert into T_USER_STREAM values ('133660814', 'brooklynknight26', 'BrooklynKnight26', 58107, 13)
+insert into T_USER_STREAM values ('122243927', 'gospeedgamer', 'GoSpeedGamer', 30582, 13)
+insert into T_USER_STREAM values ('152417515', 'lowkicktournaments', 'lowkicktournaments', 61785, 13)
+insert into T_USER_STREAM values ('94063057', 'trunks_v2', 'Trunks_v2', 4667, 13)
+insert into T_USER_STREAM values ('102218764', 'princessslim', 'PrincessSlim', 10995, 13)
+insert into T_USER_STREAM values ('72674788', 'slaynman', 'Slaynman', 13851, 13)
+insert into T_USER_STREAM values ('179956046', 'matsuo_cn', 'Matsuo_CN', 11446, 13)
+insert into T_USER_STREAM values ('87016001', 'ablindsamurai', 'Ablindsamurai', 5743, 14)
+insert into T_USER_STREAM values ('30220059', 'esl_sc2', 'ESL_SC2', 80779579, 14)
+insert into T_USER_STREAM values ('13163498', 'juggernautjason', 'JuggernautJason', 713883, 14)
+insert into T_USER_STREAM values ('57804636', 'gametime301', 'GAMETIME301', 236217, 14)
+insert into T_USER_STREAM values ('20090948', 'livibee', 'Livibee', 5198973, 14)
+insert into T_USER_STREAM values ('21327052', 'puckk', 'Puckk', 3646446, 14)
+insert into T_USER_STREAM values ('42423891', 'grimreaper_eu', 'GrimReaper_EU', 66038, 14)
+insert into T_USER_STREAM values ('45447642', 'disksc2', 'DisKSc2', 49011, 15)
+insert into T_USER_STREAM values ('139025390', 'scvodarchives', 'SCVODArchives', 201134, 15)
+insert into T_USER_STREAM values ('36440890', 'flol2encio', 'FLOl2ENCIO', 166277, 15)
+insert into T_USER_STREAM values ('119208852', 'project_incursus', 'Project_Incursus', 22108, 15)
+insert into T_USER_STREAM values ('115175633', 'deathzone_tv', 'DeathZone_TV', 120547, 15)
+insert into T_USER_STREAM values ('56636402', 'shyrshadi', 'Shyrshadi', 7409, 15)
+insert into T_USER_STREAM values ('72234226', 'djorjx', 'Djorjx', 6637, 15)
+insert into T_USER_STREAM values ('32005302', 'poizon28', 'poizon28', 205016, 16)
+insert into T_STREAM values ('34366695488', 'en','RERUN: Dota2 - TNC Predator vs. Team Secret - Game 2- Lower Bracket - ESL One Birmingham 2019','36481935',3424)
+insert into T_STREAM values ('34366469888', 'en','Kazami Kazuki','26954716',974)
+insert into T_STREAM values ('34368790480', 'pt','copinha NA + universe + grandgrant + monkeys + kitrak','36903850',659)
+insert into T_STREAM values ('34369077408', 'pt','[PT-BR] SG x Cyber | WCG AMERICAS FINAL | MD1','46736025',360)
+insert into T_STREAM values ('34367693552', 'en','Back from Brasil! Road to 7k & 400 subs, RUSTY AS FCK','84218661',236)
+insert into T_STREAM values ('34366502032', 'en','[EN/Persian] DotA is like a Box of Chocolates','73324511',140)
+insert into T_STREAM values ('34368400640', 'en','FUT CHAMPS! !newvideo with Bateson','86636321',514)
+insert into T_STREAM values ('34370499376', 'en','LA LIGA TOTS!! ELITE FUT CHAMPIONS GAMEPLAY!','12487539',260)
+insert into T_STREAM values ('34367391200', 'en','UCL SBCS AND WL / @PISTOLPETE2506 ON ALL SOCIAL MEDIA!','92048242',254)
+insert into T_STREAM values ('34364454080', 'en','Fortnite World Cup - Week 8 Semi-Finals','55125740',21804)
+insert into T_STREAM values ('34368674704', 'en','WORLD CUP QUALIFIERS (10/10) | CODE JARVISBTW | !yt !ig !snap !twitter','205401621',4967)
+insert into T_STREAM values ('34369546160', 'en','Code: CRAY','50191268',1770)
+insert into T_STREAM values ('34368362160', 'en','World Cup Duos Week 8 Game 7/10 || New emotes! || youtube !twitter !newvid !qualified','79936475',896)
+insert into T_STREAM values ('34369549680', 'en','Open Scrims w/ fans Code: "introllsive" | Use Code Introllsive in the item shop | Road to 50,000 | You should PRIME SUB INTROLLSIVE ARMY','78068008',670)
+insert into T_STREAM values ('34369675152', 'en','PS4 | 10th Day Playing Fortnite | Team Rumble Practice','168769094',607)
+insert into T_STREAM values ('34370205488', 'en','High Octane Rogue game play xD','52968416',2414)
+insert into T_STREAM values ('34369194816', 'en','Racing to Legend | Follow twitter.com/Mryagut','67479479',594)
+insert into T_STREAM values ('34368592176', 'en','ARENA! - Another chill day, new meta Monday! - Beers and sub song requests later - !link to support','38442474',561)
+insert into T_STREAM values ('34369114032', 'en','Finished Top 20 NA Standard and Wild! - Getting legend on NA','44811367',166)
+insert into T_STREAM values ('34366357552', 'pt','1200 PDL TOP 9 - DIA 21','44099416',12402)
+insert into T_STREAM values ('34369788144', 'en','Jump God + SOLOQ | !contest !IKON !AW @Trick2g','28036688',3804)
+insert into T_STREAM values ('34367497984', 'pt','pbe','35647075',3739)
+insert into T_STREAM values ('34370444400', 'en','Rank 61 - Rank 1 Grind - No Cam/No Mic','121203480',3504)
+insert into T_STREAM values ('34368286096', 'en','Chatting with Ben Burgis about lefty stuff','18074328',3127)
+insert into T_STREAM values ('34369391120', 'pt','gratera ! boa noiti','52203144',2374)
+insert into T_STREAM values ('34369596880', 'en','My viewers are all brain surgeon rocket scientist supermodels','30171560',1435)
+insert into T_STREAM values ('34367919552', 'en','#1 Conqueror Tahm Kench Top Lane','30721712',701)
+insert into T_STREAM values ('34364838848', 'en','Fusion Kabaji | HIGH RANKED GAMES !insta !yt','114476906',4057)
+insert into T_STREAM values ('34370530864', 'en','Play ow','62597620',3528)
+insert into T_STREAM values ('34367307808', 'en','Overwatch Contenders Trials NA | Day 4 | Last Minute vs Uprising Academy','156567621',1869)
+insert into T_STREAM values ('34368900720', 'en','RARE STREAM - FOLLOW ME ON THE GRAM @ space_ow','147953635',642)
+insert into T_STREAM values ('34370400480', 'en','sorry im late','5690948',485)
+insert into T_STREAM values ('34363461968', 'en','C9 PVPX  | UNRANKED to GM (RAINBOW !CHALLENGE)','80781002',482)
+insert into T_STREAM values ('34370100816', 'en','ya uhhhh hey yuh (unranked to gm day 2)','130432314',375)
+insert into T_STREAM values ('34370260048', 'en','grind','52914282',310)
+insert into T_STREAM values ('34369987776', 'en','Uprising Fusions | Man screams so loud enemy team die','45815466',252)
+insert into T_STREAM values ('34369991376', 'en','DECAY DESTROYER (32-day stream streak) !discord','182506427',194)
+insert into T_STREAM values ('34366701360', 'en','[PC] Gold Supreme','29183589',137)
+insert into T_STREAM values ('34369140976', 'pt','Jogando DLL Daily com o time, 10 minutos delay obrigatório. !twitch para duvidas.','36772976',2972)
+insert into T_STREAM values ('34366995904', 'pt','FROGMAN1 | Hoje as 22h tem custom valendo key. | !videonovo !lite !sociais !sorteio !beryl !camp','165040132',496)
+insert into T_STREAM values ('34370126976', 'en','Another One || !allpixel || !merch','41696529',103)
+insert into T_STREAM values ('34360025744', 'en','youre cute, say it back || !social @lunalyxx','49484733',88)
+insert into T_STREAM values ('34369858560', 'en','#sponsored  Chicken Dinners | #Sponsored MTN DEW AMP GAME FUEL | #ThisIsBattleRoyale','62180335',79)
+insert into T_STREAM values ('34367240016', 'en','Scrams','121778164',75)
+insert into T_STREAM values ('34368134320', 'pt','rogiwOw GLL Daily - Latam Phase 1 MVP !delay','61560205',71)
+insert into T_STREAM values ('34366471312', 'en','Army Entertainment Esports: Street Fighter V Tournament | JBLM Washington','218117657',12767)
+insert into T_STREAM values ('34363923360', 'en','LIVE: DreamHack Dallas 2019 - Day 2','63788558',1989)
+insert into T_STREAM values ('34367396096', 'en','Super Saturdays - Open Lobby - Practicing Ryu and Kolin','66990412',78)
+insert into T_STREAM values ('34366049152', 'en','ProEsportsGaming Tournament Practice !Merch [Pc][En] E for Everyone','195450620',38)
+insert into T_STREAM values ('34370420304', 'en','BACK TO THE OL GRIND | GM ALEX','94063057',12)
+insert into T_STREAM values ('34368237280', 'en','Biological Woman Plays on Hitbox :O Ft. Emjay and Ultimate WPN','102218764',10)
+insert into T_STREAM values ('34369221392', 'pt','Noob Fighter V  [PT-BR/EN] !loots !sorteio !duel !shippo','179956046',8)
+insert into T_STREAM values ('34368444320', 'en','01/06/2019 - 1v1 Cannons Road to 7K - 6,204 mmr - The Clown is Back in Town - Unashamed Cannon Clown improving his style. !Whisper','42423891',96)
+insert into T_STREAM values ('34368549696', 'en','Top Gm Protoss, Round 2 Fight!~','45447642',82)
+insert into T_STREAM values ('34367098272', 'en','Real Time Strategy & Adventurous Reactive Play - Today We are doing Funday Subday - Team Games - Replays - Coaching - Arcades','36440890',50)
+insert into T_STREAM values ('34367832272', 'en','Masters 3 Toss Ladder','56636402',36)
+insert into T_STREAM values ('34369802816', 'en','Late night jungle','72234226',29)
+insert into T_STREAM values ('34368063296', 'en','DATE NIGHT!!! type !datenight for more info','32005302',29)
 
 /* Comandos para dropar as tabelas */
 /*
@@ -3675,10 +3833,8 @@ drop table T_MACHINE_METRIC;
 drop table T_USER_MACHINE;
 drop table T_MACHINE;
 drop table T_STREAM_OF_CHAMPION;
-drop table T_METRIC;
 drop table T_STREAM;
 drop table T_USER_STREAM;
-drop table T_MATCH_IN_CHAMPIONSHIP;
 drop table T_TEAM_IN_MATCH;
 drop table T_MATCH;
 drop table T_TEAM_IN_CHAMPIONSHIP;

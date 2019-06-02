@@ -29,7 +29,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
             post("/match", toJson { insertMatch(it) })
             post("/match/:id-match/:id-time", toJson { insertTimeInMatch(it) })
             post("/match/times/:id-match", toJson { insertTimesInMatch(it) })
-            get("/times/player/:idchampionship", toJson { timesChampionships(it) })
+            get("/times/:idchampionship", toJson { timesChampionships(it) })
             get("/match/:idchampionship", toJson { matchsChampionship(it) })
             get("/match/player/participate/", toJson { allMatchsParticipate(it) })
             get("/time/player/participate/", toJson { allTimesParticipate(it) })

@@ -3644,6 +3644,31 @@ insert into T_PLAYER_IN_TEAM values(206, 32);
 insert into T_PLAYER_IN_TEAM values(207, 32);
 insert into T_PLAYER_IN_TEAM values(208, 32);
 
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (16, 1)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (26, 2)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (36, 3)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (46, 4)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (56, 5)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (66, 6)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (76, 7)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (86, 8)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (96, 9)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (106, 10)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (116, 11)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (126, 12)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (136, 13)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (146, 14)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (156, 15)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (166, 16)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (176, 17)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (186, 18)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (196, 19)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (206, 20)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (216, 21)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (226, 22)
+insert into T_ADMINISTRATOR_CHAMPIONSHIP values (236, 23)
+
+
 /* Comandos para dropar as tabelas */
 /*
 drop table T_MACHINE_METRIC;

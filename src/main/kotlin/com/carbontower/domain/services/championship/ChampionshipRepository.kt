@@ -34,11 +34,21 @@ class ChampionshipRepository : IChampionshipRepository {
         var invites = mutableListOf<InviteTotalData>()
 
         transaction {
-            val invitesDb = T_INVITE_PLAYER.select { T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship) }
+            val invitesDb = (T_USER innerJoin T_USER_ROLE innerJoin T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME)
+                .select { T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship)
+                    .and(T_USER_ROLE.idUser_fk.eq(T_USER.idUser))
+                    .and(T_USER_ROLE.idRole_fk.eq(Role.Jogador.ordinal))
+                    .and(T_INVITE_PLAYER.idPlayer_fk.eq(T_USER_ROLE.idUserRole))
+                    .and(T_INVITE_PLAYER.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship))
+                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
+                }
 
             invitesDb.forEach {
                 invites.add(InviteTotalData(it[T_INVITE_PLAYER.idPlayer_fk],
                     idChampionship,
+                    it[T_USER.nmUser],
+                    it[T_CHAMPIONSHIP.nmChampionship],
+                    it[T_GAME.nmGame],
                     it[T_INVITE_PLAYER.alreadyAnswered],
                     it[T_INVITE_PLAYER.accepted]))
             }

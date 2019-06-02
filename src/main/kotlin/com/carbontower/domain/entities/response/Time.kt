@@ -1,3 +1,3 @@
 package com.carbontower.domain.entities.response
 
-data class Time(val nmTime: String, val players: List<UserData>)
+data class Time(var idTime: Int, var nmTime: String, var players: List<UserData>)

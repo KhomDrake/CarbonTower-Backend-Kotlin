@@ -5,15 +5,16 @@ import com.carbontower.common.koin.auxiliaryModule
 import com.carbontower.common.koin.controllerModule
 import com.carbontower.common.koin.repositoryModule
 import com.carbontower.common.koin.serviceModule
-import com.carbontower.domain.entities.database.T_MATCH
-import com.carbontower.domain.entities.database.T_PLAYER_IN_TEAM
-import com.carbontower.domain.entities.database.T_TEAM
-import com.carbontower.domain.entities.database.T_TEAM_IN_MATCH
+import com.carbontower.domain.entities.database.*
+import com.carbontower.domain.entities.response.Match
+import com.carbontower.domain.entities.response.Time
+import com.carbontower.domain.entities.response.UserData
 import com.carbontower.resources.database.Connection
 import io.javalin.ExceptionHandler
 import io.javalin.Javalin
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.countDistinct
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.standalone.KoinComponent
@@ -35,11 +36,6 @@ class CarbonTower : KoinComponent {
     fun startServer() {
         StandAloneContext.startKoin(listOf(auxiliaryModule ,repositoryModule, serviceModule, controllerModule))
         connection.connectWithCarbonTowerDatabase()
-
-        transaction {
-
-        }
-
 
         javalin = Javalin.create()
         javalin.apply {
@@ -68,7 +64,6 @@ class CarbonTower : KoinComponent {
 
             ctx.header("Access-Control-Allow-Credentials", "true")
         }
-
     }
 
     fun stopServer() {

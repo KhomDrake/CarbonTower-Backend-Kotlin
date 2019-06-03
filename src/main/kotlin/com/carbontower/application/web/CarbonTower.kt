@@ -6,6 +6,7 @@ import com.carbontower.common.koin.controllerModule
 import com.carbontower.common.koin.repositoryModule
 import com.carbontower.common.koin.serviceModule
 import com.carbontower.domain.entities.database.*
+import com.carbontower.domain.entities.response.InviteTotalData
 import com.carbontower.domain.entities.response.Match
 import com.carbontower.domain.entities.response.Time
 import com.carbontower.domain.entities.response.UserData

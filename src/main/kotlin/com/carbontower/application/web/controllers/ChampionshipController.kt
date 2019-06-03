@@ -1,13 +1,16 @@
 package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.*
-import com.carbontower.domain.entities.application.LogApplication
+import com.carbontower.domain.entities.database.T_SLACK
 import com.carbontower.domain.entities.http.SingupChampionshipData
 import com.carbontower.domain.entities.http.InviteCreateData
+import com.carbontower.domain.entities.http.Slack
 import com.carbontower.domain.entities.response.*
 import com.carbontower.domain.services.championship.ChampionshipService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.*
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ChampionshipController(private val championshipService: ChampionshipService,
                              private val cookie: Cookie) {
@@ -21,7 +24,30 @@ class ChampionshipController(private val championshipService: ChampionshipServic
             get("games/", toJson { getGames(it) })
             get("invites/:id", toJson {  getAllInvites(it) })
             post("administrator/:id-user-administrator/:idchampionship", toJson { insertAdministrator(it) })
+            post("/slack", toJson { insertConfigurationSlack(it) })
         }
+    }
+
+    private fun insertConfigurationSlack(ctx: Context) : Boolean {
+        ctx.validateCookie(cookie)
+        val body = ctx.body<Slack>()
+        val c = ctx.cookie(cookie.cookieName)
+        val idUser: String = cookie.getIdCookie(c.toString())
+        transaction {
+            val idCompany = championshipService.getIdUserRoleCompany(idUser)
+            T_SLACK.insert {
+                it[T_SLACK.idUserRole_fk] = idCompany
+                it[T_SLACK.urlWorkspace] = body.urlWorkspace
+                it[T_SLACK.tempCPU] = body.maxTempCPU
+                it[T_SLACK.tempGPU] = body.maxTempGPU
+                it[T_SLACK.useCPU] = body.maxUseCPU
+                it[T_SLACK.useGPU] = body.maxUseGPU
+                it[T_SLACK.useDisc] = body.maxUseDisc
+                it[T_SLACK.useRam] = body.maxUseRam
+            }
+        }
+
+        return true
     }
 
     private fun insertAdministrator(ctx: Context) : Boolean {

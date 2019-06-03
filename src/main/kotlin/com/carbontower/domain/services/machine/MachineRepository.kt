@@ -15,6 +15,43 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.math.BigDecimal
 
 class MachineRepository: IMachineRepository {
+    override fun getLastMetric(): MachineMetricData {
+        var useRam: BigDecimal = "0".toBigDecimal()
+        var tempGPU: BigDecimal = "0".toBigDecimal()
+        var useGPU: BigDecimal = "0".toBigDecimal()
+        var useCPU: BigDecimal = "0".toBigDecimal()
+        var useDisc: BigDecimal = "0".toBigDecimal()
+        var rpmCooler = 0
+        var tempCPU: BigDecimal = "0".toBigDecimal()
+        var usbDevice = ""
+        var metricDate = ""
+        var metricTime = ""
+        var idMachineMetric = 0
+
+        transaction {
+            val machinesMetric = T_MACHINE_METRIC.selectAll()
+
+            if(machinesMetric.empty()) return@transaction
+
+            val machineMetric = machinesMetric.last()
+
+            useRam = machineMetric[T_MACHINE_METRIC.useRam]
+            tempGPU = machineMetric[T_MACHINE_METRIC.tempGPU]
+            useGPU = machineMetric[T_MACHINE_METRIC.useGPU]
+            useCPU = machineMetric[T_MACHINE_METRIC.useCPU]
+            useDisc = machineMetric[T_MACHINE_METRIC.useDisc]
+            rpmCooler = machineMetric[T_MACHINE_METRIC.rpmCooler]
+            tempCPU = machineMetric[T_MACHINE_METRIC.tempCPU]
+            usbDevice = machineMetric[T_MACHINE_METRIC.usbDevice]
+            metricDate = machineMetric[T_MACHINE_METRIC.metricDate]
+            metricTime = machineMetric[T_MACHINE_METRIC.metricTime]
+            idMachineMetric = machineMetric[T_MACHINE_METRIC.idMachineMetric]
+        }
+
+        return MachineMetricData(useRam, tempGPU, useGPU, useCPU, useDisc, rpmCooler, tempCPU,
+            usbDevice, metricDate, metricTime, "", idMachineMetric)
+    }
+
     override fun getLastMachineMetric(idMachine: String): MachineMetricData {
         var useRam: BigDecimal = "0".toBigDecimal()
         var tempGPU: BigDecimal = "0".toBigDecimal()

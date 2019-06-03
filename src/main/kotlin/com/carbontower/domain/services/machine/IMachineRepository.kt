@@ -20,4 +20,5 @@ interface IMachineRepository {
     fun getMachineMetricByDate(idMachine: String, dateMetricMachineData: DateMetricMachineData): List<MachineMetricData>
     fun getLastMachineMetric(idMachine: String): MachineMetricData
     fun getAllMachineMetric(idMachine: String): List<MachineMetricData>
+    fun getLastMetric(): MachineMetricData
 }

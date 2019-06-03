@@ -13,7 +13,7 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
         championshipRepository.insertchampionship(idUserRole, signupChampionshipData)
     }
 
-    private fun getIdUserRoleCompany(idUser: String) : Int {
+    fun getIdUserRoleCompany(idUser: String) : Int {
         return championshipRepository.getIdUserRole(idUser, Role.Empresa)
     }
 

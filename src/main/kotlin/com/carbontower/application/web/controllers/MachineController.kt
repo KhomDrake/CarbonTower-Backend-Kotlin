@@ -24,9 +24,16 @@ class MachineController(private val machineService: MachineService,
             get(":id", toJson { getMachine(it) })
             post("/metric/:id", toJson { insertMachineMetric(it) })
             post("/metric/by-date/:id", toJson { getMetricMachineByDate(it) })
+            get("/metric/last", toJson { getLastMetric(it) })
             get("metric/last/:idmachine", toJson { getLastMetricMachine(it) })
             get("metric/all/:idmachine", toJson { getAllMetricsMachine(it) })
         }
+    }
+
+    private fun getLastMetric(ctx: Context) : MachineMetricData {
+        val machineMetricData = machineService.getLastMetric()
+        ctx.insertLogSuccess("Pego ultima métrica inserida com sucesso")
+        return machineMetricData
     }
 
     private fun getAllMetricsMachine(ctx: Context) : List<MachineMetricData> {

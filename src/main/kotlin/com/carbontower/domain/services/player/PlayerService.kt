@@ -143,7 +143,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
 
     fun timesInChampionship(idUser: String, idChampionship: Int): Time {
         val idUserRole = getIdUserRolePlayer(idUser)
-        notAPlayer(idUserRole, idUser)
+        notACompany(idUserRole, idUser)
 
         if(playerRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
 

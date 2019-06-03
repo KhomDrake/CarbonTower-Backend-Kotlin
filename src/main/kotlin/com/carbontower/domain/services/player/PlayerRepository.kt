@@ -176,7 +176,7 @@ class PlayerRepository : IPlayerRepository {
     override fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match> {
         val matchs = mutableListOf<Match>()
         transaction {
-            val matchsDb = T_MATCH.select { T_MATCH.idChampionship_fk.eq(50) }
+            val matchsDb = T_MATCH.select { T_MATCH.idChampionship_fk.eq(idChampionship) }
             matchsDb.forEach {
                 val match = it
                 matchs.add(

@@ -141,7 +141,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         playerRepository.insertTimeInMatch(idMatch, idTime)
     }
 
-    fun timesInChampionship(idUser: String, idChampionship: Int): Time {
+    fun timesInChampionship(idUser: String, idChampionship: Int): List<Time> {
         val idUserRole = getIdUserRoleCompany(idUser)
         notACompany(idUserRole, idUser)
 

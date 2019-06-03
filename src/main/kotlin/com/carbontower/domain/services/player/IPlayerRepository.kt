@@ -31,7 +31,7 @@ interface IPlayerRepository {
     fun insertMatch(matchData: MatchData)
     fun existMatch(idMatch: Int): Boolean
     fun insertTimeInMatch(idMatch: Int, idTime: Int)
-    fun timesInChampionship(idUserRole: Int, idChampionship: Int): Time
+    fun timesInChampionship(idUserRole: Int, idChampionship: Int): List<Time>
     fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match>
     fun getAllMatchsPlayer(idUserRole: Int): List<Match>
     fun getAllTimesPlayers(idUserRole: Int): List<Time>

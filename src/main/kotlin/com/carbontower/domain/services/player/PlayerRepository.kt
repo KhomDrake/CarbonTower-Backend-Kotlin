@@ -137,31 +137,21 @@ class PlayerRepository : IPlayerRepository {
         return Time(idTime, nmTime, players)
     }
 
-    override fun timesInChampionship(idUserRole: Int, idChampionship: Int): Time {
-        val players = mutableListOf<UserData>()
-        var nmTime = ""
-        var idTime = 0
+    override fun timesInChampionship(idUserRole: Int, idChampionship: Int): List<Time> {
+        val times = mutableListOf<Time>()
 
         transaction {
-            val timeDb = (T_PLAYER_IN_TEAM innerJoin T_TEAM innerJoin T_TEAM_IN_CHAMPIONSHIP).select {
+            val timeDb = (T_TEAM innerJoin T_TEAM_IN_CHAMPIONSHIP).select {
                 T_TEAM_IN_CHAMPIONSHIP.idChampionship_fk.eq(idChampionship)
                     .and(T_TEAM_IN_CHAMPIONSHIP.idTeam_fk.eq(T_TEAM.idTeam))
             }
-
-
             timeDb.forEach {
-                idTime = it[T_TEAM.idTeam]
-                nmTime = it[T_TEAM.nmTeam]
-            }
-
-            val time = getTime(idTime)
-
-            time.players.forEach {
-                players.add(it)
+                val idTime = it[T_TEAM.idTeam]
+                times.add(getTime(idTime))
             }
         }
 
-        return Time(idTime = idTime, nmTime = nmTime, players = players)
+        return times
     }
 
     override fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match> {

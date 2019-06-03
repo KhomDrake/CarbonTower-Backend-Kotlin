@@ -29,6 +29,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
             post("/match", toJson { insertMatch(it) })
             post("/match/:id-match/:id-time", toJson { insertTimeInMatch(it) })
             post("/match/times/:id-match", toJson { insertTimesInMatch(it) })
+            get("/match/detail/:idmatch", toJson { matchById(it) })
             get("/times/:idchampionship", toJson { timesChampionships(it) })
             get("/match/:idchampionship", toJson { matchsChampionship(it) })
             get("/match/player/participate/", toJson { allMatchsParticipate(it) })
@@ -36,6 +37,13 @@ class PlayerController(private val playerService: PlayerService, private val coo
             get("/match/player/participate/:idchampionship", toJson { matchsParticipateChampionship(it) })
             get("/time/player/participate/:idchampionship", toJson { timesParticipateChampionship(it) })
         }
+    }
+
+    private fun matchById(ctx: Context) : Match {
+        val idUser = ctx.validateCookieAndReturnIdUser(cookie)
+        val idMatch = ctx.pathParam("idmatch").toInt()
+        val match = playerService.getMatchById(idMatch)
+        return match
     }
 
     private fun matchsChampionship(ctx: Context) : List<Match> {

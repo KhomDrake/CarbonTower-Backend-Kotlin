@@ -37,4 +37,5 @@ interface IPlayerRepository {
     fun getAllTimesPlayers(idUserRole: Int): List<Time>
     fun getAllMatchsPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Match>
     fun getAllTimesPlayerChampionship(idUserRole: Int, idChampionship: Int): List<Time>
+    fun getMatchById(idMatch: Int): Match
 }

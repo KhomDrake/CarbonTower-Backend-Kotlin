@@ -26,6 +26,13 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         if(idUserRole == 0) throw NotAAdministrator(idUser)
     }
 
+    private fun notACompanyOrAdministrator(idUser: String) {
+        val idUSerRoleCompany = getIdUserRoleCompany(idUser)
+        val idUerRoleAdministrator = getIdUserRoleAdministrator(idUser)
+
+        if(idUSerRoleCompany == 0 && idUerRoleAdministrator == 0) throw NotACompany(idUser)
+    }
+
     private fun notACompany(idUserRole: Int, idUser: String) {
         if(idUserRole == 0) throw NotACompany(idUser)
     }
@@ -148,7 +155,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
 
     fun timesInChampionship(idUser: String, idChampionship: Int): List<Time> {
         val idUserRole = getIdUserRoleCompany(idUser)
-        notACompany(idUserRole, idUser)
+        notACompanyOrAdministrator(idUser)
 
         if(playerRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
 
@@ -157,7 +164,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
 
     fun getMatchsChampionship(idUser: String, idChampionship: Int): List<Match> {
         val idUserRole = getIdUserRoleCompany(idUser)
-        notACompany(idUserRole, idUser)
+        notACompanyOrAdministrator(idUser)
 
         if(playerRepository.existChampionship(idChampionship).not()) throw ChampionshipNotExist(idChampionship)
 
@@ -186,6 +193,12 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         val idUserRole = getIdUserRolePlayer(idUser)
         notAPlayer(idUserRole, idUser)
         return playerRepository.getAllTimesPlayerChampionship(idUserRole, idChampionship)
+    }
+
+    fun getMatchById(idMatch: Int): Match {
+        if(playerRepository.existMatch(idMatch).not()) throw MatchNotExist(idMatch)
+
+        return playerRepository.getMatchById(idMatch)
     }
 
 }

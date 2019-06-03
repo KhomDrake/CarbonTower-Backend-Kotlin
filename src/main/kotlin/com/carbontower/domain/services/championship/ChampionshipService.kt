@@ -60,9 +60,15 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
         return championshipRepository.getGames()
     }
 
+    private fun notACompanyOrAdministrator(idUser: String) {
+        val idUSerRoleCompany = getIdUserRoleCompany(idUser)
+        val idUerRoleAdministrator = championshipRepository.getIdUserRole(idUser, Role.Administrador)
+
+        if(idUSerRoleCompany == 0 && idUerRoleAdministrator == 0) throw NotACompany(idUser)
+    }
+
     fun getAllInvitesChampionship(idChampionship: Int, idUser: String): List<InviteTotalData> {
-        val idUserRole = getIdUserRoleCompany(idUser)
-        notACompany(idUserRole, idUser)
+        notACompanyOrAdministrator(idUser)
         existChampionship(idChampionship)
         return championshipRepository.getAllInvitesChampionship(idChampionship)
     }

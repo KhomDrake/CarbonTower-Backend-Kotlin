@@ -2,7 +2,7 @@ package com.carbontower
 
 /*
 
-    create table T_USER(
+create table T_USER(
 	idUser varchar(14) primary key,
 	userPassword varchar(150),
 	nmUser varchar(60)

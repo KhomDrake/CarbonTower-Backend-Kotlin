@@ -8,6 +8,25 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class PlayerRepository : IPlayerRepository {
+    override fun getMatchById(idMatch: Int): Match {
+        val match = Match(idMatch, mutableListOf(), Time(0, "", listOf<UserData>()), "", "")
+
+        transaction {
+            val matchsDb = (T_TEAM_IN_MATCH innerJoin T_MATCH).select { T_TEAM_IN_MATCH.idMatch_fk.eq(idMatch) }
+
+            matchsDb.forEach {
+                val matchdb = it
+                val time = getTime(matchdb[T_TEAM_IN_MATCH.idTeam_fk])
+
+                match.times.add(time)
+                if(time.idTime == matchdb[T_MATCH.winner])
+                    match.winner = time
+            }
+        }
+
+        return match
+    }
+
     override fun existTime(nmTime: String): Boolean {
         var exist = false
         transaction {
@@ -437,7 +456,7 @@ class PlayerRepository : IPlayerRepository {
         val championships = mutableListOf<ChampionshipData>()
 
         transaction {
-            val championshipsDb = (T_ADMINISTRATOR_CHAMPIONSHIP innerJoin T_CHAMPIONSHIP)
+            val championshipsDb = (T_ADMINISTRATOR_CHAMPIONSHIP innerJoin T_CHAMPIONSHIP innerJoin T_GAME)
                 .select { T_ADMINISTRATOR_CHAMPIONSHIP.idAdministrator_fk.eq(idUserRole)
                     .and(T_ADMINISTRATOR_CHAMPIONSHIP.idChampionship_fk.eq(T_CHAMPIONSHIP.idChampionship)) }
 

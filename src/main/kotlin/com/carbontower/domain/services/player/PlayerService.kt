@@ -116,6 +116,11 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
             throw TimeAlreadyInChampionship(idTime, timeData.idChampionship)
 
         playerRepository.insertTimeInChampionship(idTime, timeData.idChampionship)
+
+        timeData.idsPlayers.forEach {
+            val idUserPlayer = getIdUserRolePlayer(it)
+            playerRepository.insertPlayerInTime(idUserPlayer, idTime)
+        }
     }
 
     fun insertPlayerInTime(idPlayer: String, idTime: Int) {

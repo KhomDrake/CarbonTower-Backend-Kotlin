@@ -7,6 +7,8 @@ import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
 import com.carbontower.domain.entities.response.MachineData
 import com.carbontower.domain.entities.response.MachineMetricData
+import com.github.kittinunf.fuel.Fuel
+import com.google.gson.Gson
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -159,8 +161,32 @@ class MachineRepository: IMachineRepository {
         return exist
     }
 
+    inner class BodySlack(val text: String)
+
+    private fun sendSlack(actual: BigDecimal, max: BigDecimal, url: String) {
+
+        if(actual < max) return
+
+        val body = BodySlack("Valor $actual passou valou máximo $max")
+
+        Fuel.post(url)
+            .body(Gson().toJson(body)).response()
+    }
+
     override fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData) {
         transaction {
+
+            val slack = T_SLACK.selectAll().first()
+
+            val url = slack[T_SLACK.urlWorkspace]
+
+            sendSlack(insertMetricMachineData.tempCPU, slack[T_SLACK.tempCPU], url)
+            sendSlack(insertMetricMachineData.tempGPU, slack[T_SLACK.tempGPU], url)
+            sendSlack(insertMetricMachineData.useCPU, slack[T_SLACK.useCPU], url)
+            sendSlack(insertMetricMachineData.useCPU, slack[T_SLACK.useGPU], url)
+            sendSlack(insertMetricMachineData.useRam, slack[T_SLACK.useRam], url)
+            sendSlack(insertMetricMachineData.useDisc, slack[T_SLACK.useDisc], url)
+
             T_MACHINE_METRIC.insert {
                 it[T_MACHINE_METRIC.idMachine_fk] = idMachine
                 it[T_MACHINE_METRIC.metricDate] = insertMetricMachineData.metricDate

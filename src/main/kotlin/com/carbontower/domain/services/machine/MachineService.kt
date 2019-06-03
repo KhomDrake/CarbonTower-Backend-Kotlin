@@ -4,10 +4,12 @@ import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.DateMetricMachineData
 import com.carbontower.domain.entities.http.InsertMachineData
 import com.carbontower.domain.entities.http.InsertMetricMachineData
+import com.carbontower.domain.entities.http.Slack
 import com.carbontower.domain.entities.response.MachineData
 import com.carbontower.domain.entities.response.MachineMetricData
 import com.carbontower.resources.database.exception.MachineNotExist
 import com.carbontower.resources.database.exception.NotAPlayer
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MachineService(private val machineRepository: IMachineRepository) {
     fun createMachine(idUser: String, insertMachineData: InsertMachineData) {

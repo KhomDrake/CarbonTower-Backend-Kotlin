@@ -1,6 +1,5 @@
 package com.carbontower
 /*
-
 swagger: "2.0"
 info:
   description: "Essa é a documentação da API da Carbon Tower para uso do grupo da faculdade"
@@ -8,10 +7,10 @@ info:
   title: "Carbon Tower Backend"
 host: "35.199.74.137:7000"
 tags:
-- name: "login"
-- name: "logout"
 - name: "championship"
 - name: "data"
+- name: "login"
+- name: "logout"
 - name: "machine"
 - name: "player"
 - name: "signup"
@@ -19,6 +18,254 @@ schemes:
 - "http"
 
 paths:
+    /campeonato/signup:
+      post:
+        tags:
+        - "championship"
+        summary: "Cadastro de Campeonato | Necessário Cookie"
+        description: "Cadastro de Campeonato"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro de Campeonato"
+          required: true
+          schema:
+            $ref: "#/definitions/SingupChampionshipData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /campeonato/get:
+      get:
+        tags:
+        - "championship"
+        summary: "Retorna os campeonatos de uma empresa ! Necessário Cookie"
+        description: "Retorna os campeonatos de uma empresa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /campeonato/detail/:idchampionship:
+      get:
+        tags:
+        - "championship"
+        summary: "Retorna os detalhes de um campeonato | Necessário Cookie"
+        description: "Retorna os detalhes de um campeonato"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipData"
+    /campeonato/:idchampionship/players:
+      get:
+        tags:
+        - "championship"
+        summary: "Retorna os jogadores de um campeonato | Necessário Cookie"
+        description: "Retorna os jogadores de um campeonato"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/PlayerChampionshipDataList"
+    /campeonato/invite/:idchampionship/create:
+      post:
+        tags:
+        - "championship"
+        summary: "Cria Convite para um campeonato | Necessário Cookie"
+        description: "Cria Convite para um campeonato"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro de Convite"
+          required: true
+          schema:
+            $ref: "#/definitions/InviteCreateData"
+        responses:
+          200:
+            description: "Cadastro de convite feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro de convite feito com sucesso"
+    /campeonato/games:
+      get:
+        tags:
+        - "championship"
+        summary: "Retorna todos os games cadastrado no banco"
+        description: "Retorna todos os games cadastrado no banco"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/GameDataList"
+    /campeonato/invites/:idchampionship:
+      get:
+        tags:
+        - "championship"
+        summary: "Retorna todos os convites de um campeonato | Necessário Cookie"
+        description: "Retorna os campeonatos de uma empresa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteTotalDataList"
+    /campeonato/administrator/:id-user-administrator/:idchampionship:
+      post:
+        tags:
+        - "championship"
+        summary: "Cria Convite para um campeonato | Necessário Cookie"
+        description: "Cria Convite para um campeonato"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro de Convite"
+          required: true
+          schema:
+            $ref: "#/definitions/InviteCreateData"
+        responses:
+          200:
+            description: "Cadastro de convite feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro de convite feito com sucesso"
+    /campeonato/slack:
+      post:
+        tags:
+        - "championship"
+        summary: "Cria Convite para um campeonato | Necessário Cookie"
+        description: "Cria Convite para um campeonato"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro de Convite"
+          required: true
+          schema:
+            $ref: "#/definitions/InviteCreateData"
+        responses:
+          200:
+            description: "Cadastro de convite feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro de convite feito com sucesso"
+    /data/validate:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna um boolean se alguém está logado no navegador | Necessário Cookie"
+        description: "Retorna um boolean se alguém está logado no navegador"
+        responses:
+          200:
+            description: OK
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Existe alguém logado"
+    /data/role:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o papel principal do usuário Logado | Necessário Cookie"
+        description: "Retorna o papel principal do usuário Logado"
+        responses:
+          200:
+            description: OK
+            schema:
+              properties:
+                message:
+                  type: string
+                  description: "Papel principal do usuário logado"
+    /data/idrole-empresa:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o id onde o papel do usuário é Empresa | Necessário Cookie"
+        description: "Retorna o id onde o papel do usuário é Empresa"
+        responses:
+          200:
+            description: OK
+            schema:
+              properties:
+                message:
+                  type: integer
+                  description: "Id Papel Usuário"
+    /data/idrole-jogador:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o id onde o papel do usuário é jogador | Necessário Cookie"
+        description: "Retorna o id onde o papel do usuário é jogador"
+        responses:
+          200:
+            description: OK
+            schema:
+              properties:
+                message:
+                  type: integer
+                  description: "Id Papel Usuário"
+
+    /data/idrole-administrador:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o id onde o papel do usuário é administrador | Necessário Cookie"
+        description: "Retorna o id onde o papel do usuário é administrador"
+        responses:
+          200:
+            description: OK
+            schema:
+              properties:
+                message:
+                  type: integer
+                  description: "Id Papel Usuário"
+    /data/user:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o dado do usuário Logado | Necessário Cookie"
+        description: "Retorna o dado do usuário Logado"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/UserData"
+    /data/logs:
+      get:
+        tags:
+        - "data"
+        summary: "Retorna o dado do usuário Logado | Necessário Cookie"
+        description: "Retorna o dado do usuário Logado"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/UserData"
     /login:
       post:
         tags:
@@ -103,193 +350,6 @@ paths:
         responses:
           200:
             description: OK
-    /campeonato/signup:
-      post:
-        tags:
-        - "championship"
-        summary: "Cadastro de Campeonato | Necessário Cookie"
-        description: "Cadastro de Campeonato"
-        consumes:
-        - "application/json"
-        produces:
-        - "application/json"
-        parameters:
-        - in: "body"
-          name: "body"
-          description: "Informação para cadastro de Campeonato"
-          required: true
-          schema:
-            $ref: "#/definitions/SingupChampionshipData"
-        responses:
-          200:
-            description: "Cadastro feito com sucesso"
-            schema:
-              properties:
-                message:
-                  type: boolean
-                  description: "Cadastro feito com sucesso"
-    /campeonato/get:
-      get:
-        tags:
-        - "championship"
-        summary: "Retorna os campeonatos de uma empresa ! Necessário Cookie"
-        description: "Retorna os campeonatos de uma empresa"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/ChampionshipDataList"
-    /campeonato/invites/:idchampionship:
-      get:
-        tags:
-        - "championship"
-        summary: "Retorna todos os convites de um campeonato | Necessário Cookie"
-        description: "Retorna os campeonatos de uma empresa"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/InviteTotalDataList"
-    /campeonato/detail/:idchampionship:
-      get:
-        tags:
-        - "championship"
-        summary: "Retorna os detalhes de um campeonato | Necessário Cookie"
-        description: "Retorna os detalhes de um campeonato"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/ChampionshipData"
-    /campeonato/:idchampionship/players:
-      get:
-        tags:
-        - "championship"
-        summary: "Retorna os jogadores de um campeonato | Necessário Cookie"
-        description: "Retorna os jogadores de um campeonato"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/PlayerChampionshipDataList"
-    /campeonato/invite/:idchampionship/create:
-      post:
-        tags:
-        - "championship"
-        summary: "Cria Convite para um campeonato | Necessário Cookie"
-        description: "Cria Convite para um campeonato"
-        consumes:
-        - "application/json"
-        produces:
-        - "application/json"
-        parameters:
-        - in: "body"
-          name: "body"
-          description: "Informação para cadastro de Convite"
-          required: true
-          schema:
-            $ref: "#/definitions/InviteCreateData"
-        responses:
-          200:
-            description: "Cadastro de convite feito com sucesso"
-            schema:
-              properties:
-                message:
-                  type: boolean
-                  description: "Cadastro de convite feito com sucesso"
-    /campeonato/games:
-      get:
-        tags:
-        - "championship"
-        summary: "Retorna todos os games cadastrado no banco"
-        description: "Retorna todos os games cadastrado no banco"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/GameDataList"
-    /data/validate:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna um boolean se alguém está logado no navegador | Necessário Cookie"
-        description: "Retorna um boolean se alguém está logado no navegador"
-        responses:
-          200:
-            description: OK
-            schema:
-              properties:
-                message:
-                  type: boolean
-                  description: "Existe alguém logado"
-    /data/role:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna o papel principal do usuário Logado | Necessário Cookie"
-        description: "Retorna o papel principal do usuário Logado"
-        responses:
-          200:
-            description: OK
-            schema:
-              properties:
-                message:
-                  type: string
-                  description: "Papel principal do usuário logado"
-    /data/idrole-empresa:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna o id onde o papel do usuário é Empresa | Necessário Cookie"
-        description: "Retorna o id onde o papel do usuário é Empresa"
-        responses:
-          200:
-            description: OK
-            schema:
-              properties:
-                message:
-                  type: integer
-                  description: "Id Papel Usuário"
-    /data/idrole-jogador:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna o id onde o papel do usuário é jogador | Necessário Cookie"
-        description: "Retorna o id onde o papel do usuário é jogador"
-        responses:
-          200:
-            description: OK
-            schema:
-              properties:
-                message:
-                  type: integer
-                  description: "Id Papel Usuário"
-
-    /data/idrole-administrador:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna o id onde o papel do usuário é administrador | Necessário Cookie"
-        description: "Retorna o id onde o papel do usuário é administrador"
-        responses:
-          200:
-            description: OK
-            schema:
-              properties:
-                message:
-                  type: integer
-                  description: "Id Papel Usuário"
-    /data/user:
-      get:
-        tags:
-        - "data"
-        summary: "Retorna o dado do usuário Logado | Necessário Cookie"
-        description: "Retorna o dado do usuário Logado"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/UserData"
     /machine/:iduser:
       post:
         tags:

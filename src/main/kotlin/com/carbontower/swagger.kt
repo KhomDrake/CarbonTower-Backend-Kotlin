@@ -443,6 +443,36 @@ paths:
             description: "Métricas retornadas com sucesso"
             schema:
               $ref: "#/definitions/MachineMetricDataList"
+    /machine/metric/last:
+      get:
+        tags:
+        - "machine"
+        description: "Retorna dados da máquina | Necessário Cookie"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/MachineData"
+    /machine/metric/last/:idmachine:
+      get:
+        tags:
+        - "machine"
+        description: "Retorna dados da máquina | Necessário Cookie"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/MachineData"
+    /machine/metric/all/:idMachine:
+      get:
+        tags:
+        - "machine"
+        description: "Retorna dados da máquina | Necessário Cookie"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/MachineData"
     /player/invites/:idchampionship/accept:
       get:
         tags:
@@ -482,17 +512,6 @@ paths:
             description: OK
             schema:
               $ref: "#/definitions/InviteDataList"
-    /player/all-invites/not-answered:
-      get:
-        tags:
-        - "player"
-        summary: "Retorna todos os convites ainda não respondidos de um jogador | Necessário Cookie"
-        description: "Retorna todos os convites de um jogador"
-        responses:
-          200:
-            description: OK
-            schema:
-              $ref: "#/definitions/InviteDataList"
     /player/all-invites/refused:
       get:
         tags:
@@ -509,6 +528,17 @@ paths:
         tags:
         - "player"
         summary: "Retorna todos os convites aceitos de um jogador | Necessário Cookie"
+        description: "Retorna todos os convites de um jogador"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/InviteDataList"
+    /player/all-invites/not-answered:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os convites ainda não respondidos de um jogador | Necessário Cookie"
         description: "Retorna todos os convites de um jogador"
         responses:
           200:
@@ -551,6 +581,233 @@ paths:
                 message:
                   type: boolean
                   description: "Jogador administra campeonato"
+    /machine/time:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /machine/:id-time/:id-user:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /machine/users/:id-time:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /machine/match:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /machine/match/:id-match/:id-time:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /machine/match/times/:idmatch:
+      post:
+        tags:
+        - "signup"
+        summary: "Cadastro de PF ou PJ"
+        description: "Cadastro de PF ou PJ"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "Informação para cadastro"
+          required: true
+          schema:
+            $ref: "#/definitions/DateMetricMachineData"
+        responses:
+          200:
+            description: "Cadastro feito com sucesso"
+            schema:
+              properties:
+                message:
+                  type: boolean
+                  description: "Cadastro feito com sucesso"
+    /player/times/detail/:idmatch:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/times/:idchampionship:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/match/:idchampionship:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/match/player/participate:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/time/player/participate:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/match/player/participate/:idchampionship:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
+    /player/time/player/participate/:idchampionship:
+      get:
+        tags:
+        - "player"
+        summary: "Retorna todos os campeonatos que um jogador participa | Necessário Cookie"
+        description: "Retorna todos os campeonatos que um jogador participa"
+        responses:
+          200:
+            description: OK
+            schema:
+              $ref: "#/definitions/ChampionshipDataList"
     /signup:
       post:
         tags:

@@ -116,7 +116,7 @@ class ChampionshipRepository : IChampionshipRepository {
         }
     }
 
-    override fun getPlayersChampionship(idUserRole: Int, idChampionship: Int): List<PlayerChampionshipData> {
+    override fun getPlayersChampionship(idChampionship: Int): List<PlayerChampionshipData> {
         val list = mutableListOf<PlayerChampionshipData>()
 
         transaction {

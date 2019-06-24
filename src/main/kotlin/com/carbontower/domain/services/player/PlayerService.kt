@@ -111,8 +111,6 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
     fun insertTime(timeData: TimeData) {
         var idTime = 0
 
-        println(timeData)
-
         idTime = if(playerRepository.existTime(timeData.nmTime)) playerRepository.getIdTime(timeData.nmTime) else {
             playerRepository.insertTime(timeData.nmTime)
             playerRepository.getIdTime(timeData.nmTime)

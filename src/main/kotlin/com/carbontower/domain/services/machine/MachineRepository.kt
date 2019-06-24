@@ -17,6 +17,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.math.BigDecimal
 
 class MachineRepository: IMachineRepository {
+    override fun getMetricsByIdsUserRole(listIds: List<Int>): List<MachineMetricData> {
+        val machinesMetricData = mutableListOf<MachineMetricData>()
+
+        transaction {
+            listIds.forEach {
+                val idUserRole = it
+                val machine = T_USER_MACHINE.select { T_USER_MACHINE.idUser_fk.eq(idUserRole) }.first()
+                machinesMetricData.add(getLastMachineMetric(machine[T_USER_MACHINE.idMachine_fk]))
+            }
+        }
+
+        return machinesMetricData
+    }
+
     override fun getLastMetric(): MachineMetricData {
         var useRam: BigDecimal = "0".toBigDecimal()
         var tempGPU: BigDecimal = "0".toBigDecimal()

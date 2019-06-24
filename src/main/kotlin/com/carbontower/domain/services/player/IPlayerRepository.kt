@@ -2,10 +2,7 @@ package com.carbontower.domain.services.player
 
 import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.MatchData
-import com.carbontower.domain.entities.response.ChampionshipData
-import com.carbontower.domain.entities.response.InviteData
-import com.carbontower.domain.entities.response.Match
-import com.carbontower.domain.entities.response.Time
+import com.carbontower.domain.entities.response.*
 
 interface IPlayerRepository {
     fun getInvites(idUserRole: Int): MutableList<InviteData>
@@ -31,7 +28,7 @@ interface IPlayerRepository {
     fun insertMatch(matchData: MatchData)
     fun existMatch(idMatch: Int): Boolean
     fun insertTimeInMatch(idMatch: Int, idTime: Int)
-    fun timesInChampionship(idUserRole: Int, idChampionship: Int): List<Time>
+    fun timesInChampionship(idUserRole: Int, idChampionship: Int): List<BasicTeamInformation>
     fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match>
     fun getAllMatchsPlayer(idUserRole: Int): List<Match>
     fun getAllTimesPlayers(idUserRole: Int): List<Time>

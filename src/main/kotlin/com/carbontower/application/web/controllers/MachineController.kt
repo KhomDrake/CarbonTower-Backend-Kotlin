@@ -27,7 +27,15 @@ class MachineController(private val machineService: MachineService,
             get("/metric/last", toJson { getLastMetric(it) })
             get("metric/last/:idmachine", toJson { getLastMetricMachine(it) })
             get("metric/all/:idmachine", toJson { getAllMetricsMachine(it) })
+            post("metric/last/user-roles", toJson { getMetricsByIdsUserRole(it) })
         }
+    }
+
+    private fun getMetricsByIdsUserRole(ctx: Context) : List<MachineMetricData> {
+        ctx.validateCookie(cookie)
+        val listIds = ctx.body<List<Int>>()
+        val listMachineMetricData = machineService.getMetricsByIdsUserRole(listIds)
+        return listMachineMetricData
     }
 
     private fun getLastMetric(ctx: Context) : MachineMetricData {

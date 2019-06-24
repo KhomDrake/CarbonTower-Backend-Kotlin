@@ -54,4 +54,8 @@ class MachineService(private val machineRepository: IMachineRepository) {
         if(machineRepository.machineExist(idMachine).not()) throw MachineNotExist(idMachine)
         return machineRepository.getAllMachineMetric(idMachine)
     }
+
+    fun getMetricsByIdsUserRole(listIds: List<Int>): List<MachineMetricData> {
+        return machineRepository.getMetricsByIdsUserRole(listIds)
+    }
 }

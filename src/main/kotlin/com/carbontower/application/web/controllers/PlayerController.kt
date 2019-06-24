@@ -3,10 +3,7 @@ package com.carbontower.application.web.controllers
 import com.carbontower.application.web.*
 import com.carbontower.domain.entities.http.MatchData
 import com.carbontower.domain.entities.http.TimeData
-import com.carbontower.domain.entities.response.ChampionshipData
-import com.carbontower.domain.entities.response.InviteData
-import com.carbontower.domain.entities.response.Match
-import com.carbontower.domain.entities.response.Time
+import com.carbontower.domain.entities.response.*
 import com.carbontower.domain.services.player.PlayerService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.*
@@ -146,7 +143,7 @@ class PlayerController(private val playerService: PlayerService, private val coo
         return true
     }
 
-    private fun timesChampionships(ctx: Context) : List<Time> {
+    private fun timesChampionships(ctx: Context) : List<BasicTeamInformation> {
         val idUser = ctx.validateCookieAndReturnIdUser(cookie)
         val idChampionship = ctx.pathParam("idchampionship").toInt()
         val time = playerService.timesInChampionship(idUser, idChampionship)

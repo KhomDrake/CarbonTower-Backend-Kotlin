@@ -27,6 +27,8 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
         val idUserRole = getIdUserRoleCompany(idUser)
         notACompany(idUserRole, idUser)
         existChampionship(idChampionship)
+        if(championshipRepository.iAmTheOwner(idUserRole, idChampionship).not())
+            throw NotTheOwnerChampionship(idChampionship, idUserRole)
         return championshipRepository.getChampionship(idUser, idUserRole, idChampionship)
     }
 

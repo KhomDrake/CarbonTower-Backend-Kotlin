@@ -19,10 +19,15 @@ internal fun toJson(block: (Context) -> Any): (Context) -> Unit{
 
 fun Context.insertLogSuccess(message: String) {
     val ctx = this
+
+    val path = if(ctx.path().length > 50) {
+        ctx.endpointHandlerPath()
+    } else ctx.path()
+
     transaction {
         T_LOGS_SERVER.insert {
             it[T_LOGS_SERVER.message] = message
-            it[T_LOGS_SERVER.router] = ctx.path()
+            it[T_LOGS_SERVER.router] = path
             it[T_LOGS_SERVER.statusCode] = 200
             it[T_LOGS_SERVER.dateTime] = LocalDateTime.now().toString()
             it[T_LOGS_SERVER.method] = ctx.method()
@@ -33,6 +38,7 @@ fun Context.insertLogSuccess(message: String) {
 
 fun Context.insertLogError(logApplication: LogApplication) {
     val ctx = this
+
     transaction {
         T_LOGS_SERVER.insert {
             it[T_LOGS_SERVER.message] = logApplication.message

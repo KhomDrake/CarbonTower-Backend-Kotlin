@@ -52,6 +52,8 @@ class ChampionshipService(private val championshipRepository: IChampionshipRepos
         notACompany(idUserRole, idUser)
         existChampionship(idChampionship)
 
+        if(idPlayer == 0) throw UserNotExist(inviteCreateData.cpf, Role.Jogador)
+
         if(championshipRepository.alreadyExistInvite(idPlayer, idChampionship))
             throw InviteAlreadyExist(idUser, idChampionship)
 

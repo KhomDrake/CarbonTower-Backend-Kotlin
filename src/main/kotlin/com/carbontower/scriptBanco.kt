@@ -1,170 +1,173 @@
-package com.carbontower
-
 /*
 
 create table T_USER(
-	idUser varchar(14) primary key,
-	userPassword varchar(150),
-	nmUser varchar(60)
+idUser varchar(14) primary key,
+userPassword varchar(150),
+nmUser varchar(60)
 );
 
 create table T_ROLE(
-	idRole int primary key identity(1,1),
-	nmRole varchar(45)
+idRole int primary key identity(1,1),
+nmRole varchar(45)
 );
 
 create table T_USER_ROLE(
-	idUserRole int primary key identity(1,1),
-	idUser_fk varchar(14),
-	idRole_fk int,
-	foreign key(idUser_fk) references T_USER(idUser),
-	foreign key(idRole_fk) references T_ROLE(idRole)
+idUserRole int primary key identity(1,1),
+idUser_fk varchar(14),
+idRole_fk int,
+foreign key(idUser_fk) references T_USER(idUser),
+foreign key(idRole_fk) references T_ROLE(idRole)
 );
 
 create table T_GAME(
-	idGame int primary key identity(1,1),
-	nmGame varchar(50)
+idGame int primary key identity(1,1),
+nmGame varchar(50)
 );
 
 create table T_CHAMPIONSHIP(
-	idChampionship int primary key identity(1,1),
-	idGame_fk int,
-	owner_fk int,
-	nmChampionship varchar(60),
-	foreign key(idGame_fk) references T_GAME(idGame),
-	foreign key(owner_fk) references T_USER_ROLE(idUserRole)
+idChampionship int primary key identity(1,1),
+idGame_fk int,
+owner_fk int,
+nmChampionship varchar(60),
+foreign key(idGame_fk) references T_GAME(idGame),
+foreign key(owner_fk) references T_USER_ROLE(idUserRole)
 );
 
 create table T_PLAYER_IN_CHAMPIONSHIP(
-	idPlayer_fk int,
-	idChampionship_fk int,
-	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
-	primary key(idPlayer_fk,idChampionship_fk)
+idPlayer_fk int,
+idChampionship_fk int,
+foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+primary key(idPlayer_fk,idChampionship_fk)
 );
 
 create table T_INVITE_PLAYER(
-	idPlayer_fk int,
-	idChampionship_fk int,
-	accepted int,
-	alreadyAnswered int,
-	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
-	primary key(idPlayer_fk,idChampionship_fk)
+idPlayer_fk int,
+idChampionship_fk int,
+accepted int,
+alreadyAnswered int,
+foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+primary key(idPlayer_fk,idChampionship_fk)
 );
 
 create table T_ADMINISTRATOR_CHAMPIONSHIP(
-	idAdministrator_fk int,
-	idChampionship_fk int,
-	foreign key(idAdministrator_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
-	primary key(idAdministrator_fk,idChampionship_fk)
+idAdministrator_fk int,
+idChampionship_fk int,
+foreign key(idAdministrator_fk) references T_USER_ROLE(idUserRole),
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+primary key(idAdministrator_fk,idChampionship_fk)
 );
 
 create table T_TEAM(
-	idTeam int primary key identity(1,1),
-	nmTeam varchar(50)
+idTeam int primary key identity(1,1),
+nmTeam varchar(50)
 );
 
 create table T_PLAYER_IN_TEAM(
-	idPlayer_fk int,
-	idTeam_fk int,
-	foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idTeam_fk) references T_TEAM(idTeam),
-	primary key(idPlayer_fk,idTeam_fk)
+idPlayer_fk int,
+idTeam_fk int,
+foreign key(idPlayer_fk) references T_USER_ROLE(idUserRole),
+foreign key(idTeam_fk) references T_TEAM(idTeam),
+primary key(idPlayer_fk,idTeam_fk)
 );
 
 create table T_TEAM_IN_CHAMPIONSHIP(
-	idChampionship_fk int,
-	idTeam_fk int,
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
-	foreign key(idTeam_fk) references T_TEAM(idTeam),
-	primary key(idChampionship_fk,idTeam_fk)
+idChampionship_fk int,
+idTeam_fk int,
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+foreign key(idTeam_fk) references T_TEAM(idTeam),
+primary key(idChampionship_fk,idTeam_fk)
 );
 
 create table T_MATCH(
-	idMatch int primary key identity(1,1),
-    date varchar(30),
-    time varchar(30),
-	idChampionship_fk int,
-    winner int,
-    foreign key(winner) references T_TEAM(idTeam),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship)
+idMatch int primary key identity(1,1),
+date varchar(30),
+time varchar(30),
+idChampionship_fk int,
+winner int,
+foreign key(winner) references T_TEAM(idTeam),
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship)
 );
 
 create table T_TEAM_IN_MATCH(
-	idTeam_fk int,
-	idMatch_fk int,
-	foreign key(idTeam_fk) references T_TEAM(idTeam),
-	foreign key(idMatch_fk) references T_MATCH(idMatch),
-	primary key(idTeam_fk,idMatch_fk)
+idTeam_fk int,
+idMatch_fk int,
+foreign key(idTeam_fk) references T_TEAM(idTeam),
+foreign key(idMatch_fk) references T_MATCH(idMatch),
+primary key(idTeam_fk,idMatch_fk)
 );
 
 create table T_USER_STREAM(
-    idUserStream varchar(20) primary key,
-    login varchar(30),
-    displayName varchar(30),
-    viewCount int,
-    idUserRole_fk int,
-	foreign key(idUserRole_fk) references T_USER_ROLE(idUserRole)
+idUserStream varchar(20) primary key,
+login varchar(30),
+displayName varchar(30),
+viewCount int,
+idUserRole_fk int,
+foreign key(idUserRole_fk) references T_USER_ROLE(idUserRole)
 );
 
 create table T_STREAM(
-    idStream varchar(30) primary key,
-    language varchar(50),
-    title varchar(200),
-    idUserStream_fk varchar(20),
-    viewCount int,
-	foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream),
+idStream varchar(30) primary key,
+language varchar(50),
+title varchar(200),
+idUserStream_fk varchar(20),
+viewCount int,
+foreign key(idUserStream_fk) references T_USER_STREAM(idUserStream),
 );
 
 create table T_STREAM_OF_CHAMPION(
-    idChampionship_fk int,
-	idStream_fk varchar(30),
-	foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
-	foreign key(idStream_fk) references T_STREAM(idStream),
-	primary key(idChampionship_fk, idStream_fk)
+idChampionship_fk int,
+idStream_fk varchar(30),
+foreign key(idChampionship_fk) references T_CHAMPIONSHIP(idChampionship),
+foreign key(idStream_fk) references T_STREAM(idStream),
+primary key(idChampionship_fk, idStream_fk)
 );
 
 create table T_MACHINE(
-	idMachine varchar(100) primary key,
-	motherboard varchar(45),
-	OS varchar(45),
-	manufacturer varchar(45),
-	model varchar(45)
+idMachine varchar(100) primary key,
+motherboard varchar(45),
+OS varchar(45),
+manufacturer varchar(45),
+model varchar(45)
 );
 
 create table T_USER_MACHINE(
-	idUser_fk int,
-	idMachine_fk varchar(100),
-	foreign key(idUser_fk) references T_USER_ROLE(idUserRole),
-	foreign key(idMachine_fk) references T_MACHINE(idMachine),
-	primary key(idUser_fk,idMachine_fk)
+idUser_fk int,
+idMachine_fk varchar(100),
+foreign key(idUser_fk) references T_USER_ROLE(idUserRole),
+foreign key(idMachine_fk) references T_MACHINE(idMachine),
+primary key(idUser_fk,idMachine_fk)
 );
 
 create table T_MACHINE_METRIC(
-	idMachineMetric int primary key identity(1,1),
-	useRam decimal(6,2),
-	tempGPU decimal(6,2),
-	useGPU decimal(6,2),
-	useDisc decimal(6,2),
-	useCPU decimal(6,2),
-	rpmCooler int,
-	tempCPU decimal(6,2),
-	usbDevice varchar(45),
-	idMachine_fk varchar(100),
-	metricDate varchar(12),
-	metricTime varchar(10),
-	foreign key(idMachine_fk) references T_MACHINE(idMachine)
+idMachineMetric int primary key identity(1,1),
+useRam decimal(6,2),
+tempGPU decimal(6,2),
+useGPU decimal(6,2),
+useDisc decimal(6,2),
+useCPU decimal(6,2),
+rpmCooler int,
+tempCPU decimal(6,2),
+usbDevice varchar(45),
+idMachine_fk varchar(100),
+metricDate varchar(12),
+metricTime varchar(10),
+foreign key(idMachine_fk) references T_MACHINE(idMachine)
 );
 
-select count(*) from T_MACHINE_METRIC;
-select * from T_USER_MACHINE;
-select * from T_MACHINE;
-
-
-select count(*) from T_LOGS_SERVER where server = 'Carbon Tower';
-delete from T_LOGS_SERVER where server = 'Carbon Tower';
+create table T_SLACK(
+idSlack int primary key identity(1,1),
+urlWorkspace varchar(300),
+useRam decimal(6,2),
+tempGPU decimal(6,2),
+useGPU decimal(6,2),
+useDisc decimal(6,2),
+useCPU decimal(6,2),
+tempCPU decimal(6,2),
+idUserRole_fk int,
+foreign key(idUserRole_fk) references T_USER_ROLE(idUserRole),
+);
 
 /* Inserindo os roles */
 insert into T_ROLE values ('Empresa');
@@ -172,7 +175,6 @@ insert into T_ROLE values ('Administrador');
 insert into T_ROLE values ('Jogador');
 
 /* Inserindo os Jogos */
-
 insert into T_GAME values ('Dota 2');
 insert into T_GAME values ('Fifa 19');
 insert into T_GAME values ('Fortnite');
@@ -17628,6 +17630,14 @@ insert into T_MACHINE_METRIC values(51.0, 67.0, 36.0, 34.0, 73.0, 185, 60.0, 'as
 insert into T_MACHINE_METRIC values(33.0, 39.0, 68.0, 31.0, 46.0, 200, 54.0, 'asd', 'LENOVO 99 SDK0J40688 WIN', '2019/1/3', '09:41:30');
 insert into T_MACHINE_METRIC values(79.0, 89.0, 57.0, 57.0, 70.0, 154, 76.0, 'asd', 'LENOVO 99 SDK0J40688 WIN', '2019/1/3', '09:41:30');
 
+insert into T_SLACK values ('https://hooks.slack.com/services/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',
+80.0,
+60.0,
+80.0,
+80.0,
+80.0,
+60.0,
+1);
 
 /* Comandos para dropar as tabelas */
 /*
@@ -17650,7 +17660,7 @@ drop table T_GAME;
 drop table T_USER_ROLE;
 drop table T_ROLE;
 drop table T_USER;
+drop table T_SLACK;
 */
-
 
 */

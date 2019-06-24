@@ -10,8 +10,6 @@ class LoginRepository : ILoginRepository {
     override fun userExist(persondata: String): Boolean {
         var result = false
 
-        println(persondata)
-
         transaction {
             result = T_USER.select { T_USER.idUser.eq(persondata) }.count() != 0
         }

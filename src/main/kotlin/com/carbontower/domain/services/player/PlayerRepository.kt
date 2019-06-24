@@ -104,11 +104,19 @@ class PlayerRepository : IPlayerRepository {
 
     override fun insertMatch(matchData: MatchData) {
         transaction {
-            T_MATCH.insert {
+            val idMatch = T_MATCH.insert {
                 it[T_MATCH.idChampionship_fk] = matchData.idChampionship
                 it[T_MATCH.winner] = matchData.winner
                 it[T_MATCH.date] = matchData.date
                 it[T_MATCH.time] = matchData.time
+            } get T_MATCH.idMatch
+
+            matchData.idsTeams.forEach {
+                val idTeam = it
+                T_TEAM_IN_MATCH.insert {
+                    it[T_TEAM_IN_MATCH.idMatch_fk] = idMatch!!
+                    it[T_TEAM_IN_MATCH.idTeam_fk] = idTeam
+                }
             }
         }
     }
@@ -263,7 +271,6 @@ class PlayerRepository : IPlayerRepository {
             }
             timesDb.forEach {
                 val time = it
-                println(time)
                 val playersInTime = (T_USER innerJoin T_USER_ROLE innerJoin T_PLAYER_IN_TEAM).select {
                     T_PLAYER_IN_TEAM.idTeam_fk.eq(time[T_TEAM.idTeam])
                         .and(T_PLAYER_IN_TEAM.idPlayer_fk.eq(T_USER_ROLE.idUserRole))

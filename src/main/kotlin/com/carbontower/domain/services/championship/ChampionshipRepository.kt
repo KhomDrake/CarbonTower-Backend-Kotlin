@@ -144,8 +144,6 @@ class ChampionshipRepository : IChampionshipRepository {
         var nmUser = ""
 
         transaction {
-            println(idUserRole)
-            println(idChampionship)
             val championships = (T_USER innerJoin T_USER_ROLE innerJoin T_ROLE innerJoin T_CHAMPIONSHIP innerJoin T_GAME)
                 .select { T_USER.idUser.eq(T_USER_ROLE.idUser_fk)
                     .and(T_USER_ROLE.idUserRole.eq(idUserRole))
@@ -154,15 +152,12 @@ class ChampionshipRepository : IChampionshipRepository {
                             .and(T_CHAMPIONSHIP.idChampionship.eq(idChampionship))
                             .and(T_CHAMPIONSHIP.idGame_fk.eq(T_GAME.idGame))))
                 }
-            println(championships.count())
             championships.forEach {
-                println(it)
                 nmChampionship = it[T_CHAMPIONSHIP.nmChampionship]
                 nmGame = it[T_GAME.nmGame]
                 nmUser = it[T_USER.nmUser]
             }
         }
-        println(ChampionshipData(nmChampionship, nmGame, nmUser, idChampionship))
         return ChampionshipData(nmChampionship, nmGame, nmUser, idChampionship)
     }
 

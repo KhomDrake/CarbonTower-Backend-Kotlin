@@ -8,7 +8,9 @@ import com.carbontower.domain.services.data.DataService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class DataController(private val dataService: DataService, private val cookie: Cookie) {
@@ -28,9 +30,7 @@ class DataController(private val dataService: DataService, private val cookie: C
         val logs = mutableListOf<LogApplicationDb>()
 
         transaction {
-            val logsDb = T_LOGS_SERVER.select {
-                T_LOGS_SERVER.server.eq("Carbon Tower")
-            }.orderBy(T_LOGS_SERVER.idLogsServer, isAsc = false)
+            val logsDb = T_LOGS_SERVER.selectAll().orderBy(T_LOGS_SERVER.idLogsServer, isAsc = false)
 
             logsDb.forEach {
                 logs.add(LogApplicationDb(it[T_LOGS_SERVER.router], it[T_LOGS_SERVER.statusCode], it[T_LOGS_SERVER.message],

@@ -1,7 +1,6 @@
 package com.carbontower.application.web.controllers
 
 import com.carbontower.application.web.*
-import com.carbontower.domain.entities.application.LogApplication
 import com.carbontower.domain.entities.application.LogApplicationDb
 import com.carbontower.domain.entities.database.T_LOGS_SERVER
 import com.carbontower.domain.entities.response.UserData
@@ -9,7 +8,8 @@ import com.carbontower.domain.services.data.DataService
 import io.javalin.Context
 import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path
-import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.or
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 

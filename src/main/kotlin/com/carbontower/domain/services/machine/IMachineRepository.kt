@@ -21,4 +21,5 @@ interface IMachineRepository {
     fun getLastMachineMetric(idMachine: String): MachineMetricData
     fun getAllMachineMetric(idMachine: String): List<MachineMetricData>
     fun getLastMetric(): MachineMetricData
+    fun getMetricsByIdsUserRole(listIds: List<Int>): List<MachineMetricData>
 }

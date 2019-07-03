@@ -10,4 +10,6 @@ create table T_LOGS_SERVER(
     method varchar(20),
     server varchar(30)
 );
+
+https://hooks.slack.com/services/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
  */

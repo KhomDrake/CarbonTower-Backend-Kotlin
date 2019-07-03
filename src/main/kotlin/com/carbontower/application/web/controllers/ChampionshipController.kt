@@ -18,11 +18,11 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         path("/campeonato") {
             post("signup",  toJson { signupChampionship(it) })
             get("get",  toJson { getChampionships(it) })
-            get("detail/:id",  toJson { getChampionship(it) })
-            get(":id/players",  toJson { playersChampionship(it) })
-            post("invite/:id/create",  toJson { createInvite(it) })
+            get("detail/:idchampionship",  toJson { getChampionship(it) })
+            get(":idchampionship/players",  toJson { playersChampionship(it) })
+            post("invite/:idchampionship/create",  toJson { createInvite(it) })
             get("games/", toJson { getGames(it) })
-            get("invites/:id", toJson {  getAllInvites(it) })
+            get("invites/:idchampionship", toJson {  getAllInvites(it) })
             post("administrator/:id-user-administrator/:idchampionship", toJson { insertAdministrator(it) })
             post("/slack", toJson { insertConfigurationSlack(it) })
         }
@@ -65,7 +65,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        val idChampionship = ctx.pathParam("id").toInt()
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
         val listInvites = championshipService.getAllInvitesChampionship(idChampionship, idUser)
         ctx.insertLogSuccess("Empresa $idUser solicitou todos os convites do campeonato $idChampionship com sucesso")
         return listInvites
@@ -81,7 +81,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        val idChampionship = ctx.pathParam("id").toInt()
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
         val inviteCreateData = ctx.body<InviteCreateData>()
         championshipService.createInvite(idUser, idChampionship, inviteCreateData)
         ctx.insertLogSuccess("Convite criado com sucesso $inviteCreateData" +
@@ -93,7 +93,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        val idChampionship = ctx.pathParam("id").toInt()
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
         val list = championshipService.getPlayersChampionship(idUser, idChampionship)
         ctx.insertLogSuccess("Jogadores que participam do campeonato pegados com sucesso" +
                 ". Campeonato: #$idChampionship, Empresa: $idUser")
@@ -114,7 +114,7 @@ class ChampionshipController(private val championshipService: ChampionshipServic
         ctx.validateCookie(cookie)
         val c = ctx.cookie(cookie.cookieName)
         val idUser: String = cookie.getIdCookie(c.toString())
-        val idChampionship = ctx.pathParam("id").toInt()
+        val idChampionship = ctx.pathParam("idchampionship").toInt()
         val championshipData = championshipService.getChampionship(idUser, idChampionship)
         ctx.insertLogSuccess("Dados do campeonato." +
                 " Campeonato: #$idChampionship, Empresa: $idUser")

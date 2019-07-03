@@ -12,6 +12,19 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 
 class ChampionshipRepository : IChampionshipRepository {
+    override fun iAmTheOwner(idUserRole: Int, idChampionship: Int): Boolean {
+        var isTheOwner = false
+
+        transaction {
+            isTheOwner = T_CHAMPIONSHIP.select {
+                T_CHAMPIONSHIP.idChampionship.eq(idChampionship)
+                    .and(T_CHAMPIONSHIP.owner_fk.eq(idUserRole))
+            }.count() != 0
+        }
+
+        return isTheOwner
+    }
+
     override fun insertAdministratorInChampionship(idUserAdministrator: Int, idChampionship: Int) {
        transaction {
            T_ADMINISTRATOR_CHAMPIONSHIP.insert {
@@ -95,16 +108,14 @@ class ChampionshipRepository : IChampionshipRepository {
         }
     }
 
-    override fun getPlayersChampionship(idUserRole: Int, idChampionship: Int): List<PlayerChampionshipData> {
+    override fun getPlayersChampionship(idChampionship: Int): List<PlayerChampionshipData> {
         val list = mutableListOf<PlayerChampionshipData>()
 
         transaction {
-            val players = (T_USER innerJoin T_USER_ROLE innerJoin T_CHAMPIONSHIP innerJoin T_PLAYER_IN_CHAMPIONSHIP)
+            val players = (T_PLAYER_IN_CHAMPIONSHIP innerJoin T_USER_ROLE innerJoin T_USER)
                 .select {
-                    T_CHAMPIONSHIP.owner_fk.eq(idUserRole)
-                        .and(T_USER.idUser.eq(T_USER_ROLE.idUser_fk))
+                    T_USER.idUser.eq(T_USER_ROLE.idUser_fk)
                         .and(T_PLAYER_IN_CHAMPIONSHIP.idChampionship_fk.eq(idChampionship))
-                        .and(T_CHAMPIONSHIP.idChampionship.eq(idChampionship))
                         .and(T_USER_ROLE.idUserRole.eq(T_PLAYER_IN_CHAMPIONSHIP.idPlayer_fk))
                 }
 
@@ -126,21 +137,19 @@ class ChampionshipRepository : IChampionshipRepository {
 
         transaction {
             val championships = (T_USER innerJoin T_USER_ROLE innerJoin T_ROLE innerJoin T_CHAMPIONSHIP innerJoin T_GAME)
-                .select { T_USER.idUser.eq(idUser)
+                .select { T_USER.idUser.eq(T_USER_ROLE.idUser_fk)
                     .and(T_USER_ROLE.idUserRole.eq(idUserRole))
                     .and(T_ROLE.idRole.eq(Role.Empresa.ordinal)
                         .and(T_CHAMPIONSHIP.owner_fk.eq(idUserRole)
                             .and(T_CHAMPIONSHIP.idChampionship.eq(idChampionship))
                             .and(T_CHAMPIONSHIP.idGame_fk.eq(T_GAME.idGame))))
                 }
-
             championships.forEach {
                 nmChampionship = it[T_CHAMPIONSHIP.nmChampionship]
                 nmGame = it[T_GAME.nmGame]
                 nmUser = it[T_USER.nmUser]
             }
         }
-
         return ChampionshipData(nmChampionship, nmGame, nmUser, idChampionship)
     }
 

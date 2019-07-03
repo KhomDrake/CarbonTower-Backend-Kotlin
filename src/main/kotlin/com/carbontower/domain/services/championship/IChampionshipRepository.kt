@@ -9,7 +9,7 @@ interface IChampionshipRepository {
     fun insertchampionship(idUserRole: Int, signupChampionshipData: SingupChampionshipData)
     fun getChampionships(idUserRole: Int): List<ChampionshipData>
     fun getChampionship(idUser: String, idUserRole: Int, idChampionship: Int): ChampionshipData
-    fun getPlayersChampionship(idUserRole: Int, idChampionship: Int): List<PlayerChampionshipData>
+    fun getPlayersChampionship(idChampionship: Int): List<PlayerChampionshipData>
     fun createInvite(idPlayer: Int, idChampionship: Int)
     fun alreadyExistInvite(idPlayer: Int, idChampionship: Int): Boolean
     fun getGames(): List<GameData>
@@ -17,4 +17,5 @@ interface IChampionshipRepository {
     fun getAllInvitesChampionship(idChampionship: Int): List<InviteTotalData>
     fun insertAdministratorInChampionship(idUserAdministrator: Int, idChampionship: Int)
     fun insertRoleAdministrator(idAdministrator: String)
+    fun iAmTheOwner(idUserRole: Int, idChampionship: Int): Boolean
 }

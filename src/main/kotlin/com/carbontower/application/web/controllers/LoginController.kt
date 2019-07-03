@@ -13,9 +13,9 @@ class LoginController(private val loginService: LoginService, private val cookie
     fun routes() {
         path("/login") {
             post("/", toJson { validateLogin(it) })
-            get("logout", toJson { logout(it) })
             post("/java", toJson { validateLoginWithoutCookie(it) })
             post("/cookie", toJson { validateLoginReturnCookie(it) })
+            get("logout", toJson { logout(it) })
         }
     }
 

@@ -3,10 +3,7 @@ package com.carbontower.domain.services.player
 import com.carbontower.application.web.Role
 import com.carbontower.domain.entities.http.MatchData
 import com.carbontower.domain.entities.http.TimeData
-import com.carbontower.domain.entities.response.ChampionshipData
-import com.carbontower.domain.entities.response.InviteData
-import com.carbontower.domain.entities.response.Match
-import com.carbontower.domain.entities.response.Time
+import com.carbontower.domain.entities.response.*
 import com.carbontower.resources.database.exception.*
 
 
@@ -125,7 +122,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         playerRepository.insertTimeInChampionship(idTime, timeData.idChampionship)
 
         timeData.idsPlayers.forEach {
-            val idUserPlayer = getIdUserRolePlayer(it)
+            val idUserPlayer = it.toInt()
             playerRepository.insertPlayerInTime(idUserPlayer, idTime)
         }
     }
@@ -153,7 +150,7 @@ class PlayerService(private val playerRepository: IPlayerRepository) {
         playerRepository.insertTimeInMatch(idMatch, idTime)
     }
 
-    fun timesInChampionship(idUser: String, idChampionship: Int): List<Time> {
+    fun timesInChampionship(idUser: String, idChampionship: Int): List<BasicTeamInformation> {
         val idUserRole = getIdUserRoleCompany(idUser)
         notACompanyOrAdministrator(idUser)
 

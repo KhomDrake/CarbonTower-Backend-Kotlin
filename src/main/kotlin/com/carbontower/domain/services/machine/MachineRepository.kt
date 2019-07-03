@@ -17,6 +17,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.math.BigDecimal
 
 class MachineRepository: IMachineRepository {
+    override fun getMetricsByIdsUserRole(listIds: List<Int>): List<MachineMetricData> {
+        val machinesMetricData = mutableListOf<MachineMetricData>()
+
+        transaction {
+            listIds.forEach {
+                val idUserRole = it
+                val machine = T_USER_MACHINE.select { T_USER_MACHINE.idUser_fk.eq(idUserRole) }.first()
+                machinesMetricData.add(getLastMachineMetric(machine[T_USER_MACHINE.idMachine_fk]))
+            }
+        }
+
+        return machinesMetricData
+    }
+
     override fun getLastMetric(): MachineMetricData {
         var useRam: BigDecimal = "0".toBigDecimal()
         var tempGPU: BigDecimal = "0".toBigDecimal()
@@ -163,11 +177,11 @@ class MachineRepository: IMachineRepository {
 
     inner class BodySlack(val text: String)
 
-    private fun sendSlack(actual: BigDecimal, max: BigDecimal, url: String) {
+    private fun sendSlack(actual: BigDecimal, max: BigDecimal, url: String, metricsMachine: MetricsMachine, machine: String) {
 
         if(actual < max) return
 
-        val body = BodySlack("Valor $actual passou valou máximo $max")
+        val body = BodySlack("Valor $actual da métrica ${metricsMachine.metric} da máquina  passou valou máximo $max")
 
         Fuel.post(url)
             .body(Gson().toJson(body)).response()
@@ -175,17 +189,15 @@ class MachineRepository: IMachineRepository {
 
     override fun insertMachineMetric(idMachine: String, insertMetricMachineData: InsertMetricMachineData) {
         transaction {
-
             val slack = T_SLACK.selectAll().first()
-
             val url = slack[T_SLACK.urlWorkspace]
 
-            sendSlack(insertMetricMachineData.tempCPU, slack[T_SLACK.tempCPU], url)
-            sendSlack(insertMetricMachineData.tempGPU, slack[T_SLACK.tempGPU], url)
-            sendSlack(insertMetricMachineData.useCPU, slack[T_SLACK.useCPU], url)
-            sendSlack(insertMetricMachineData.useCPU, slack[T_SLACK.useGPU], url)
-            sendSlack(insertMetricMachineData.useRam, slack[T_SLACK.useRam], url)
-            sendSlack(insertMetricMachineData.useDisc, slack[T_SLACK.useDisc], url)
+            sendSlack(insertMetricMachineData.tempCPU, slack[T_SLACK.tempCPU], url, MetricsMachine.tempCPU, idMachine)
+            sendSlack(insertMetricMachineData.tempGPU, slack[T_SLACK.tempGPU], url, MetricsMachine.tempGPU, idMachine)
+            sendSlack(insertMetricMachineData.useCPU, slack[T_SLACK.useCPU], url, MetricsMachine.useCPU, idMachine)
+            sendSlack(insertMetricMachineData.useGPU, slack[T_SLACK.useGPU], url, MetricsMachine.useGPU, idMachine)
+            sendSlack(insertMetricMachineData.useRam, slack[T_SLACK.useRam], url, MetricsMachine.useRam, idMachine)
+            sendSlack(insertMetricMachineData.useDisc, slack[T_SLACK.useDisc], url, MetricsMachine.useDisc, idMachine)
 
             T_MACHINE_METRIC.insert {
                 it[T_MACHINE_METRIC.idMachine_fk] = idMachine

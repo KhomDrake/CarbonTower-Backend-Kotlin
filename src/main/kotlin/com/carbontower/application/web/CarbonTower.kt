@@ -17,6 +17,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.countDistinct
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.StandAloneContext
@@ -64,6 +65,9 @@ class CarbonTower : KoinComponent {
             ctx ->
 
             ctx.header("Access-Control-Allow-Credentials", "true")
+        }
+
+        transaction {
         }
     }
 

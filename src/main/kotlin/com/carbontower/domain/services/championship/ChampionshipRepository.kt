@@ -31,31 +31,23 @@ class ChampionshipRepository : IChampionshipRepository {
     }
 
     override fun getAllInvitesChampionship(idChampionship: Int): List<InviteTotalData> {
-        var invites = mutableListOf<InviteTotalData>()
+        val invites = mutableListOf<InviteTotalData>()
 
         transaction {
-            val invitesDb = (T_INVITE_PLAYER innerJoin T_CHAMPIONSHIP innerJoin T_GAME)
-                .select { T_INVITE_PLAYER.idChampionship_fk.eq(idChampionship)
-                    .and(T_GAME.idGame.eq(T_CHAMPIONSHIP.idGame_fk))
-                }
-
+            val invitesDb = VW_INVITE.select { VW_INVITE.idChampionship.eq(idChampionship) }
             invitesDb.forEach {
                 val invite = it
-                val players = (T_USER_ROLE innerJoin T_USER).select { T_USER_ROLE.idUserRole.eq(invite[T_INVITE_PLAYER.idPlayer_fk]) }
-                players.forEach {
-                    val player = it
                     invites.add(
-                        InviteTotalData(invite[T_INVITE_PLAYER.idPlayer_fk],
+                        InviteTotalData(0,
                             idChampionship,
-                            player[T_USER.nmUser],
-                            invite[T_CHAMPIONSHIP.nmChampionship],
-                            invite[T_GAME.nmGame],
-                            invite[T_INVITE_PLAYER.alreadyAnswered],
-                            invite[T_INVITE_PLAYER.accepted])
+                            invite[VW_INVITE.nmUser],
+                            invite[VW_INVITE.nmChampionship],
+                            "",
+                            0,
+                            invite[VW_INVITE.accepted])
                     )
                 }
             }
-        }
 
         return invites.toList()
     }

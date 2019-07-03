@@ -176,34 +176,15 @@ class PlayerRepository : IPlayerRepository {
     override fun getMatchsChampionship(idUserRole: Int, idChampionship: Int): List<Match> {
         val matchs = mutableListOf<Match>()
         transaction {
-            val matchsDb = T_MATCH.select { T_MATCH.idChampionship_fk.eq(idChampionship) }
+            val matchsDb = VW_MATCH.select { VW_MATCH.idChampionship.eq(idChampionship) }
             matchsDb.forEach {
                 val match = it
-                matchs.add(
-                    Match(
-                        match[T_MATCH.idMatch],
-                        mutableListOf(),
-                        Time(0, "", listOf()),
-                        match[T_MATCH.date],
-                        match[T_MATCH.time]
-                    )
-                )
-            }
-
-            matchs.forEach {
-                val match = it
-                val timesDb = (T_TEAM_IN_MATCH innerJoin T_TEAM).select {
-                    T_TEAM_IN_MATCH.idMatch_fk.eq(match.idMatch)
-                        .and(T_TEAM_IN_MATCH.idTeam_fk.eq(T_TEAM.idTeam))
-                }
-
-                timesDb.forEach {
-                    val timeDb = it
-                    val time = getTime(timeDb[T_TEAM.idTeam])
-                    match.times.add(time)
-                    if(time.idTime == match.winner.idTime)
-                        match.winner = time
-                }
+                matchs.add(Match(it[VW_MATCH.idMatch],
+                    mutableListOf(Time(0,match[VW_MATCH.nmTeam1], listOf()), Time(0, match[VW_MATCH.nmTeam2],
+                        listOf())),
+                    Time(0, "", listOf()),
+                    "",
+                    ""))
             }
         }
         return matchs.toList()
